@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2025 at 09:57 PM
+-- Generation Time: Nov 03, 2025 at 11:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,12 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `antecedentes` (
-  `id_sujeto` int(11) NOT NULL,
+  `id_sujeto` varchar(4) NOT NULL,
   `tipo` varchar(2) NOT NULL,
   `id_dato` int(11) NOT NULL,
   `valor_string` text NOT NULL,
   `valor_num` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `antecedentes`
+--
+
+INSERT INTO `antecedentes` (`id_sujeto`, `tipo`, `id_dato`, `valor_string`, `valor_num`) VALUES
+('0002', 'CO', 9, '', 125);
 
 -- --------------------------------------------------------
 
@@ -50,6 +57,14 @@ CREATE TABLE `criterio` (
   `expresion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `criterio`
+--
+
+INSERT INTO `criterio` (`id_criterio`, `nombre`, `nombre_stata`, `tipo_calculo`, `leyenda`, `expresion`) VALUES
+(1, 'Promedio edad', 'promedio_edad', 'GENERAL', 'Entrega 0 si sujeto está bajo del promedio y 1 si sobre o igual al promedio', '<>'),
+(2, 'Cantidad de 0', NULL, 'GENERAL', 'Cuenta el numero de 0 en una fila', '<>');
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +75,15 @@ CREATE TABLE `criterio_datosolicitado` (
   `id_criterio` int(11) NOT NULL,
   `id_dato` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `criterio_datosolicitado`
+--
+
+INSERT INTO `criterio_datosolicitado` (`id_criterio`, `id_dato`) VALUES
+(1, 7),
+(2, 3),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -77,6 +101,20 @@ CREATE TABLE `datosolicitado` (
   `id_seccion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `datosolicitado`
+--
+
+INSERT INTO `datosolicitado` (`id_dato`, `nombre`, `nombre_stata`, `leyenda`, `aplicable_a`, `estudio`, `id_seccion`) VALUES
+(2, 'Sexo', 'sexo', 'Sexo del paciente', 'AMBOS', 1, 1),
+(3, 'Zona', 'zona', 'Zona de residencia', 'AMBOS', 1, 1),
+(4, 'Años viviendo en la residencia actual', 'anos_residencia', 'Tiempo de residencia en el domicilio actual', 'AMBOS', 1, 1),
+(5, 'Antecedentes familiares de cáncer gástrico', 'antecedentes_gastrico', 'Presencia de antecedentes familiares de cáncer gástrico', 'CONTROL', 1, 2),
+(6, 'Antecedentes familiares de otro tipo de cancer', 'antecedentes_otro', 'Presencia de antecedentes familiares de otros tipos de cáncer', 'CASO', 1, 2),
+(7, 'Edad', 'edad', 'Edad del sujeto en años', 'AMBOS', 1, 1),
+(8, 'Peso', 'peso', 'Peso del sujeto en kg', 'AMBOS', 1, 1),
+(9, 'Altura', 'altura', 'Altura del sujeto en cm', 'AMBOS', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +128,16 @@ CREATE TABLE `opcion` (
   `id_dato` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `opcion`
+--
+
+INSERT INTO `opcion` (`id_opcion`, `nombre`, `valor`, `id_dato`) VALUES
+(1, 'Hombre', 0, 2),
+(2, 'Mujer', 1, 2),
+(3, 'Urbana', 0, 3),
+(4, 'Rural', 1, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -102,6 +150,14 @@ CREATE TABLE `seccion` (
   `numero` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `seccion`
+--
+
+INSERT INTO `seccion` (`id_seccion`, `nombre`, `numero`) VALUES
+(1, 'Preguntas generales', 1),
+(2, 'Antecedentes médicos', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -109,7 +165,7 @@ CREATE TABLE `seccion` (
 --
 
 CREATE TABLE `sujetoestudio` (
-  `id_sujeto` int(11) NOT NULL,
+  `id_sujeto` varchar(4) NOT NULL,
   `tipo` varchar(2) NOT NULL,
   `nombre` text NOT NULL,
   `direccion` text DEFAULT NULL,
@@ -124,18 +180,21 @@ CREATE TABLE `sujetoestudio` (
 --
 
 INSERT INTO `sujetoestudio` (`id_sujeto`, `tipo`, `nombre`, `direccion`, `ocupacion`, `telefono`, `correo`, `nacionalidad`) VALUES
-(1, 'CA', 'test caso 1', 'casa A', 'aaa', '142253', 'correo', 'Chile'),
-(1, 'CO', 'test control 1', 'casa B', 'fiajfje', '643345', 'correo', 'Chile');
+('0001', 'CA', 'test caso 1', 'aaaaaaaaaaa', NULL, NULL, NULL, 'aaaaa'),
+('0001', 'CO', 'test control 1', 'aaaaaaaaa', NULL, 'aaaaa', NULL, 'aaaaaaa'),
+('0002', 'CA', 'test caso 2', 'aaaaaaaaaa', NULL, 'aaaaaaaaa', NULL, NULL),
+('0002', 'CO', 'test control 2', NULL, NULL, NULL, 'aaaaaaaaaaaaa', NULL),
+('0003', 'CA', 'test caso 3', NULL, 'aaaaaaaaa', NULL, NULL, NULL);
 
 --
 -- Triggers `sujetoestudio`
 --
 DELIMITER $$
 CREATE TRIGGER `sujeto_crearid` BEFORE INSERT ON `sujetoestudio` FOR EACH ROW BEGIN
-    SET NEW.id_sujeto = (
-       SELECT IFNULL(MAX(id_sujeto), 0) + 1
-       FROM sujetoestudio
-       WHERE tipo = NEW.tipo
+	SET NEW.id_sujeto = (
+        SELECT LPAD(IFNULL(COUNT(id_sujeto), 0) + 1, 4, '0')
+        FROM sujetoestudio
+        WHERE tipo = NEW.tipo
     );
 END
 $$
@@ -156,6 +215,14 @@ CREATE TABLE `usuario` (
   `rol` enum('ADMINISTRADOR','RECOLECTOR DE DATOS','ANALISTA') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `contraseña`, `correo`, `estado`, `rol`) VALUES
+(1, 'admin test', '$2y$10$CCSBXN3IxnfySxfcVfWdgO9EYhRKFpBuW9bWwAUykdAcV5WL48gUS', 'correo@ubiobio.cl', 'SUSPENDIDO', 'ADMINISTRADOR'),
+(2, 'Recolector test', '$2y$10$35ThpCNDehBpwCh2K9wcx.9g/6qcybBSjJ4vf98CLsB8qIubzTdbq', 'correo@gmail.com', 'INICIADO', 'RECOLECTOR DE DATOS');
+
 -- --------------------------------------------------------
 
 --
@@ -164,11 +231,18 @@ CREATE TABLE `usuario` (
 
 CREATE TABLE `usuario_sujeto` (
   `id_usuario` int(11) NOT NULL,
-  `id_sujeto` int(11) NOT NULL,
+  `id_sujeto` varchar(4) NOT NULL,
   `tipo` varchar(2) NOT NULL,
   `fecha` date NOT NULL DEFAULT current_timestamp(),
   `accion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usuario_sujeto`
+--
+
+INSERT INTO `usuario_sujeto` (`id_usuario`, `id_sujeto`, `tipo`, `fecha`, `accion`) VALUES
+(1, '0002', 'CO', '2025-11-03', 'accion test');
 
 --
 -- Indexes for dumped tables
@@ -227,7 +301,8 @@ ALTER TABLE `sujetoestudio`
 -- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `correo` (`correo`) USING HASH;
 
 --
 -- Indexes for table `usuario_sujeto`
@@ -244,31 +319,31 @@ ALTER TABLE `usuario_sujeto`
 -- AUTO_INCREMENT for table `criterio`
 --
 ALTER TABLE `criterio`
-  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `datosolicitado`
 --
 ALTER TABLE `datosolicitado`
-  MODIFY `id_dato` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_dato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `opcion`
 --
 ALTER TABLE `opcion`
-  MODIFY `id_opcion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_opcion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `seccion`
 --
 ALTER TABLE `seccion`
-  MODIFY `id_seccion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_seccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -278,7 +353,7 @@ ALTER TABLE `usuario`
 -- Constraints for table `antecedentes`
 --
 ALTER TABLE `antecedentes`
-  ADD CONSTRAINT `antec_dato` FOREIGN KEY (`id_dato`) REFERENCES `datosolicitado` (`id_dato`),
+  ADD CONSTRAINT `antec_dato_fk` FOREIGN KEY (`id_dato`) REFERENCES `datosolicitado` (`id_dato`),
   ADD CONSTRAINT `antec_sujeto_fk` FOREIGN KEY (`id_sujeto`,`tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`);
 
 --
