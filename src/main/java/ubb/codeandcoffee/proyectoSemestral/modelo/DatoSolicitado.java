@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "datosolicitado")
 public class DatoSolicitado {
@@ -32,12 +34,10 @@ public class DatoSolicitado {
 
 
 
-    @OneToMany(mappedBy = "datosolicitado")
-
+    @OneToMany(mappedBy = "dato")
+    @JsonIgnore
     private List<Opcion> opciones;
-    public List<Opcion> getopciones(){
-        return opciones;
-    }
+    
 
     public DatoSolicitado(){
         this.opciones = new ArrayList<>();

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "seccion")
 public class Seccion {
@@ -12,6 +14,7 @@ public class Seccion {
     private int id_seccion;
     private String nombre;
     private int numero;
+    
 
     public Seccion() {
         this.datosSolicitados = new ArrayList<>();
@@ -23,6 +26,7 @@ public class Seccion {
     }
 
     @OneToMany(mappedBy = "seccion")
+    @JsonIgnore
     private List<DatoSolicitado> datosSolicitados;
     public List<DatoSolicitado> getDatosSolicitados(){
         return datosSolicitados;

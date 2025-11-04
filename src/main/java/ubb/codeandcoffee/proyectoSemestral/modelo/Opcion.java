@@ -10,6 +10,9 @@ public class Opcion {
     private int id_opcion;
     private String nombre;
     private int valor;
+    @ManyToOne
+    @JoinColumn(name="id_dato", nullable = false)
+    private DatoSolicitado dato;
 
     public Opcion() {}
     public Opcion(String nombre, int valor) {
