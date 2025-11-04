@@ -2,7 +2,9 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,11 +34,18 @@ public class DatoSolicitado {
     private Seccion seccion;
 
 
-
-
     @OneToMany(mappedBy = "dato")
     @JsonIgnore
     private List<Opcion> opciones;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "dato_criterio",
+            joinColumns = @JoinColumn(name = "id_dato"),
+            inverseJoinColumns = @JoinColumn(name = "id_criterio")
+    )
+    @JsonIgnore
+    private Set<Criterio> criterios = new HashSet<>();
     
 
     public DatoSolicitado(){
@@ -99,6 +108,14 @@ public class DatoSolicitado {
     }
     public void setSeccion(Seccion seccion) {
         this.seccion = seccion;
+    }
+
+    public Set<Criterio> getCriterios() {
+        return criterios;
+    }
+
+    public void setCriterios(Set<Criterio> criterios) {
+        this.criterios = criterios;
     }
 }
 
