@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2025 at 11:21 PM
+-- Generation Time: Nov 04, 2025 at 08:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `antecedentes` (
+  `idantecedentes` int(11) NOT NULL,
   `id_sujeto` varchar(4) NOT NULL,
   `tipo` varchar(2) NOT NULL,
   `id_dato` int(11) NOT NULL,
@@ -39,8 +40,8 @@ CREATE TABLE `antecedentes` (
 -- Dumping data for table `antecedentes`
 --
 
-INSERT INTO `antecedentes` (`id_sujeto`, `tipo`, `id_dato`, `valor_string`, `valor_num`) VALUES
-('0002', 'CO', 9, '', 125);
+INSERT INTO `antecedentes` (`idantecedentes`, `id_sujeto`, `tipo`, `id_dato`, `valor_string`, `valor_num`) VALUES
+(1, '0002', 'CO', 9, '', 125);
 
 -- --------------------------------------------------------
 
@@ -233,7 +234,7 @@ CREATE TABLE `usuario_sujeto` (
   `id_usuario` int(11) NOT NULL,
   `id_sujeto` varchar(4) NOT NULL,
   `tipo` varchar(2) NOT NULL,
-  `fecha` date NOT NULL DEFAULT current_timestamp(),
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
   `accion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -242,7 +243,7 @@ CREATE TABLE `usuario_sujeto` (
 --
 
 INSERT INTO `usuario_sujeto` (`id_usuario`, `id_sujeto`, `tipo`, `fecha`, `accion`) VALUES
-(1, '0002', 'CO', '2025-11-03', 'accion test');
+(1, '0002', 'CO', '2025-11-03 03:00:00', 'accion test');
 
 --
 -- Indexes for dumped tables
@@ -252,6 +253,7 @@ INSERT INTO `usuario_sujeto` (`id_usuario`, `id_sujeto`, `tipo`, `fecha`, `accio
 -- Indexes for table `antecedentes`
 --
 ALTER TABLE `antecedentes`
+  ADD PRIMARY KEY (`idantecedentes`),
   ADD KEY `antec_sujeto_fk` (`id_sujeto`,`tipo`),
   ADD KEY `antec_dato` (`id_dato`);
 
@@ -314,6 +316,12 @@ ALTER TABLE `usuario_sujeto`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `antecedentes`
+--
+ALTER TABLE `antecedentes`
+  MODIFY `idantecedentes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `criterio`
