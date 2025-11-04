@@ -32,6 +32,9 @@ public class SujetoEstudio {
     @OneToMany(mappedBy = "usuario_sujeto")
     Set<Usuario_Sujeto> usuj;
 
+    @OneToMany(mappedBy = "antecedentes")
+    Set<Antecedente> antecedentes;
+
     public SujetoEstudio(@Nonnull String tipo, @Nonnull String nombre,
                          String direccion, String ocupacion,
                          String telefono, String email,

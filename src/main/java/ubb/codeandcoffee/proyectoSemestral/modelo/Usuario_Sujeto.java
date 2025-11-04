@@ -4,9 +4,12 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
+@IdClass(usuario_sujeto_id.class)
 @Table(name = "usuario_sujeto")
 public class Usuario_Sujeto {
     @Id
@@ -19,7 +22,6 @@ public class Usuario_Sujeto {
     @ManyToOne(optional = false)
     Usuario usuario;
 
-    @Nonnull
     @Temporal(TemporalType.TIMESTAMP)
     Date fecha;  //java.util.Date o java.sql.Date?
 
@@ -62,3 +64,4 @@ public class Usuario_Sujeto {
         this.accion = accion;
     }
 }
+
