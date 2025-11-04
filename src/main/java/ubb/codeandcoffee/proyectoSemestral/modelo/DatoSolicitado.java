@@ -1,0 +1,104 @@
+package ubb.codeandcoffee.proyectoSemestral.modelo;
+
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "datosolicitado")
+public class DatoSolicitado {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_dato;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    private String nombreStata;
+
+    private String leyenda;
+
+    @Column(nullable = false)
+    private Boolean estudio;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Aplicable_a aplicable_a;
+
+    @ManyToOne
+    @JoinColumn(name="id_seccion", nullable = false)
+    private Seccion seccion;
+
+
+
+
+    @OneToMany(mappedBy = "datosolicitado")
+
+    private List<Opcion> opciones;
+    public List<Opcion> getopciones(){
+        return opciones;
+    }
+
+    public DatoSolicitado(){
+        this.opciones = new ArrayList<>();
+        this.aplicable_a = Aplicable_a.AMBOS;
+    }
+    public DatoSolicitado(String nombre, String nombreStata, String leyenda, Boolean estudio, Aplicable_a aplicable_a, Seccion seccion) {
+        this.nombre = nombre;
+        this.nombreStata = nombreStata;
+        this.leyenda = leyenda;
+        this.estudio = estudio;
+        this.aplicable_a = aplicable_a;
+        this.seccion = seccion;
+        this.opciones = new ArrayList<>();
+    }
+    public List<Opcion> getOpciones() {
+        return opciones;
+    }
+
+    public void setOpciones(List<Opcion> opciones) {
+        this.opciones = opciones;
+    }
+
+    public int getId_dato () {
+        return id_dato;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public String getNombreStata() {
+        return nombreStata;
+    }
+    public void setNombreStata(String nombreStata) {
+        this.nombreStata = nombreStata;
+    }
+    public String getLeyenda() {
+        return leyenda;
+    }
+    public void setLeyenda(String leyenda) {
+        this.leyenda = leyenda;
+    }
+    public Boolean getEstudio() {
+        return estudio;
+    }
+    public void setEstudio(Boolean estudio) {
+        this.estudio = estudio;
+    }
+    public Aplicable_a getAplicable_a() {
+        return aplicable_a;
+    }
+    public void setAplicable_a(Aplicable_a aplicable_a) {
+        this.aplicable_a = aplicable_a;
+    }
+    public Seccion getSeccion(){
+        return seccion;
+    }
+    public void setSeccion(Seccion seccion) {
+        this.seccion = seccion;
+    }
+}
+

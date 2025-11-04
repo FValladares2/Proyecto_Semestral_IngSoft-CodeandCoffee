@@ -1,0 +1,51 @@
+package ubb.codeandcoffee.proyectoSemestral.modelo;
+
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "seccion")
+public class Seccion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_seccion;
+    private String nombre;
+    private int numero;
+
+    public Seccion() {
+        this.datosSolicitados = new ArrayList<>();
+    }
+    public Seccion(String nombre, int numero) {
+        this.nombre = nombre;
+        this.numero = numero;
+        this.datosSolicitados = new ArrayList<>();
+    }
+
+    @OneToMany(mappedBy = "seccion")
+    private List<DatoSolicitado> datosSolicitados;
+    public List<DatoSolicitado> getDatosSolicitados(){
+        return datosSolicitados;
+    }
+
+    public int getIdSeccion() {
+        return id_seccion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+}
+
