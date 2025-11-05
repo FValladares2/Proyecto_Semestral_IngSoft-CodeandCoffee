@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Pregunta</title>
+    <style>
+        body { font-family: sans-serif; max-width: 700px; margin: 20px auto; }
+        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], select { width: 95%; padding: 8px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; }
+        
+        /* Contenedor de opciones, oculto por defecto */
+        #opciones-container {
+            display: none;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .opcion-fila { margin-bottom: 5px; }
+        .opcion-fila input { margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Crear Nueva Pregunta (Dato Solicitado)</h1>
+    
+    <form th:action="@{/admin/pregunta/guardar}" method="post">
+        
+        <div class="form-group">
+            <label for="leyenda">Texto de la Pregunta (Leyenda)</label>
+            <input type="text" id="leyenda" name="leyenda" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_seccion">Asignar a Sección:</label>
+            <select id="id_seccion" name="id_seccion" required>
+                <option value="" disabled selected>-- Elija una sección --</option>
+                <th:block th:each="sec : ${secciones}">
+                    <option th:value="${sec.idSeccion}" th:text="${sec.nombre}"></option>
+                </th:block>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="tipoRespuesta">Tipo de Respuesta</label>
+            <select id="tipoRespuesta">
+                <option value="texto">Respuesta de Texto / Numérica</option>
+                <option value="seleccion">Respuesta de Selección Múltiple</option>
+            </select>
+        </div>
+
+        <div id="opciones-container">
+            <h4>Opciones de Respuesta</h4>
+            <div id="lista-opciones">
+                </div>
+            <button type="button" id="btn-add-opcion">+ Añadir Opción</button>
+        </div>
+        
+        <hr style="margin-top: 20px;">
+        <button type="submit">Guardar Pregunta Completa</button>
+        <a th:href="@{/admin/formulario/dashboard}">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    // Referencias a los elementos del DOM
+    const tipoRespuestaSelect = document.getElementById('tipoRespuesta');
+    const opcionesContainer = document.getElementById('opciones-container');
+    const btnAddOpcion = document.getElementById('btn-add-opcion');
+    const listaOpcionesDiv = document.getElementById('lista-opciones');
+    let indiceOpcion = 0;
+
+    // 1. Mostrar/ocultar el contenedor de opciones
+    tipoRespuestaSelect.addEventListener('change', function() {
+        if (this.value === 'seleccion') {
+            opcionesContainer.style.display = 'block';
+        } else {
+            opcionesContainer.style.display = 'none';
+        }
+    });
+
+    // 2. Lógica para añadir una nueva fila de opción
+    btnAddOpcion.addEventListener('click', function() {
+        // Crear el div de la fila
+        const fila = document.createElement('div');
+        fila.className = 'opcion-fila';
+
+        // Crear el input para el "Nombre" (Ej: Hombre, Mujer)
+        const inputNombre = document.createElement('input');
+        inputNombre.type = 'text';
+        // El 'name' es crucial para que Spring Boot reciba la lista
+        inputNombre.name = 'opciones[' + indiceOpcion + '].nombre';
+        inputNombre.placeholder = 'Texto (Ej: Sí)';
+
+        // Crear el input para el "Valor" (Ej: 0, 1)
+        const inputValor = document.createElement('input');
+        inputValor.type = 'number';
+        inputValor.name = 'opciones[' + indiceOpcion + '].valor';
+        inputValor.placeholder = 'Valor (Ej: 1)';
+
+        // Botón para eliminar (opcional pero recomendado)
+        const btnEliminar = document.createElement('button');
+        btnEliminar.type = 'button';
+        btnEliminar.innerText = 'X';
+        btnEliminar.onclick = function() {
+            fila.remove();
+        };
+
+        // Añadir los inputs a la fila y la fila a la lista
+        fila.appendChild(document.createTextNode('Opción ' + (indiceOpcion + 1) + ': '));
+        fila.appendChild(inputNombre);
+        fila.appendChild(inputValor);
+        fila.appendChild(btnEliminar);
+        listaOpcionesDiv.appendChild(fila);
+        
+        indiceOpcion++; // Incrementar el índice
+    });
+</script>
+
+</body>
+</html>
