@@ -5,7 +5,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -23,7 +23,7 @@ public class Usuario_Sujeto {
     Usuario usuario;
 
     @Temporal(TemporalType.TIMESTAMP)
-    Date fecha;  //java.util.Date o java.sql.Date?
+    Date fecha;
 
     @Nonnull
     String accion;
@@ -36,6 +36,10 @@ public class Usuario_Sujeto {
     }
 
     public Usuario_Sujeto() {}
+
+    public usuario_sujeto_id getId(){
+        return new usuario_sujeto_id(sujetoEstudio, usuario);
+    }
 
     @Nonnull
     public SujetoEstudio getSujetoEstudio() {
@@ -62,6 +66,22 @@ public class Usuario_Sujeto {
 
     public void setAccion(@Nonnull String accion) {
         this.accion = accion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario_Sujeto that = (Usuario_Sujeto) o;
+        return Objects.equals(sujetoEstudio, that.sujetoEstudio) && Objects.equals(usuario, that.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sujetoEstudio, usuario);
     }
 }
 

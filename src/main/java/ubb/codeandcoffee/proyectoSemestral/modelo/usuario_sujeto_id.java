@@ -11,6 +11,23 @@ public class usuario_sujeto_id implements Serializable {
         this.sujetoEstudio = sujetoEstudio;
         this.usuario = usuario;
     }
+    public usuario_sujeto_id() {}
+
+    public SujetoEstudio getSujetoEstudio() {
+        return sujetoEstudio;
+    }
+
+    public void setSujetoEstudio(SujetoEstudio sujetoEstudio) {
+        this.sujetoEstudio = sujetoEstudio;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -28,7 +28,11 @@ public class SujetoEstudioService {
             throw new IllegalArgumentException("El nombre es obligatorio");
         }
 
-        return sujetoestudioRepository.save(sujeto);
+        SujetoEstudio save = sujetoestudioRepository.save(sujeto);
+        //se hace una query para obtener el código (num) que debería ser asignado por la bdd,
+        //  con debug, se ve que "save" lo mantiene como null, no como "retorno"
+        SujetoEstudio retorno = sujetoestudioRepository.findByNombre(sujeto.getNombre());
+        return retorno;
     }
 
     public Optional<SujetoEstudio> getById(codigo_sujeto codigo){

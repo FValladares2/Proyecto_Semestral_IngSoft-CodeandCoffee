@@ -1,5 +1,5 @@
 package ubb.codeandcoffee.proyectoSemestral.modelo;
 
 public enum Rol{
-    ADMINISTRADOR, RECOLECTORDEDATOS, ANALISTA
+    ADMINISTRADOR, RECOLECTOR_DE_DATOS, ANALISTA
 }

@@ -11,6 +11,23 @@ public class codigo_sujeto implements Serializable {
         this.id_sujeto = id_sujeto;
         this.tipo = tipo;
     }
+    public codigo_sujeto() {}
+
+    public String getId_sujeto() {
+        return id_sujeto;
+    }
+
+    public void setId_sujeto(String id_sujeto) {
+        this.id_sujeto = id_sujeto;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -4,6 +4,7 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -29,10 +30,10 @@ public class SujetoEstudio {
     private String email;
     private String nacionalidad;
 
-    @OneToMany(mappedBy = "usuario_sujeto")
+    @OneToMany(mappedBy = "sujetoEstudio")
     Set<Usuario_Sujeto> usuj;
 
-    @OneToMany(mappedBy = "antecedentes")
+    @OneToMany(mappedBy = "sujetoEstudio")
     Set<Antecedente> antecedentes;
 
     public SujetoEstudio(@Nonnull String tipo, @Nonnull String nombre,
@@ -49,6 +50,20 @@ public class SujetoEstudio {
     }
 
     public SujetoEstudio() {}
+
+    @Nonnull
+    public codigo_sujeto getCodigo_sujeto() {
+        return new codigo_sujeto(id_sujeto, tipo);
+    }
+
+    @Nonnull
+    public String getId_sujeto() {
+        return id_sujeto;
+    }
+
+    public void setId_sujeto(@Nonnull String id_sujeto) {
+        this.id_sujeto = id_sujeto;
+    }
 
     @Nonnull
     public String getTipo() {
@@ -114,5 +129,17 @@ public class SujetoEstudio {
 
     public void setUsuj(Set<Usuario_Sujeto> usuj) {
         this.usuj = usuj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        SujetoEstudio that = (SujetoEstudio) o;
+        return Objects.equals(id_sujeto, that.id_sujeto) && Objects.equals(tipo, that.tipo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_sujeto, tipo);
     }
 }

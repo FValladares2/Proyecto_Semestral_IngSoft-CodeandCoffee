@@ -46,8 +46,8 @@ public class UsuarioController {
     public String deleteUsuarioById(@PathVariable("id") Integer id){
         boolean ok = this.usuarioService.deleteUsuario(id);
         if(ok){
-            return "El Sujeto con id: "+ id +" fue eliminado exitosamente";
+            return "El Usuario con id: "+ id +" fue eliminado exitosamente";
         }
-        return "Error, no fue posible eliminar el Sujeto con id: " + id;
+        return "Error, no fue posible eliminar el Usuario con id: " + id;
     }
 }

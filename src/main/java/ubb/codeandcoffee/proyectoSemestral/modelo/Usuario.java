@@ -27,7 +27,7 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    @OneToMany(mappedBy = "usuario_sujeto")
+    @OneToMany(mappedBy = "usuario")
     private List<Usuario_Sujeto> usuarioSujetos;
 
     public Usuario(@Nonnull String nombre,
@@ -42,6 +42,10 @@ public class Usuario {
     }
 
     public Usuario() {}
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
 
     @Nonnull
     public String getNombre() {

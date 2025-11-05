@@ -25,7 +25,7 @@ public class UsuarioSujetoController {
     }
 
     @PostMapping //Endpoint POST
-    public Usuario_Sujeto guardarAntecedente(@RequestBody Usuario_Sujeto sujeto){
+    public Usuario_Sujeto guardarUsuarioSujeto(@RequestBody Usuario_Sujeto sujeto){
         return this.usuarioSujetoService.guardarUsuarioSujeto(sujeto);
     }
 
