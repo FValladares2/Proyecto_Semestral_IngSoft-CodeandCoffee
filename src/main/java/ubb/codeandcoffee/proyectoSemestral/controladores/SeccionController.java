@@ -26,7 +26,7 @@ public class SeccionController {
 
     @GetMapping // Endpoint GET: obtiene todas las secciones
     public ArrayList<Seccion> getSeccion(){
-        return this.seccionService.getSeccion(); //Llama al servicio get
+        return this.seccionService.getAllSecciones(); //Llama al servicio get
     }
 
     @PostMapping //Endpoint POST: crea una nueva seccion

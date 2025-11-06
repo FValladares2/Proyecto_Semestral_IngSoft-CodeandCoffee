@@ -31,9 +31,12 @@ public class Seccion {
     public List<DatoSolicitado> getDatosSolicitados(){
         return datosSolicitados;
     }
+    public void setId_seccion(Integer id_seccion) {
+        this.id_seccion = id_seccion;
+    }
 
-    public int getIdSeccion() {
-        return id_seccion;
+    public Integer getId_seccion() {
+        return this.id_seccion;
     }
 
     public String getNombre() {

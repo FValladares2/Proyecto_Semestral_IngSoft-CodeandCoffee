@@ -38,9 +38,9 @@ public class OpcionService {
         if (request.getNombre() != null) {
             dato.setNombre(request.getNombre());
         }
-        //REVISAR
-        //AGREGAR SI ES QUE FALTAN
-
+        if (request.getValor() != 0) {
+            dato.setValor(request.getValor());
+        }
         // Guarda los cambios en la base de datos y retorna el la opcion actualizada
         return opcionRepository.save(dato);
     }

@@ -15,7 +15,7 @@ public class SeccionService {
     SeccionRepository seccionRepository; //instancia del repositorio de Seccion
 
     //Método para obtener las secciones de la base de datos
-    public ArrayList<Seccion> getSeccion(){
+    public ArrayList<Seccion> getAllSecciones(){
         return(ArrayList<Seccion>) seccionRepository.findAll();
     }
 
@@ -29,20 +29,25 @@ public class SeccionService {
         return seccionRepository.findById(id_seccion);
     }
 
-    //Método para actualizar una seccion existente por ID
-    public Seccion updateById(Seccion request, Integer id_seccion) {
-        Seccion seccion = seccionRepository.findById(id_seccion)
-            .orElseThrow(() -> new RuntimeException("Seccion no encontrada"));
 
-        // Solo actualiza si no es null
+    // Método para actualizar una seccion existente por ID
+    public Seccion updateById(Seccion request, Integer id_seccion) {
         
+        // 1. Busca la sección en la base de datos
+        Seccion seccion = seccionRepository.findById(id_seccion)
+                .orElseThrow(() -> new RuntimeException("Seccion no encontrada"));
+
+        // 2. Actualiza el número SOLO SI se proporcionó uno nuevo (no es null)
         if (request.getNumero() != 0) {
             seccion.setNumero(request.getNumero());
         }
 
-        //AGREGAR SI ES QUE FALTAN (Y REVISAR)
+        // 3. Actualiza el nombre SOLO SI se proporcionó uno nuevo (no es null)
+        if (request.getNombre() != null) {
+            seccion.setNombre(request.getNombre());
+        }
 
-        // Guarda los cambios en la base de datos y retorna la seccion actualizada
+        // 4. Guarda los cambios en la base de datos y retorna la seccion actualizada
         return seccionRepository.save(seccion);
     }
 
