@@ -3,6 +3,7 @@ package ubb.codeandcoffee.proyectoSemestral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ubb.codeandcoffee.proyectoSemestral.repositorios.UsuarioRepository;
-import ubb.codeandcoffee.proyectoSemestral.servicios.UsuarioService;
 import ubb.codeandcoffee.proyectoSemestral.servicios.Usuario_UserDetailsService;
 
 @Configuration
@@ -21,6 +20,9 @@ public class SecurityConfig {
 
     @Autowired
     private Usuario_UserDetailsService uds;
+
+    @Autowired
+    private Exito exito;
 
     @Bean
     public PasswordEncoder passwordEnconder(){
@@ -39,16 +41,54 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/Usuario/**").hasRole("ADMINISTRADOR")
-                        // habria que agregar las rutas a las que solo pueden acceder las demas personas, pero ni idea
-                        // .requestMatchers(no se que iria aqui xd).hasRole("ANALISTA")
-                        // .requestMatchers(no se que iria aqui xd).hasRole("RECOLECTOR_DE_DATOS")
+
+
+                        .requestMatchers(
+                                "/login",
+                                "/completar_registro",
+                                "/css/**", "/js/**", "/images/**"
+                        ).permitAll()
+
+
+                        .requestMatchers(HttpMethod.POST, "/Usuario").permitAll()
+
+                        .requestMatchers(
+                                "/admin/**",
+                                "/Usuario/**"
+                        ).hasRole("ADMINISTRADOR")
+
+
+                        .requestMatchers("/formularios/**")
+                        .hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
+
+
+                        /* aun no implementadas las opciones
+                        .requestMatchers("/exportar/**")
+                        .hasAnyRole("ADMINISTRADOR", "ANALISTA")
+
+                         */
+
+                        // solo la persona indicada puede ver el menu segun su rol
+                        .requestMatchers("/menu/admin").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/menu/analista").hasRole("ANALISTA")
+                        .requestMatchers("/menu/recolector").hasRole("RECOLECTOR_DE_DATOS")
 
                         .anyRequest().authenticated()
                 )
-                .httpBasic(httpBasic -> {});
 
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login-post")
+                        .successHandler(exito)
+                        .permitAll()
+                )
+
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                );
         return http.build();
     }
 
