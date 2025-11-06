@@ -5,95 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <style>
-        
+        /* (Tu CSS no se toca, está perfecto) */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5; 
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; 
+            height: 100vh;
             margin: 0;
         }
-
-        /* cuadrado en el medio */
         .login-container {
-            background-color: #ffffff; 
+            background-color: #ffffff;
             padding: 2.5rem;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 350px;
             text-align: center;
         }
-
         .login-container h1 {
             color: #333;
             margin-bottom: 2rem;
             font-size: 24px;
         }
-
-        /* estilo para los grupos formatos*/
         .form-group {
             margin-bottom: 1.5rem;
-            text-align: left; 
+            text-align: left;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             color: #555;
             font-weight: 600;
         }
-
-        /* cuadros de texto*/
         .form-group input {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-            /* Importante para que el padding no desborde el ancho */
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
-
-        /* boton de enviar */
         .btn-submit {
             width: 100%;
             padding: 0.75rem;
             border: none;
             border-radius: 4px;
-            background-color: #1F618D; /* Usamos el azul de tu proyecto */
+            background-color: #1F618D;
             color: white;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .btn-submit:hover {
-            background-color: #154360; /* lo hacemos mas azulado al pazar el mouse */
+            background-color: #154360;
+        }
+
+        /* (NUEVO) Estilo para el mensaje de error */
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h1>Iniciar Sesion</h1>
-        
-        <form action="/login" method="post">
-            
-            <div class="form-group">
-                <label for="correo">Correo Electrónico</label>
-                <input type="email" id="correo" name="correo" required>
-            </div>
+<div class="login-container">
+    <h1>Iniciar Sesion</h1>
 
-            <div class="form-group">
-                <label for="contrasena">Contraseña</label>
-                <input type="password" id="contrasena" name="contrasena" required>
-            </div>
-
-            <button type="submit" class="btn-submit">Entrar</button>
-        </form>
+    <div th:if="${param.error}" class="error-message">
+        Usuario o contraseña incorrectos.
     </div>
+
+    <form th:action="@{/login-post}" method="post">
+
+        <div class="form-group">
+            <label for="username">Correo Electrónico</label>
+            <input type="email" id="username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Entrar</button>
+    </form>
+</div>
 
 </body>
 </html>
