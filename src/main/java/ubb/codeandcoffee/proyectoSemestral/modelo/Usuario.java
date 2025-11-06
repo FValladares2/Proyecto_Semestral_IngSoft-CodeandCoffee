@@ -2,12 +2,16 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
 import java.util.List;
+
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails{
     @Id
     @Nonnull
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -98,6 +102,40 @@ public class Usuario {
 
     public void setUsuarioSujetos(List<Usuario_Sujeto> usuarioSujetos) {
         this.usuarioSujetos = usuarioSujetos;
+    }
+
+    //de aqui pa abajo estara lo necesario para Spring Security
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_"+rol.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.contraseña;
+    }
+
+    @Override
+    public String getUsername() {
+        // Usamos el correo como "username"
+        return this.correo;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // Asumiendo que tu Enum Estado tiene un valor 'ACTIVO'
+        return this.estado == Estado.ACTIVO;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() {
+        return this.estado == Estado.ACTIVO;
     }
 }
 

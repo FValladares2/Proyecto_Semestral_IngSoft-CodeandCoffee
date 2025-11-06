@@ -1,6 +1,7 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.UsuarioRepository;
@@ -13,11 +14,15 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;//necesario para lo de spring security
+
     public ArrayList<Usuario> getUsuario(){
         return(ArrayList<Usuario>) usuarioRepository.findAll();
     }
 
     public Usuario guardarUsuario(Usuario usuario) {
+        usuario.setContraseña(passwordEncoder.encode(usuario.getContraseña()));
         return usuarioRepository.save(usuario);
     }
 
@@ -32,9 +37,11 @@ public class UsuarioService {
         if (!request.getNombre().equals(usuario.getNombre())) {
             usuario.setNombre(request.getNombre());
         }
-        if (!request.getContraseña().equals(usuario.getContraseña())) {
-            usuario.setContraseña(request.getContraseña());
+
+        if (request.getContraseña()!=null && !request.getContraseña().isEmpty()) {
+            usuario.setContraseña(passwordEncoder.encode(request.getContraseña()));
         }
+
         if (!request.getCorreo().equals(usuario.getCorreo())) {
             usuario.setCorreo(request.getCorreo());
         }
