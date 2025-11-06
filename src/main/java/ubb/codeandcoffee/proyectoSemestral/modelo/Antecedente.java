@@ -15,8 +15,8 @@ public class Antecedente {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "id_sujeto_fk", referencedColumnName = "id_sujeto"),
-            @JoinColumn(name = "tipo_fk", referencedColumnName = "tipo")
+            @JoinColumn(name = "id_sujeto", referencedColumnName = "id_sujeto"),
+            @JoinColumn(name = "tipo", referencedColumnName = "tipo")
     })
     private SujetoEstudio sujetoEstudio;
 
