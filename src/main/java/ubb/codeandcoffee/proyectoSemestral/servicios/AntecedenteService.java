@@ -11,12 +11,12 @@ public class AntecedenteService {
     @Autowired
     AntecedenteRepository antecedenteRepository; //instancia del repositorio de Antecedente
 
-    //Método para obtener los antecedentes de la base de datos
+    //obtener antecedentes
     public ArrayList<Antecedente> getAntecedentes(){
         return(ArrayList<Antecedente>) antecedenteRepository.findAll();
     }
 
-    //Método para guardar un nuevo antecedente en la base de datos
+    //guardar nuevo antecedente
     public Antecedente guardarAntecedente(Antecedente antecedente) {
         //Validación: las claves foráneas no pueden ser null
         if (antecedente.getDatoSolicitado() == null) {
