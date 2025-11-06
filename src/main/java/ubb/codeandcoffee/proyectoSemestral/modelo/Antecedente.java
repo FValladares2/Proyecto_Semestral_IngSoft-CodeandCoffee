@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Antecedente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAntecedentes;
+    private int idantecedentes;
 
     private String valorString;
 
@@ -38,7 +38,7 @@ public class Antecedente {
 
 
     public int getIdAntecedentes() {
-        return idAntecedentes;
+        return idantecedentes;
     }
 
     public String getValorString() {
