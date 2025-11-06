@@ -13,7 +13,7 @@ public class Seccion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_seccion;
     private String nombre;
-    private int numero;
+    private Integer numero;
     
 
     public Seccion() {
@@ -31,6 +31,10 @@ public class Seccion {
     public List<DatoSolicitado> getDatosSolicitados(){
         return datosSolicitados;
     }
+
+    public void setDatosSolicitados(List<DatoSolicitado> datoSolicitados){
+        this.datosSolicitados=datoSolicitados;
+    }
     public void setId_seccion(Integer id_seccion) {
         this.id_seccion = id_seccion;
     }
@@ -47,11 +51,11 @@ public class Seccion {
         this.nombre = nombre;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 }

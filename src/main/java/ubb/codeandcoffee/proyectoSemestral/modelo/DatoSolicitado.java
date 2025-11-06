@@ -73,6 +73,11 @@ public class DatoSolicitado {
         return id_dato;
     }
 
+    public void setId_dato(int id_dato) {
+        this.id_dato = id_dato;
+    }
+
+
     public String getNombre() {
         return nombre;
     }

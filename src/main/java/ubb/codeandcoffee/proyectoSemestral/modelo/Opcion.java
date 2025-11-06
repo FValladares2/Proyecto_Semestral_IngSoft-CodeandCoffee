@@ -20,8 +20,19 @@ public class Opcion {
         this.valor = valor;
     }
 
-    public int getID_Opcion() {
+    public DatoSolicitado getDatoSolicitado(){
+        return dato;
+    }
+
+    public void setDatoSolicitado(DatoSolicitado dato){
+        this.dato=dato;
+    }
+
+    public int getId_opcion() {
         return id_opcion;
+    }
+    public void setId_opcion(int id_opcion){
+        this.id_opcion=id_opcion;
     }
 
     public String getNombre() {

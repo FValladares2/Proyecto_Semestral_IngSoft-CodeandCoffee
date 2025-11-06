@@ -1,0 +1,15 @@
+# Archivos de build y dependencias de Gradle
+.gradle/
+build/
+
+# Archivos de IDE (IntelliJ, VS Code, Eclipse)
+.idea/
+*.iml
+*.iws
+.vscode/
+.settings/
+.project
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

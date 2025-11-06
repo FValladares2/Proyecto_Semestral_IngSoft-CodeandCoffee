@@ -6,13 +6,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Opcion;
+import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.OpcionRepository;
 
 @Service //Marca esta clase como un servicio de Spring
 public class OpcionService {
     @Autowired
     OpcionRepository opcionRepository; //instancia del repositorio de Opcion
+    DatoSolicitadoRepository datoSolicitadoRepository;
 
     //Método para obtener las opciones de la base de datos
     public ArrayList<Opcion> getOpciones(){
@@ -21,6 +24,27 @@ public class OpcionService {
 
     //Método para guardar una nueva opcion en la base de datos
     public Opcion guardarOpcion(Opcion opcion) {
+        
+        // 1. Validar la opción (ej. que tenga nombre)
+        if (opcion.getNombre() == null || opcion.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la opción es obligatorio");
+        }
+
+        // 2. Buscar el "padre" (DatoSolicitado)
+        DatoSolicitado datoSolicitadoPadre = opcion.getDatoSolicitado();
+        if (datoSolicitadoPadre == null) {
+            throw new IllegalArgumentException("El objeto 'dato solicitado' es obligatorio en la solicitud");
+        }
+        Integer id_dato= datoSolicitadoPadre.getId_dato();
+        if(id_dato == null){
+            throw new IllegalArgumentException("El 'id dato' dentro del objeto 'dato solicitado' es obligatorio");
+        }
+        DatoSolicitado datoCompleto = datoSolicitadoRepository.findById(id_dato)
+            .orElseThrow(() -> new RuntimeException("Error: La sección con ID " + id_dato + " no existe."));
+        // 3. Asignar el padre real a la opción
+        opcion.setDatoSolicitado(datoCompleto);
+
+        // 4. Guardar la opción
         return opcionRepository.save(opcion);
     }
 
