@@ -19,7 +19,8 @@ public class UsuarioSujetoService {
     }
 
     public Usuario_Sujeto guardarUsuarioSujeto(Usuario_Sujeto sujeto) {
-        return usuarioSujetoRepository.save(sujeto);
+        usuarioSujetoRepository.save(sujeto);
+        return usuarioSujetoRepository.findByQuery(sujeto.getUsuario(), sujeto.getSujetoEstudio());
     }
 
     public Optional<Usuario_Sujeto> getById(usuario_sujeto_id id){

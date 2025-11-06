@@ -13,13 +13,18 @@ import java.util.Objects;
 @Table(name = "usuario_sujeto")
 public class Usuario_Sujeto {
     @Id
-    @Nonnull
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name = "id_sujeto", referencedColumnName = "id_sujeto"),
+            @JoinColumn(name = "tipo", referencedColumnName = "tipo")
+    })
     SujetoEstudio sujetoEstudio;
 
     @Id
-    @Nonnull
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    })
     Usuario usuario;
 
     @Temporal(TemporalType.TIMESTAMP)

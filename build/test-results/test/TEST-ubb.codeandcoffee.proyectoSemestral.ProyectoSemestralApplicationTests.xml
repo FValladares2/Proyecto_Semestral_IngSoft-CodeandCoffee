@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-11-05T01:24:55.666Z" hostname="DESKTOP-MO98CJ3" time="0.745">
+<testsuite name="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-11-06T03:23:27.749Z" hostname="DESKTOP-MO98CJ3" time="0.71">
   <properties/>
-  <testcase name="crudUsuj()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.64"/>
-  <testcase name="crudUsuario()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.052"/>
-  <testcase name="crudSujeto()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.044"/>
-  <testcase name="contextLoads()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.006"/>
-  <system-out><![CDATA[22:24:49.198 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests]: ProyectoSemestralApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-22:24:49.311 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplication for test class ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests
+  <testcase name="crudUsuj()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.641"/>
+  <testcase name="crudUsuario()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.03"/>
+  <testcase name="crudSujeto()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.031"/>
+  <testcase name="contextLoads()" classname="ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests" time="0.005"/>
+  <system-out><![CDATA[00:23:22.037 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests]: ProyectoSemestralApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:23:22.145 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplication for test class ubb.codeandcoffee.proyectoSemestral.ProyectoSemestralApplicationTests
  ,-----.          ,--.        ,---.      ,-----.        ,---. ,---.               ,--. ,--.,-----. ,-----.
 '  .--./ ,---.  ,-|  |,---.  |  o ,-.   '  .--./ ,---. /  .-'/  .-' ,---.  ,---.  |  | |  ||  |) /_|  |) /_
 |  |    | .-. |' .-. | .-. : .'     /_  |  |    | .-. ||  `-,|  `-,| .-. :| .-. : |  | |  ||  .-.  \  .-.  \
@@ -15,19 +15,19 @@
 
  
 Powered by Spring Boot 3.5.7
-2025-11-04T22:24:49.957-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] u.c.p.ProyectoSemestralApplicationTests  : Starting ProyectoSemestralApplicationTests using Java 21.0.8 with PID 22636 (started by Felipe in C:\Users\Felipe\Desktop\Codigo\Java\2025-II\Proyecto_Semestral_IngSoft-CodeandCoffee)
-2025-11-04T22:24:49.961-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] u.c.p.ProyectoSemestralApplicationTests  : No active profile set, falling back to 1 default profile: "default"
-2025-11-04T22:24:50.701-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-04T22:24:50.777-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 8 JPA repository interfaces.
-2025-11-04T22:24:51.350-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-04T22:24:51.407-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
-2025-11-04T22:24:51.445-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-04T22:24:51.772-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-04T22:24:51.807-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-04T22:24:51.987-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2110684a
-2025-11-04T22:24:51.989-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-04T22:24:52.053-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
-2025-11-04T22:24:52.085-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-11-06T00:23:22.581-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] u.c.p.ProyectoSemestralApplicationTests  : Starting ProyectoSemestralApplicationTests using Java 21.0.8 with PID 22268 (started by Felipe in C:\Users\Felipe\Desktop\Codigo\Java\2025-II\Proyecto_Semestral_IngSoft-CodeandCoffee)
+2025-11-06T00:23:22.583-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] u.c.p.ProyectoSemestralApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+2025-11-06T00:23:23.281-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-06T00:23:23.358-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 8 JPA repository interfaces.
+2025-11-06T00:23:23.847-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-06T00:23:23.904-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-06T00:23:23.941-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-06T00:23:24.240-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-06T00:23:24.273-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-06T00:23:24.439-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ff26c9
+2025-11-06T00:23:24.441-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-06T00:23:24.494-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-11-06T00:23:24.515-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 5.5.5
@@ -35,11 +35,11 @@ Powered by Spring Boot 3.5.7
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-11-04T22:24:53.229-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-Hibernate: alter table antecedentes add column id_antecedentes integer not null auto_increment
-2025-11-04T22:24:53.748-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table antecedentes add column id_antecedentes integer not null auto_increment" via JDBC [Incorrect table definition; there can be only one auto column and it must be defined as a key]
+2025-11-06T00:23:25.539-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: alter table antecedentes modify column id_sujeto varchar(255)
+2025-11-06T00:23:26.048-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table antecedentes modify column id_sujeto varchar(255)" via JDBC [Cannot change column 'id_sujeto': used in a foreign key constraint 'bdd_formulario/antec_sujeto_fk']
 
-org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table antecedentes add column id_antecedentes integer not null auto_increment" via JDBC [Incorrect table definition; there can be only one auto column and it must be defined as a key]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table antecedentes modify column id_sujeto varchar(255)" via JDBC [Cannot change column 'id_sujeto': used in a foreign key constraint 'bdd_formulario/antec_sujeto_fk']
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
@@ -174,8 +174,156 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "a
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
-Caused by: java.sql.SQLSyntaxErrorException: Incorrect table definition; there can be only one auto column and it must be defined as a key
-	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:112) ~[mysql-connector-j-9.4.0.jar:9.4.0]
+Caused by: java.sql.SQLException: Cannot change column 'id_sujeto': used in a foreign key constraint 'bdd_formulario/antec_sujeto_fk'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121) ~[mysql-connector-j-9.4.0.jar:9.4.0]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114) ~[mysql-connector-j-9.4.0.jar:9.4.0]
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:837) ~[mysql-connector-j-9.4.0.jar:9.4.0]
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:685) ~[mysql-connector-j-9.4.0.jar:9.4.0]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-6.3.3.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	... 133 common frames omitted
+
+Hibernate: alter table antecedentes modify column tipo varchar(255)
+2025-11-06T00:23:26.061-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table antecedentes modify column tipo varchar(255)" via JDBC [Cannot change column 'tipo': used in a foreign key constraint 'bdd_formulario/antec_sujeto_fk']
+
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table antecedentes modify column tipo varchar(255)" via JDBC [Cannot change column 'tipo': used in a foreign key constraint 'bdd_formulario/antec_sujeto_fk']
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:334) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:84) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:233) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:112) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.12.jar:6.2.12]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.12.jar:6.2.12]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.12.jar:6.2.12]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.12.jar:6.2.12]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:973) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:144) ~[spring-boot-test-3.5.7.jar:3.5.7]
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58) ~[spring-core-6.2.12.jar:6.2.12]
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46) ~[spring-core-6.2.12.jar:6.2.12]
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1461) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:563) ~[spring-boot-test-3.5.7.jar:3.5.7]
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:144) ~[spring-boot-test-3.5.7.jar:3.5.7]
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:110) ~[spring-boot-test-3.5.7.jar:3.5.7]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:200) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:139) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:159) ~[spring-test-6.2.12.jar:6.2.12]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:383) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:388) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:382) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[na:na]
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596) ~[na:na]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:382) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:293) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:292) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:281) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at java.base/java.util.Optional.orElseGet(Optional.java:364) ~[na:na]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:280) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:27) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:112) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:111) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:128) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:128) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:124) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:99) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:94) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:63) ~[na:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24) ~[na:na]
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33) ~[na:na]
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92) ~[na:na]
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:200) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:132) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63) ~[na:na]
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
+Caused by: java.sql.SQLException: Cannot change column 'tipo': used in a foreign key constraint 'bdd_formulario/antec_sujeto_fk'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:837) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:685) ~[mysql-connector-j-9.4.0.jar:9.4.0]
@@ -185,7 +333,7 @@ Caused by: java.sql.SQLSyntaxErrorException: Incorrect table definition; there c
 	... 133 common frames omitted
 
 Hibernate: alter table sujetoestudio modify column id_sujeto varchar(255) not null
-2025-11-04T22:24:53.763-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table sujetoestudio modify column id_sujeto varchar(255) not null" via JDBC [Cannot change column 'id_sujeto': used in a foreign key constraint 'bdd_formulario/FK6eibdqtyduacdiky85wxey6np' of table 'bdd_formulario/antecedentes']
+2025-11-06T00:23:26.070-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table sujetoestudio modify column id_sujeto varchar(255) not null" via JDBC [Cannot change column 'id_sujeto': used in a foreign key constraint 'bdd_formulario/FK6eibdqtyduacdiky85wxey6np' of table 'bdd_formulario/antecedentes']
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table sujetoestudio modify column id_sujeto varchar(255) not null" via JDBC [Cannot change column 'id_sujeto': used in a foreign key constraint 'bdd_formulario/FK6eibdqtyduacdiky85wxey6np' of table 'bdd_formulario/antecedentes']
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
@@ -333,7 +481,7 @@ Caused by: java.sql.SQLException: Cannot change column 'id_sujeto': used in a fo
 	... 133 common frames omitted
 
 Hibernate: alter table sujetoestudio modify column tipo varchar(255) not null
-2025-11-04T22:24:53.773-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table sujetoestudio modify column tipo varchar(255) not null" via JDBC [Cannot change column 'tipo': used in a foreign key constraint 'bdd_formulario/FK6eibdqtyduacdiky85wxey6np' of table 'bdd_formulario/antecedentes']
+2025-11-06T00:23:26.078-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table sujetoestudio modify column tipo varchar(255) not null" via JDBC [Cannot change column 'tipo': used in a foreign key constraint 'bdd_formulario/FK6eibdqtyduacdiky85wxey6np' of table 'bdd_formulario/antecedentes']
 
 org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table sujetoestudio modify column tipo varchar(255) not null" via JDBC [Cannot change column 'tipo': used in a foreign key constraint 'bdd_formulario/FK6eibdqtyduacdiky85wxey6np' of table 'bdd_formulario/antecedentes']
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
@@ -481,9 +629,9 @@ Caused by: java.sql.SQLException: Cannot change column 'tipo': used in a foreign
 	... 133 common frames omitted
 
 Hibernate: alter table antecedentes add constraint FK5bqgxki9dqf3j9awwvffc1pjr foreign key (id_variable) references datosolicitado (id_dato)
-2025-11-04T22:24:53.853-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table antecedentes add constraint FK5bqgxki9dqf3j9awwvffc1pjr foreign key (id_variable) references datosolicitado (id_dato)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK5bqgxki9dqf3j9awwvffc1pjr` FOREIGN KEY (`id_variable`) REFERENCES `datosolicitado` (`id_dato`))]
+2025-11-06T00:23:26.137-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table antecedentes add constraint FK5bqgxki9dqf3j9awwvffc1pjr foreign key (id_variable) references datosolicitado (id_dato)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FK5bqgxki9dqf3j9awwvffc1pjr` FOREIGN KEY (`id_variable`) REFERENCES `datosolicitado` (`id_dato`))]
 
-org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table antecedentes add constraint FK5bqgxki9dqf3j9awwvffc1pjr foreign key (id_variable) references datosolicitado (id_dato)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK5bqgxki9dqf3j9awwvffc1pjr` FOREIGN KEY (`id_variable`) REFERENCES `datosolicitado` (`id_dato`))]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table antecedentes add constraint FK5bqgxki9dqf3j9awwvffc1pjr foreign key (id_variable) references datosolicitado (id_dato)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FK5bqgxki9dqf3j9awwvffc1pjr` FOREIGN KEY (`id_variable`) REFERENCES `datosolicitado` (`id_dato`))]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
@@ -617,7 +765,7 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "a
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
-Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK5bqgxki9dqf3j9awwvffc1pjr` FOREIGN KEY (`id_variable`) REFERENCES `datosolicitado` (`id_dato`))
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FK5bqgxki9dqf3j9awwvffc1pjr` FOREIGN KEY (`id_variable`) REFERENCES `datosolicitado` (`id_dato`))
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:109) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:837) ~[mysql-connector-j-9.4.0.jar:9.4.0]
@@ -627,10 +775,10 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or upda
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	... 132 common frames omitted
 
-Hibernate: alter table usuario_sujeto add constraint FK4nijj99fwec9vdum6d5vsro9j foreign key (sujeto_estudio_id_sujeto, sujeto_estudio_tipo) references sujetoestudio (id_sujeto, tipo)
-2025-11-04T22:24:53.903-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table usuario_sujeto add constraint FK4nijj99fwec9vdum6d5vsro9j foreign key (sujeto_estudio_id_sujeto, sujeto_estudio_tipo) references sujetoestudio (id_sujeto, tipo)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK4nijj99fwec9vdum6d5vsro9j` FOREIGN KEY (`sujeto_estudio_id_sujeto`, `sujeto_estudio_tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`))]
+Hibernate: alter table usuario_sujeto add constraint FKh7wrd122riicrk8b1axewvgoj foreign key (id_sujeto, tipo) references sujetoestudio (id_sujeto, tipo)
+2025-11-06T00:23:26.173-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table usuario_sujeto add constraint FKh7wrd122riicrk8b1axewvgoj foreign key (id_sujeto, tipo) references sujetoestudio (id_sujeto, tipo)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FKh7wrd122riicrk8b1axewvgoj` FOREIGN KEY (`id_sujeto`, `tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`))]
 
-org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table usuario_sujeto add constraint FK4nijj99fwec9vdum6d5vsro9j foreign key (sujeto_estudio_id_sujeto, sujeto_estudio_tipo) references sujetoestudio (id_sujeto, tipo)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK4nijj99fwec9vdum6d5vsro9j` FOREIGN KEY (`sujeto_estudio_id_sujeto`, `sujeto_estudio_tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`))]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table usuario_sujeto add constraint FKh7wrd122riicrk8b1axewvgoj foreign key (id_sujeto, tipo) references sujetoestudio (id_sujeto, tipo)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FKh7wrd122riicrk8b1axewvgoj` FOREIGN KEY (`id_sujeto`, `tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`))]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
@@ -764,7 +912,7 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "a
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
-Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK4nijj99fwec9vdum6d5vsro9j` FOREIGN KEY (`sujeto_estudio_id_sujeto`, `sujeto_estudio_tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`))
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FKh7wrd122riicrk8b1axewvgoj` FOREIGN KEY (`id_sujeto`, `tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`))
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:109) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:837) ~[mysql-connector-j-9.4.0.jar:9.4.0]
@@ -774,10 +922,10 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or upda
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	... 132 common frames omitted
 
-Hibernate: alter table usuario_sujeto add constraint FK8yvu44hfymr0xcn9aygf9ufht foreign key (usuario_id_usuario) references usuario (id_usuario)
-2025-11-04T22:24:53.933-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table usuario_sujeto add constraint FK8yvu44hfymr0xcn9aygf9ufht foreign key (usuario_id_usuario) references usuario (id_usuario)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK8yvu44hfymr0xcn9aygf9ufht` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`))]
+Hibernate: alter table usuario_sujeto add constraint FK2goorrcpylgu9iswsosjla0v2 foreign key (id_usuario) references usuario (id_usuario)
+2025-11-06T00:23:26.201-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table usuario_sujeto add constraint FK2goorrcpylgu9iswsosjla0v2 foreign key (id_usuario) references usuario (id_usuario)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FK2goorrcpylgu9iswsosjla0v2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`))]
 
-org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table usuario_sujeto add constraint FK8yvu44hfymr0xcn9aygf9ufht foreign key (usuario_id_usuario) references usuario (id_usuario)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK8yvu44hfymr0xcn9aygf9ufht` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`))]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table usuario_sujeto add constraint FK2goorrcpylgu9iswsosjla0v2 foreign key (id_usuario) references usuario (id_usuario)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FK2goorrcpylgu9iswsosjla0v2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`))]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
@@ -911,7 +1059,7 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "a
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
-Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-16d0_376`, CONSTRAINT `FK8yvu44hfymr0xcn9aygf9ufht` FOREIGN KEY (`usuario_id_usuario`) REFERENCES `usuario` (`id_usuario`))
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`bdd_formulario`.`#sql-280_578`, CONSTRAINT `FK2goorrcpylgu9iswsosjla0v2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`))
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:109) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114) ~[mysql-connector-j-9.4.0.jar:9.4.0]
 	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:837) ~[mysql-connector-j-9.4.0.jar:9.4.0]
@@ -921,24 +1069,31 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or upda
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.33.Final.jar:6.6.33.Final]
 	... 132 common frames omitted
 
-2025-11-04T22:24:53.942-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-04T22:24:54.319-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-11-04T22:24:54.907-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-04T22:24:54.954-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2025-11-06T00:23:26.207-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-06T00:23:26.535-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-06T00:23:27.105-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-06T00:23:27.138-03:00  WARN 22268 --- [proyectoSemestral] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 1951ac83-a172-4894-a26c-c87b76cf0ae6
+Using generated security password: e8521924-91ff-4d50-98da-8ff304d4e3aa
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-11-04T22:24:54.963-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-11-04T22:24:55.481-03:00  WARN 22636 --- [proyectoSemestral] [    Test worker] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
-2025-11-04T22:24:55.650-03:00  INFO 22636 --- [proyectoSemestral] [    Test worker] u.c.p.ProyectoSemestralApplicationTests  : Started ProyectoSemestralApplicationTests in 6.168 seconds (process running for 7.293)
+2025-11-06T00:23:27.146-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-06T00:23:27.734-03:00  INFO 22268 --- [proyectoSemestral] [    Test worker] u.c.p.ProyectoSemestralApplicationTests  : Started ProyectoSemestralApplicationTests in 5.419 seconds (process running for 6.661)
 Hibernate: select next_val as id_val from usuario_seq for update
 Hibernate: update usuario_seq set next_val= ? where next_val=?
 Hibernate: insert into usuario (contraseña,correo,estado,nombre,rol,id_usuario) values (?,?,?,?,?,?)
 Hibernate: select se1_0.id_sujeto,se1_0.tipo,se1_0.direccion,se1_0.email,se1_0.nacionalidad,se1_0.nombre,se1_0.ocupacion,se1_0.telefono from sujetoestudio se1_0 where (se1_0.id_sujeto,se1_0.tipo) in ((?,?))
 Hibernate: insert into sujetoestudio (direccion,email,nacionalidad,nombre,ocupacion,telefono,id_sujeto,tipo) values (?,?,?,?,?,?,?,?)
 Hibernate: select se1_0.id_sujeto,se1_0.tipo,se1_0.direccion,se1_0.email,se1_0.nacionalidad,se1_0.nombre,se1_0.ocupacion,se1_0.telefono from sujetoestudio se1_0 where se1_0.nombre=?
+Hibernate: select u1_0.id_usuario,u1_0.contraseña,u1_0.correo,u1_0.estado,u1_0.nombre,u1_0.rol from usuario u1_0 where u1_0.id_usuario=?
+Hibernate: select se1_0.id_sujeto,se1_0.tipo,se1_0.direccion,se1_0.email,se1_0.nacionalidad,se1_0.nombre,se1_0.ocupacion,se1_0.telefono from sujetoestudio se1_0 where (se1_0.id_sujeto,se1_0.tipo) in ((?,?))
+Hibernate: select us1_0.id_sujeto,us1_0.tipo,se1_0.id_sujeto,se1_0.tipo,se1_0.direccion,se1_0.email,se1_0.nacionalidad,se1_0.nombre,se1_0.ocupacion,se1_0.telefono,us1_0.id_usuario,u1_0.id_usuario,u1_0.contraseña,u1_0.correo,u1_0.estado,u1_0.nombre,u1_0.rol,us1_0.accion,us1_0.fecha from usuario_sujeto us1_0 join sujetoestudio se1_0 on se1_0.id_sujeto=us1_0.id_sujeto and se1_0.tipo=us1_0.tipo join usuario u1_0 on u1_0.id_usuario=us1_0.id_usuario where (us1_0.id_sujeto,us1_0.tipo,us1_0.id_usuario) in ((?,?,?))
+Hibernate: select se1_0.id_sujeto,se1_0.tipo,se1_0.direccion,se1_0.email,se1_0.nacionalidad,se1_0.nombre,se1_0.ocupacion,se1_0.telefono from sujetoestudio se1_0 where (se1_0.id_sujeto,se1_0.tipo) in ((?,?))
+Hibernate: select u1_0.id_usuario,u1_0.contraseña,u1_0.correo,u1_0.estado,u1_0.nombre,u1_0.rol from usuario u1_0 where u1_0.id_usuario=?
+Hibernate: insert into usuario_sujeto (accion,fecha,id_sujeto,tipo,id_usuario) values (?,?,?,?,?)
+Hibernate: select us1_0.id_sujeto,us1_0.tipo,us1_0.id_usuario,us1_0.accion,us1_0.fecha from usuario_sujeto us1_0 where us1_0.id_usuario=? and (us1_0.id_sujeto,us1_0.tipo)=(?,?)
+Date iniciado: 2025-11-06 00:23:28.0
 Hibernate: select u1_0.id_usuario,u1_0.contraseña,u1_0.correo,u1_0.estado,u1_0.nombre,u1_0.rol from usuario u1_0 where u1_0.id_usuario=?
 Hibernate: delete from usuario where id_usuario=?
 Hibernate: select se1_0.id_sujeto,se1_0.tipo,se1_0.direccion,se1_0.email,se1_0.nacionalidad,se1_0.nombre,se1_0.ocupacion,se1_0.telefono from sujetoestudio se1_0 where (se1_0.id_sujeto,se1_0.tipo) in ((?,?))

@@ -84,6 +84,8 @@ class ProyectoSemestralApplicationTests {
         usuario.setRol(Rol.RECOLECTOR_DE_DATOS);
         usuario = uc.guardarUsuario(usuario);
 
+        int id1 = usuario.getId_usuario();
+
         SujetoEstudio suj = new SujetoEstudio();
         suj.setNombre("sujeto testing crud");
         suj.setTipo("CO");
@@ -91,25 +93,26 @@ class ProyectoSemestralApplicationTests {
         //Create
         suj = sec.guardarSujetoEstudio(suj);
 
-        /*
+        codigo_sujeto id2 = suj.getCodigo_sujeto();
+
+        usuario = uc.getUsuarioById(id1).get();
+        suj = sec.getSujetoEstudioById(id2).get();
+
         Usuario_Sujeto nuevo =  new Usuario_Sujeto();
         nuevo.setUsuario(usuario);
         nuevo.setSujetoEstudio(suj);
         nuevo.setAccion("Creacion de sujeto");
-        nuevo = usc.guardarUsuarioSujeto(nuevo); //detached entity passed to persist, TODO: fix
+        nuevo = usc.guardarUsuarioSujeto(nuevo);
 
         System.out.println("Date iniciado: "+nuevo.getFecha().toString());
 
-         */
-        int id1 = usuario.getId_usuario();
-        codigo_sujeto id2 = suj.getCodigo_sujeto();
-        //usuario_sujeto_id id3 = nuevo.getId();
+        usuario_sujeto_id id3 = nuevo.getId();
 
         assertEquals("El Usuario con id: "+ id1 +" fue eliminado exitosamente",
                 uc.deleteUsuarioById(id1));
         assertEquals("El Sujeto con id: "+ id2 +" fue eliminado exitosamente",
                 sec.deleteSujetoEstudioById(id2));
         //assertEquals("El usuj con id: "+ id3 +" fue eliminado exitosamente",
-        //        usc.deleteUsuarioSujetoById(id3));
+        //        usc.deleteUsuarioSujetoById(id3));    //todo? igual en teoría nunca es necesario eliminar tablas
     }
 }
