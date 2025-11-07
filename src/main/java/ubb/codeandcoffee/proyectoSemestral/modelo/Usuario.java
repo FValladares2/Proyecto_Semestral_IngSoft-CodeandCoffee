@@ -117,7 +117,6 @@ public class Usuario implements UserDetails{
 
     @Override
     public String getUsername() {
-        // Usamos el correo como "username"
         return this.correo;
     }
 
@@ -126,7 +125,6 @@ public class Usuario implements UserDetails{
 
     @Override
     public boolean isAccountNonLocked() {
-        // Asumiendo que tu Enum Estado tiene un valor 'ACTIVO'
         return this.estado == Estado.ACTIVO;
     }
 

@@ -1,13 +1,29 @@
 package ubb.codeandcoffee.proyectoSemestral.controladores;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
+import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
+import ubb.codeandcoffee.proyectoSemestral.servicios.DatoSolicitadoService;
+import ubb.codeandcoffee.proyectoSemestral.servicios.SeccionService;
+
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    //al ingresar como adminen el login, opciones. Falta el html para gestionar roles de usuarios existentes:
+
+    @Autowired
+    private SeccionService seccionService;
+
+    @Autowired
+    private DatoSolicitadoService datoSolicitadoService;
 
     @GetMapping("/crear-usuario")
     public String mostrarCrearUsuario() {
@@ -22,8 +38,38 @@ public class AdminController {
     }
 
     @GetMapping("/crear-formulario")
-    public String mostrarCrearFormulario() {
+    public String mostrarCrearFormulario(Model modelo) {
         //templates/form/admin_formulario_dashboard.html
+        List<Seccion> listaDeSecciones = seccionService.getAllSecciones();
+
+        modelo.addAttribute("secciones", listaDeSecciones);
         return "form/admin_formulario_dashboard";
+    }
+
+    @GetMapping("/crear-seccion")
+    public String mostrarCrearSeccion(Model modelo) {
+        //templates/form/crear_seccion.html
+        modelo.addAttribute("seccion", new Seccion());
+        return "form/crear_seccion";
+    }
+
+    @PostMapping("/seccion/guardar")
+    public String guardarSeccion(@ModelAttribute("seccion") Seccion seccion) {
+        seccionService.guardarSeccion(seccion);
+        return "redirect:/admin/crear-formulario";
+    }
+
+    @GetMapping("/crear-pregunta")
+    public String mostrarCrearPregunta(Model modelo) {
+        modelo.addAttribute("datoSolicitado", new DatoSolicitado());
+        modelo.addAttribute("secciones", seccionService.getAllSecciones());
+
+        return "form/crear_pregunta";
+    }
+
+    @PostMapping("/pregunta/guardar")
+    public String guardarPregunta(@ModelAttribute("datoSolicitado") DatoSolicitado datoSolicitado) {
+        datoSolicitadoService.guardarDatoSolicitado(datoSolicitado);
+        return "redirect:/admin/crear-formulario";
     }
 }

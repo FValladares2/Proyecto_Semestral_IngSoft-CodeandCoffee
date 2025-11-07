@@ -27,20 +27,20 @@
 
 <div class="container">
     <h1>Crear Nueva Pregunta (Dato Solicitado)</h1>
-    
-    <form th:action="@{/admin/pregunta/guardar}" method="post">
+
+    <form th:action="@{/admin/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
         
         <div class="form-group">
             <label for="leyenda">Texto de la Pregunta (Leyenda)</label>
-            <input type="text" id="leyenda" name="leyenda" required>
+            <input type="text" id="leyenda" th:field="*{leyenda}" required>
         </div>
         
         <div class="form-group">
-            <label for="id_seccion">Asignar a Sección:</label>
-            <select id="id_seccion" name="id_seccion" required>
+            <label for="seccion">Asignar a Sección:</label>
+            <select id="seccion" th:field="*{seccion}" required>
                 <option value="" disabled selected>-- Elija una sección --</option>
                 <th:block th:each="sec : ${secciones}">
-                    <option th:value="${sec.idSeccion}" th:text="${sec.nombre}"></option>
+                    <option th:value="${sec.id_seccion}" th:text="${sec.nombre}"></option>
                 </th:block>
             </select>
         </div>

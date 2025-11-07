@@ -15,14 +15,12 @@ public class DatoSolicitado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_dato;
 
-    @Column(nullable = false)
     private String nombre;
 
     private String nombreStata;
 
     private String leyenda;
 
-    @Column(nullable = false)
     private Boolean estudio;
 
     @Enumerated(EnumType.STRING)
@@ -51,6 +49,7 @@ public class DatoSolicitado {
     public DatoSolicitado(){
         this.opciones = new ArrayList<>();
         this.aplicable_a = Aplicable_a.AMBOS;
+        this.estudio = true;
     }
     public DatoSolicitado(String nombre, String nombreStata, String leyenda, Boolean estudio, Aplicable_a aplicable_a, Seccion seccion) {
         this.nombre = nombre;
