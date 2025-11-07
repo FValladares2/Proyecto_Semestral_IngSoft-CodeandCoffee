@@ -13,6 +13,8 @@ public class codigo_sujeto implements Serializable {
     }
     public codigo_sujeto() {}
 
+    public String getCodigo(){return ""+id_sujeto+tipo;}
+
     public String getId_sujeto() {
         return id_sujeto;
     }

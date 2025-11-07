@@ -35,6 +35,8 @@ public class SujetoEstudioService {
         return retorno;
     }
 
+    public codigo_sujeto getCodigo(String tipo, String id_sujeto){return new codigo_sujeto(tipo,id_sujeto);}
+
     public Optional<SujetoEstudio> getById(codigo_sujeto codigo){
         return sujetoestudioRepository.findById(codigo);
     }
