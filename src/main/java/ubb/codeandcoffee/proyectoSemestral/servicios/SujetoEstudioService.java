@@ -75,4 +75,9 @@ public class SujetoEstudioService {
             return false;
         }
     }
+
+    public SujetoEstudio findByCompuesta(String idSujeto, String tipoBD) {
+        return sujetoestudioRepository.findByIdSujetoAndTipo(idSujeto, tipoBD)
+                .orElse(null);
+    }
 }
