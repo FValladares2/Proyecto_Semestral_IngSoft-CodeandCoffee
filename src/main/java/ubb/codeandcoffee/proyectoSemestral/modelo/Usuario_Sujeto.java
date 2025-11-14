@@ -34,12 +34,7 @@ public class Usuario_Sujeto {
     @Nonnull
     String accion;
 
-    // Campos para la invitacion por email
-    @Column(name = "token_registro")
-    private String tokenRegistro;
-
-    @Column(name = "token_expiracion")
-    private LocalDateTime tokenExpiracion;
+    
 
     public Usuario_Sujeto(@Nonnull SujetoEstudio sujetoEstudio, @Nonnull Usuario usuario, @Nonnull String accion) {
         this.sujetoEstudio = sujetoEstudio;
@@ -97,21 +92,6 @@ public class Usuario_Sujeto {
         return Objects.hash(sujetoEstudio, usuario);
     }
 
-    // Getters y Setters para tokenRegistro y tokenExpiracion
-    public String getTokenRegistro() {
-        return tokenRegistro;
-    }
-
-    public void setTokenRegistro(String tokenRegistro) {
-        this.tokenRegistro = tokenRegistro;
-    }
-
-    public LocalDateTime getTokenExpiracion() {
-        return tokenExpiracion;
-    }
-
-    public void setTokenExpiracion(LocalDateTime tokenExpiracion) {
-        this.tokenExpiracion = tokenExpiracion;
-    }
+    
 }
 
