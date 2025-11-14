@@ -87,6 +87,23 @@ public class UsuarioService {
         // Se guardar sin hashear contraseña, ya que no tiene
         return usuarioRepository.save(nuevoUsuario);
     }
+    public Usuario completarRegistro(String token, String nombre, String contrasena) {
+        // buscar usuario por token
+        Usuario usuario = usuarioRepository.findByTokenRegistro(token)
+            .orElseThrow(() -> new RuntimeException("Token inválido o no encontrado."));
+
+        //  validar expiración
+        if (usuario.getTokenExpiracion().isBefore(LocalDateTime.now())) {
+            // falta decidir si se elimina el usuario o solo se reenvia la invitación
+            throw new RuntimeException("El token de invitación ha expirado.");
+        }
+
+        
+        usuario.setNombre(nombre);
+        usuario.setContraseña(contrasena); // La contraseña se hasheará en el método guardarUsuario
+
+        return this.guardarUsuario(usuario);
+    }
 
     public Boolean deleteUsuario(Integer id){
         try{

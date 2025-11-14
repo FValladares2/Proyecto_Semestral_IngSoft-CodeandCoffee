@@ -1,5 +1,12 @@
 package ubb.codeandcoffee.proyectoSemestral.controladores;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ubb.codeandcoffee.proyectoSemestral.modelo.Rol;
+import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
+import ubb.codeandcoffee.proyectoSemestral.servicios.EmailService;
+import ubb.codeandcoffee.proyectoSemestral.servicios.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +31,12 @@ public class AdminController {
 
     @Autowired
     private DatoSolicitadoService datoSolicitadoService;
+
+    // nuevas inyecciones para el servicio de usuarios y email
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/crear-usuario")
     public String mostrarCrearUsuario() {
@@ -71,5 +84,37 @@ public class AdminController {
     public String guardarPregunta(@ModelAttribute("datoSolicitado") DatoSolicitado datoSolicitado) {
         datoSolicitadoService.guardarDatoSolicitado(datoSolicitado);
         return "redirect:/admin/crear-formulario";
+    }
+    // nuevo metodo para procesar la creacion de usuarios con invitación por email
+    @PostMapping("/crear-usuario")
+    public String procesarCrearUsuario(
+            @RequestParam("correo") String correo,
+            @RequestParam("rol") String rolString,
+            RedirectAttributes redirectAttributes) {
+        
+        try {
+            //  se convierte el String del rol a un Enum.
+            Rol rol = Rol.valueOf(rolString.toUpperCase().replace(" ", "_"));
+            
+            // se crea la invitación, en donde se guarda en BD con token y estado INICIADO
+            Usuario usuarioInvitado = usuarioService.crearInvitacion(correo, rol);
+            
+            // envia el correo con el token
+            emailService.enviarEmailInvitacion(correo, usuarioInvitado.getTokenRegistro());
+
+            redirectAttributes.addFlashAttribute("exito", "¡Invitación enviada correctamente a " + correo + "!");
+        
+        } catch (IllegalArgumentException e) {
+            // Error si el Rol no existe
+            redirectAttributes.addFlashAttribute("error", "El rol seleccionado no es válido.");
+        } catch (RuntimeException e) {
+            // Error si el correo ya existe
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            // Error general (ej. no se pudo enviar el email)
+            redirectAttributes.addFlashAttribute("error", "Error al procesar la invitación: " + e.getMessage());
+        }
+
+        return "redirect:/admin/crear-usuario";
     }
 }
