@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Entity
 @IdClass(usuario_sujeto_id.class)
@@ -32,6 +33,13 @@ public class Usuario_Sujeto {
 
     @Nonnull
     String accion;
+
+    // Campos para la invitacion por email
+    @Column(name = "token_registro")
+    private String tokenRegistro;
+
+    @Column(name = "token_expiracion")
+    private LocalDateTime tokenExpiracion;
 
     public Usuario_Sujeto(@Nonnull SujetoEstudio sujetoEstudio, @Nonnull Usuario usuario, @Nonnull String accion) {
         this.sujetoEstudio = sujetoEstudio;
@@ -87,6 +95,23 @@ public class Usuario_Sujeto {
     @Override
     public int hashCode() {
         return Objects.hash(sujetoEstudio, usuario);
+    }
+
+    // Getters y Setters para tokenRegistro y tokenExpiracion
+    public String getTokenRegistro() {
+        return tokenRegistro;
+    }
+
+    public void setTokenRegistro(String tokenRegistro) {
+        this.tokenRegistro = tokenRegistro;
+    }
+
+    public LocalDateTime getTokenExpiracion() {
+        return tokenExpiracion;
+    }
+
+    public void setTokenExpiracion(LocalDateTime tokenExpiracion) {
+        this.tokenExpiracion = tokenExpiracion;
     }
 }
 
