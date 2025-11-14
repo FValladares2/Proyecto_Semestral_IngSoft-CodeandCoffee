@@ -8,6 +8,8 @@ public class ProyectoSemestralApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoSemestralApplication.class, args);
+
+		System.err.println("Aplicación Iniciada Correctamente");
 	}
 
 }
