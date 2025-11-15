@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @IdClass(codigo_sujeto.class)
 @Table(
@@ -29,10 +31,10 @@ public class SujetoEstudio {
     private String telefono;
     private String email;
     private String nacionalidad;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "sujetoEstudio")
     Set<Usuario_Sujeto> usuj;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "sujetoEstudio")
     Set<Antecedente> antecedentes;
 
