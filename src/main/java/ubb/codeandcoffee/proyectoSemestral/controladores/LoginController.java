@@ -16,7 +16,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @GetMapping("/crear-usuario") // La URL puede ser la que quieras
+    @GetMapping("/crear-usuario")
     public String verCrearUsuario() {
         return "crearUsuario";
     }
