@@ -21,6 +21,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.SeccionService;
 
 import java.util.List;
 
+import ubb.codeandcoffee.proyectoSemestral.modelo.Estado; 
+
 
 @Controller
 @RequestMapping("/admin")
@@ -45,9 +47,13 @@ public class AdminController {
     }
 
     @GetMapping("/gestionar-usuarios")
-    public String mostrarGestionarUsuarios() {
-        //templates/gestionarUsuarios.html
-        return "gestionarUsuarios";
+    public String verGestionarUsuarios(Model model) {
+
+        List<Usuario> usuarios = usuarioService.listarTodos();
+        
+        model.addAttribute("listaUsuarios", usuarios);
+        
+        return "gestionar_usuarios";
     }
 
     @GetMapping("/crear-formulario")
@@ -116,5 +122,22 @@ public class AdminController {
         }
 
         return "redirect:/admin/crear-usuario";
+    }
+    
+    @PostMapping("/actualizar-estado")
+    public String cambiarEstadoUsuario(
+            @RequestParam("idUsuario") int idUsuario,
+            @RequestParam("nuevoEstado") Estado nuevoEstado,
+            RedirectAttributes redirectAttributes) {
+        
+        try {
+            usuarioService.actualizarEstado(idUsuario, nuevoEstado);
+            redirectAttributes.addFlashAttribute("exito", "Estado actualizado correctamente.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar estado: " + e.getMessage());
+        }
+
+        // Redirigimos a la misma página para ver los cambios
+        return "redirect:/admin/gestionar-usuarios";
     }
 }

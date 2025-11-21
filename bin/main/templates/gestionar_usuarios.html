@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Usuarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5; /* Fondo gris claro */
+            margin: 0;
+            padding: 2rem;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        /* Estilo de la tabla */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse; /* Bordes limpios */
+        }
+
+        .user-table th,
+        .user-table td {
+            padding: 12px 15px; /* Más espaciado */
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .user-table th {
+            background-color: #f4f4f4; /* Encabezado gris */
+            font-weight: 600;
+        }
+
+        /* Estilo para la fila de datos */
+        .user-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Estilos para el formulario de cambio de estado */
+        .form-estado {
+            display: none; /* Oculto por defecto */
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* El botón "Cambiar permisos" */
+        .btn-cambiar {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-estado select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .form-estado button {
+            padding: 5px 10px;
+            background-color: #28a745; /* Verde */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-back {
+            display: inline-block; /* Para que no ocupe todo el ancho */
+            margin-top: 1.5rem;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gestionar Usuarios del Sistema</h1>
+
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Estado Actual</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr th:each="usuario : ${listaUsuarios}">
+                    
+                    <td th:text="${usuario.id_usuario}">1</td>
+                    
+                    <td th:text="${usuario.nombre}">Nombre Real</td>
+                    
+                    <td th:text="${usuario.correo}">correo@ejemplo.com</td>
+                    
+                    <td th:text="${usuario.rol}">ROL</td>
+                    
+                    <td th:text="${usuario.estado}"
+                        th:style="${usuario.estado.name() == 'ACTIVO' ? 'color: green; font-weight: bold;' : (usuario.estado.name() == 'SUSPENDIDO' ? 'color: orange; font-weight: bold;' : 'color: red; font-weight: bold;')}">
+                        ACTIVO
+                    </td>
+
+                    <td>
+                        <form th:action="@{/admin/actualizar-estado}" method="post" class="form-estado" style="display: none; gap: 5px;">
+                            
+                            <input type="hidden" name="idUsuario" th:value="${usuario.id_usuario}" />
+                            
+                            <select name="nuevoEstado" class="form-select" style="padding: 5px;">
+                                <option value="ACTIVO" th:selected="${usuario.estado.name() == 'ACTIVO'}">Activar</option>
+                                <option value="SUSPENDIDO" th:selected="${usuario.estado.name() == 'SUSPENDIDO'}">Suspender</option>
+                                <option value="DADO_DE_BAJA" th:selected="${usuario.estado.name() == 'DADO_DE_BAJA'}">Dar de baja</option>
+                            </select>
+                            
+                            <button type="submit" style="padding: 5px 10px; cursor: pointer;">Guardar</button>
+                        </form>
+
+                        <button type="button" class="btn-cambiar">Cambiar estado</button>
+                    </td>
+                </tr>
+                
+                <tr th:if="${#lists.isEmpty(listaUsuarios)}">
+                    <td colspan="6" style="text-align: center;">No hay usuarios registrados.</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <a th:href="@{/menu/admin}" class="btn-back">Volver al menú</a>
+    </div>
+
+    
+    <script>
+        // Script para manejar la lógica de "Cambiar permisos"
+        document.querySelectorAll('.btn-cambiar').forEach(button => {
+            button.addEventListener('click', function() {
+                // Busca el formulario que está justo antes del botón
+                const form = this.previousElementSibling;
+                
+                // Muestra el formulario
+                form.style.display = 'flex';
+                
+                // Oculta este botón (el de "Cambiar permisos")
+                this.style.display = 'none';
+            });
+        });
+    </script>
+
+</body>
+</html>

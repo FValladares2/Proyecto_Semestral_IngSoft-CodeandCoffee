@@ -8,6 +8,7 @@ import ubb.codeandcoffee.proyectoSemestral.repositorios.UsuarioRepository;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.List;
 
 import ubb.codeandcoffee.proyectoSemestral.modelo.Estado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Rol;
@@ -113,6 +114,16 @@ public class UsuarioService {
             return false;
         }
     }
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
 
+    public void actualizarEstado(int idUsuario, Estado nuevoEstado) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        usuario.setEstado(nuevoEstado);
+        usuarioRepository.save(usuario);
+    }
     
 }
