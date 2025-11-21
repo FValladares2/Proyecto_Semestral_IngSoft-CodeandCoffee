@@ -11,6 +11,9 @@ public class AntecedenteService {
     @Autowired
     AntecedenteRepository antecedenteRepository; //instancia del repositorio de Antecedente
 
+    @Autowired
+    UsuarioSujetoService usujService;
+
     //obtener antecedentes
     public ArrayList<Antecedente> getAntecedentes(){
         return(ArrayList<Antecedente>) antecedenteRepository.findAll();
@@ -25,8 +28,9 @@ public class AntecedenteService {
         if (antecedente.getSujetoEstudio() == null) {
             throw new IllegalArgumentException("El SujetoEstudio es obligatorio");
         }
-
-        return antecedenteRepository.save(antecedente);
+        Antecedente ret = antecedenteRepository.save(antecedente);
+        usujService.setLatestChangesAsUsuario();
+        return ret;
     }
 
     //Buscar por ID
@@ -48,13 +52,16 @@ public class AntecedenteService {
         }
 
         //Guarda los cambios en la base de datos y retorna el antecedente actualizado
-        return antecedenteRepository.save(antecedente);
+        Antecedente ret = antecedenteRepository.save(antecedente);
+        usujService.setLatestChangesAsUsuario();
+        return ret;
     }
 
     //Eliminar por ID
     public Boolean deleteAntecedente(Integer id_antecedente){
         try{
             antecedenteRepository.deleteById(id_antecedente);
+            usujService.setLatestChangesAsUsuario();
             return true;
         }catch(Exception e){
             return false;

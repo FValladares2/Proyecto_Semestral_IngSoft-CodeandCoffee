@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 05, 2025 at 02:27 AM
+-- Host: localhost
+-- Generation Time: Nov 21, 2025 at 02:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,42 @@ CREATE TABLE `antecedentes` (
 --
 
 INSERT INTO `antecedentes` (`idantecedentes`, `id_sujeto`, `tipo`, `id_dato`, `valor_string`, `valor_num`, `id_variable`, `id_sujeto_fk`, `tipo_fk`) VALUES
-(1, '0002', 'CO', 9, '', 125, 0, NULL, NULL);
+(1, '0002', 'CO', 9, '', 125, 0, NULL, NULL),
+(2, '0002', 'CA', 7, NULL, 9, 0, NULL, NULL);
+
+--
+-- Triggers `antecedentes`
+--
+DELIMITER $$
+CREATE TRIGGER `ante_delete-audittrigger` AFTER DELETE ON `antecedentes` FOR EACH ROW BEGIN
+	DECLARE v_action VARCHAR(255);
+    SET v_action = CONCAT('DELETE en tabla antecedentes, previo id ', CONVERT(OLD.idantecedentes,char));
+
+    INSERT INTO usuario_sujeto (fecha, id_usuario, id_sujeto, tipo, accion)
+    VALUES (NULL, 0, OLD.id_sujeto, OLD.tipo, v_action);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `ante_insert-audittrigger` AFTER INSERT ON `antecedentes` FOR EACH ROW BEGIN
+	DECLARE v_action VARCHAR(255);
+    SET v_action = CONCAT('INSERT en tabla antecedentes, id ', CONVERT(NEW.idantecedentes,char));
+
+    INSERT INTO usuario_sujeto (id_usuario, id_sujeto, tipo, fecha, accion)
+    VALUES (0, NEW.id_sujeto, NEW.tipo, NULL, v_action);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `ante_update-audittrigger` AFTER UPDATE ON `antecedentes` FOR EACH ROW BEGIN
+	DECLARE v_action VARCHAR(255);
+    SET v_action = CONCAT('UPDATE en tabla antecedentes, id ', CONVERT(NEW.idantecedentes,char));
+
+    INSERT INTO usuario_sujeto (fecha, id_usuario, id_sujeto, tipo, accion)
+    VALUES (NULL, 0, NEW.id_sujeto, NEW.tipo, v_action);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -199,11 +234,48 @@ INSERT INTO `sujetoestudio` (`id_sujeto`, `tipo`, `nombre`, `direccion`, `ocupac
 ('0001', 'CA', 'test caso 1', 'aaaaaaaaaaa', NULL, NULL, NULL, 'aaaaa', NULL),
 ('0001', 'CO', 'test control 1', 'aaaaaaaaa', NULL, 'aaaaa', NULL, 'aaaaaaa', NULL),
 ('0002', 'CA', 'test caso 2', 'aaaaaaaaaa', NULL, 'aaaaaaaaa', NULL, NULL, NULL),
-('0002', 'CO', 'test control 2', NULL, NULL, NULL, 'aaaaaaaaaaaaa', NULL, NULL);
+('0002', 'CO', 'test control 2', NULL, NULL, NULL, 'aaaaaaaaaaaaa', NULL, NULL),
+('0003', 'CA', 'testing triggers', NULL, NULL, NULL, NULL, NULL, NULL),
+('0003', 'CO', 'sujeto testing crud', 'casa', NULL, NULL, NULL, NULL, NULL),
+('0004', 'CO', 'juan control 1', 'casa 543135', 'existe', '1', NULL, 'Chile', 'jc1@gmail.com'),
+('0005', 'CO', 'juan control 2', 'casa 543135', 'existe', '1', NULL, 'Chile', 'jc2@gmail.com'),
+('0006', 'CO', 'juan control 3', 'casa 543135', 'existe', '1', NULL, 'Chile', 'jc3@gmail.com'),
+('0007', 'CO', 'juan control 4', 'casa 543135', 'existe', '1', NULL, 'Chile', 'jc4@gmail.com'),
+('0008', 'CO', 'juan control', 'casa 543135', 'existe', '1', NULL, 'Chile', 'jc@gmail.com');
 
 --
 -- Triggers `sujetoestudio`
 --
+DELIMITER $$
+CREATE TRIGGER `suje_delete-audittrigger` AFTER DELETE ON `sujetoestudio` FOR EACH ROW BEGIN
+	DECLARE v_action VARCHAR(255);
+    SET v_action = CONCAT('DELETE en tabla sujetoestudio, previo id ', CONVERT(OLD.tipo, char), CONVERT(OLD.id_sujeto, char));
+
+    INSERT INTO usuario_sujeto (fecha, id_usuario, id_sujeto, tipo, accion)
+    VALUES (NULL, 0, OLD.id_sujeto, OLD.tipo, v_action);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `suje_insert-audittrigger` AFTER INSERT ON `sujetoestudio` FOR EACH ROW BEGIN
+	DECLARE v_action VARCHAR(255);
+    SET v_action = CONCAT('INSERT en tabla sujetoestudio,  id ', CONVERT(NEW.tipo, char), CONVERT(NEW.id_sujeto, char));
+
+    INSERT INTO usuario_sujeto (fecha, id_usuario, id_sujeto, tipo, accion)
+    VALUES (NULL, 0, NEW.id_sujeto, NEW.tipo, v_action);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `suje_update-audittrigger` AFTER UPDATE ON `sujetoestudio` FOR EACH ROW BEGIN
+	DECLARE v_action VARCHAR(255);
+    SET v_action = CONCAT('UPDATE en tabla sujetoestudio, id ', CONVERT(NEW.tipo, char), CONVERT(NEW.id_sujeto, char));
+
+    INSERT INTO usuario_sujeto (fecha, id_usuario, id_sujeto, tipo, accion)
+    VALUES (NULL, 0, NEW.id_sujeto, NEW.tipo, v_action);
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `sujeto_crearid` BEFORE INSERT ON `sujetoestudio` FOR EACH ROW BEGIN
 	SET NEW.id_sujeto = (
@@ -236,7 +308,12 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `contraseña`, `correo`, `estado`, `rol`) VALUES
 (1, 'admin test', '$2y$10$CCSBXN3IxnfySxfcVfWdgO9EYhRKFpBuW9bWwAUykdAcV5WL48gUS', 'correo@ubiobio.cl', 'SUSPENDIDO', 'ADMINISTRADOR'),
-(2, 'Recolector test', '$2y$10$35ThpCNDehBpwCh2K9wcx.9g/6qcybBSjJ4vf98CLsB8qIubzTdbq', 'correo@gmail.com', 'INICIADO', 'RECOLECTOR_DE_DATOS');
+(2, 'Recolector test', '$2y$10$35ThpCNDehBpwCh2K9wcx.9g/6qcybBSjJ4vf98CLsB8qIubzTdbq', 'correo@gmail.com', 'INICIADO', 'RECOLECTOR_DE_DATOS'),
+(202, 'juanito perez', '$2a$04$wTeCPgmWrrDlfSPQNaWzvOzAGxkdOo.iivKgKKzDTm1tmE7k7ceQm', 'recolector@correo.cl', 'ACTIVO', 'RECOLECTOR_DE_DATOS'),
+(252, 'Usuariotest', '$2a$10$Gr8u6UFfcv1QVqmE9SOhGOdxVxZP8S1jpnuFZ8Dkv4FlLDe/rFRmi', 'correo@test.cl', 'INICIADO', 'RECOLECTOR_DE_DATOS'),
+(1205, 'test analista', '123123', 'analista@correo.cl', 'ACTIVO', 'ANALISTA'),
+(1206, 'admin test?', '$2a$04$NM3HeJbccz.RdZtfnkMkk.vRV0qeU3eylNzNzy2sbZw0Jt9MuK9a6', 'admin@correo.cl', 'ACTIVO', 'ADMINISTRADOR'),
+(1207, 'admin', '$2a$04$kok8/LCyeRN3TfI0dLGRnufSjH8JQoZ7CqXEwDH3CZfBKrEiTRQAC', 'aaa@correo.cl', 'ACTIVO', 'ADMINISTRADOR');
 
 -- --------------------------------------------------------
 
@@ -253,7 +330,7 @@ CREATE TABLE `usuario_seq` (
 --
 
 INSERT INTO `usuario_seq` (`next_val`) VALUES
-(951);
+(1258);
 
 -- --------------------------------------------------------
 
@@ -262,22 +339,27 @@ INSERT INTO `usuario_seq` (`next_val`) VALUES
 --
 
 CREATE TABLE `usuario_sujeto` (
-  `id_usuario` int(11) NOT NULL,
-  `id_sujeto` varchar(4) NOT NULL,
-  `tipo` varchar(2) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
-  `accion` varchar(255) DEFAULT NULL,
-  `sujeto_estudio_id_sujeto` varchar(255) NOT NULL,
-  `sujeto_estudio_tipo` varchar(255) NOT NULL,
-  `usuario_id_usuario` int(11) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  `id_sujeto` varchar(255) NOT NULL,
+  `tipo` varchar(255) NOT NULL,
+  `accion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `usuario_sujeto`
 --
 
-INSERT INTO `usuario_sujeto` (`id_usuario`, `id_sujeto`, `tipo`, `fecha`, `accion`, `sujeto_estudio_id_sujeto`, `sujeto_estudio_tipo`, `usuario_id_usuario`) VALUES
-(1, '0002', 'CO', '2025-11-03 03:00:00', 'accion test', '', '', 0);
+INSERT INTO `usuario_sujeto` (`fecha`, `id_usuario`, `id_sujeto`, `tipo`, `accion`) VALUES
+('2025-11-20 22:39:42', 0, '0004', 'CO', 'UPDATE en tabla sujetoestudio, id CO0004'),
+('2025-11-20 22:39:59', 0, '0004', 'CO', 'UPDATE en tabla sujetoestudio, id CO0004'),
+('2025-11-20 22:40:05', 0, '0005', 'CO', 'INSERT en tabla sujetoestudio,  id CO0005'),
+('2025-11-20 22:41:12', 0, '0005', 'CO', 'UPDATE en tabla sujetoestudio, id CO0005'),
+('2025-11-20 22:41:19', 0, '0006', 'CO', 'INSERT en tabla sujetoestudio,  id CO0006'),
+('2025-11-20 22:52:16', 0, '0006', 'CO', 'UPDATE en tabla sujetoestudio, id CO0006'),
+('2025-11-20 23:10:39', 0, '0007', 'CO', 'INSERT en tabla sujetoestudio,  id CO0007'),
+('2025-11-20 23:23:08', 0, '0007', 'CO', 'UPDATE en tabla sujetoestudio, id CO0007'),
+('2025-11-20 23:23:18', 0, '0008', 'CO', 'INSERT en tabla sujetoestudio,  id CO0008');
 
 --
 -- Indexes for dumped tables
@@ -364,7 +446,7 @@ ALTER TABLE `usuario_sujeto`
 -- AUTO_INCREMENT for table `antecedentes`
 --
 ALTER TABLE `antecedentes`
-  MODIFY `idantecedentes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idantecedentes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `criterio`
@@ -394,7 +476,7 @@ ALTER TABLE `seccion`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=854;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1208;
 
 --
 -- Constraints for dumped tables
@@ -438,8 +520,7 @@ ALTER TABLE `opcion`
 -- Constraints for table `usuario_sujeto`
 --
 ALTER TABLE `usuario_sujeto`
-  ADD CONSTRAINT `us_sujeto_fk` FOREIGN KEY (`id_sujeto`,`tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`),
-  ADD CONSTRAINT `us_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `FKh7wrd122riicrk8b1axewvgoj` FOREIGN KEY (`id_sujeto`,`tipo`) REFERENCES `sujetoestudio` (`id_sujeto`, `tipo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

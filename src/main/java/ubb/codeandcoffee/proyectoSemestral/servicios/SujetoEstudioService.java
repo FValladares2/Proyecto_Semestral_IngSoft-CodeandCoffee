@@ -16,6 +16,9 @@ public class SujetoEstudioService {
     @Autowired
     SujetoEstudioRepository sujetoestudioRepository;
 
+    @Autowired
+    UsuarioSujetoService usujService;
+
     public ArrayList<SujetoEstudio> getSujetoEstudio(){
         return(ArrayList<SujetoEstudio>) sujetoestudioRepository.findAll();
     }
@@ -32,6 +35,7 @@ public class SujetoEstudioService {
         //se hace una query para obtener el código (num) que debería ser asignado por la bdd,
         //  con debug, se ve que "save" lo mantiene como null, no como "retorno"
         SujetoEstudio retorno = sujetoestudioRepository.findByNombre(sujeto.getNombre());
+        usujService.setLatestChangesAsUsuario();
         return retorno;
     }
 
@@ -64,12 +68,15 @@ public class SujetoEstudioService {
             sujeto.setNacionalidad(request.getNacionalidad());
         }
 
-        return sujetoestudioRepository.save(sujeto);
+        SujetoEstudio ret = sujetoestudioRepository.save(sujeto);
+        usujService.setLatestChangesAsUsuario();
+        return ret;
     }
 
     public Boolean deleteSujetoEstudio(codigo_sujeto codigo){
         try{
             sujetoestudioRepository.deleteById(codigo);
+            usujService.setLatestChangesAsUsuario();
             return true;
         }catch(Exception e){
             return false;
