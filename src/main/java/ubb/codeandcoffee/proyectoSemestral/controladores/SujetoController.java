@@ -28,9 +28,7 @@ public class SujetoController {
         return "form/ingreso_sujeto";
     }
 
-    /**
-     * Maneja el envío del formulario de ingreso.
-     */
+    //Maneja el envío del formulario de ingreso.
     @PostMapping("/ingreso")
     public String procesarIngreso(
             @RequestParam String nombre,
@@ -54,7 +52,8 @@ public class SujetoController {
         }
 
         String tipoParaBD = "";
-        switch (tipo.toUpperCase()) {
+        String tipoRecibido = tipo != null ? tipo.trim() : "";
+        switch (tipoRecibido.toUpperCase()) {
             case "CASO":
                 tipoParaBD = "CA";
                 break;
@@ -71,23 +70,21 @@ public class SujetoController {
 
             SujetoEstudio nuevoSujeto = new SujetoEstudio();
 
-
-            String idAleatorio = UUID.randomUUID().toString().substring(0, 8);
-            nuevoSujeto.setId_sujeto(idAleatorio);
-
             nuevoSujeto.setNombre(nombre);
             nuevoSujeto.setTipo(tipoParaBD);
+
             nuevoSujeto.setDireccion(direccion);
             nuevoSujeto.setOcupacion(ocupacion);
             nuevoSujeto.setTelefono(telefono);
             nuevoSujeto.setEmail(email);
             nuevoSujeto.setNacionalidad(nacionalidad);
-
+            //se crea el sujeto
             sujetoEstudioRepository.save(nuevoSujeto);
 
+            session.setAttribute("SUJETO_PENDIENTE", nuevoSujeto);
             session.setAttribute("tipo_sujeto", tipo);
 
-            return "redirect:/formulario?id_sujeto=" + idAleatorio;
+            return "redirect:/formulario";
 
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("error_nombre",

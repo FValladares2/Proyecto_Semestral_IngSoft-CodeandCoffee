@@ -244,8 +244,8 @@
 
     <div class="form-content">
         <form id="gastricForm" action="/formulario" method="post">
-            <input type="hidden" name="id_sujeto" th:value="${sujeto.id_sujeto}" />
-            <input type="hidden" name="tipo_sujeto" th:value="${sujeto.tipo}" />
+
+
 
             <div th:each="seccion : ${secciones}" class="section">
                 <h2 th:text="${seccion.numero} + '. ' + ${seccion.nombre}"></h2>
