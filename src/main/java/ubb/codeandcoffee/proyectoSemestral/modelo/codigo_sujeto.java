@@ -42,4 +42,9 @@ public class codigo_sujeto implements Serializable {
     public int hashCode() {
         return Objects.hash(id_sujeto, tipo);
     }
+
+    @Override
+    public String toString() {
+        return ""+tipo+id_sujeto;
+    }
 }

@@ -15,12 +15,17 @@
 
 <div class="container">
   <h1>Lista de sujetos de estudio registrados</h1>
-
-  <table class="table table-hover table-bordered">
+  <nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand"></a>
+    <form class="form-inline">
+      <input id="buscador" class="form-control mr-sm-2" placeholder="Buscar" type="search"  aria-label="Search">
+    </form>
+  </nav>
+  <table class="table table-hover table-bordered" id="tablaSujetos">
     <thead class="thead-light">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">ID</th>
+      <th scope="col">Código</th>
       <th scope="col">Nombre</th>
       <th scope="col" class="text-center">Acción</th>
     </tr>
@@ -30,12 +35,12 @@
 
       <th scope="row" th:text="${iterStat.count}"></th>
 
-      <td th:text="${sujeto.id_sujeto}"></td>
+      <td th:text="${sujeto.getCodigo_sujeto().toString()}"></td>
 
       <td th:text="${sujeto.nombre}"></td>
 
       <td class="text-center">
-        <a th:href="@{/admin/editar/{id}/{tipo}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+        <a th:href="@{/admin/editar/{tipo}{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
            class="btn btn-primary btn-sm">
           Actualizar
         </a>
@@ -48,6 +53,21 @@
     </tbody>
   </table>
 </div>
+<script>
+  document.getElementById('buscador').addEventListener('keyup', function() {
+      var input = this.value.toLowerCase();
+      var filas = document.querySelectorAll('table tbody tr');
 
+      filas.forEach(function(fila) {
+          var textoFila = fila.textContent.toLowerCase();
+
+          if (textoFila.includes(input)) {
+              fila.style.display = '';
+          } else {
+              fila.style.display = 'none';
+          }
+      });
+  });
+</script>
 </body>
 </html>

@@ -37,7 +37,7 @@ public class AdminController {
     }
 
     //habria que hacerlo con el codigo del paciente CAMBIAR MAS TARDEEE
-    @GetMapping("/editar/{id}/{tipo}")
+    @GetMapping("/editar/{tipo}{id}")
     public String mostrarOpcionesActualizar(@PathVariable("id") String id,@PathVariable("tipo") String tipo,  Model modelo) {
 
         SujetoEstudio sujetoEncontrado = sujetoEstudioService.findByCompuesta(id, tipo);
