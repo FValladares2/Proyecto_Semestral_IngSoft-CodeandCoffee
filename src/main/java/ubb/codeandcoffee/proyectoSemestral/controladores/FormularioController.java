@@ -21,13 +21,13 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 @Controller
 @RequestMapping("/formulario")
 public class FormularioController {
-    // --- 1. Inyección de TODOS los servicios ---
+    // inyección de los servicios
     private final SeccionService seccionService;
     private final SujetoEstudioService sujetoService;
     private final AntecedenteService antecedenteService;
     private final DatoSolicitadoService datoSolicitadoService;
 
-    // --- 2. Un ÚNICO constructor para todos ---
+    // constructor
     @Autowired
     public FormularioController(SeccionService seccionService,
                                 SujetoEstudioService sujetoService,
@@ -39,13 +39,9 @@ public class FormularioController {
         this.datoSolicitadoService = datoSolicitadoService;
     }
 
-    /**
-     * Muestra el formulario (GET).
-     * Recibe el id_sujeto (al azar) desde el SujetoController.
-     */
+    //Muestra el formulario
     @GetMapping
     public String mostrarFormulario(
-            @RequestParam("id_sujeto") String idSujeto, // <-- Acepta el ID al azar
             Model model, HttpSession session) {
 
         // Verifica que el usuario haya pasado por /ingreso
@@ -54,31 +50,16 @@ public class FormularioController {
             return "redirect:/ingreso";
         }
 
-        // --- 3. LÓGICA DE BÚSQUEDA CORREGIDA ---
-        // Convierte el tipo de la sesión (ej: "CASO") al tipo de la BDD (ej: "CA")
         String tipoBD = tipoSujeto.equalsIgnoreCase("CASO") ? "CA" : "CO";
 
-        // Busca al sujeto usando la llave compuesta (ID al azar + Tipo)
-        // (Esto requiere el método 'findByCompuesta' en tu SujetoEstudioService)
-        SujetoEstudio sujeto = sujetoService.findByCompuesta(idSujeto, tipoBD);
-
-        if (sujeto == null) {
-            // Si el ID es inválido o no coincide con el tipo, lo envía de vuelta
-            return "redirect:/ingreso?error=sujeto_no_encontrado";
-        }
-
-        // Carga las secciones filtradas (CASO/CONTROL)
         model.addAttribute("secciones", seccionService.getSeccionesFiltradas(tipoSujeto));
-
-        // Pasa el objeto 'sujeto' completo al HTML (para los campos ocultos)
-        model.addAttribute("sujeto", sujeto);
+        model.addAttribute("sujeto", tipoSujeto);
 
         return "form/formulario";
     }
 
-    /**
-     * Recibe y guarda los datos del formulario (POST).
-     */
+
+    //Recibe y guarda los datos del formulario
     @PostMapping
     public String guardarFormulario(@RequestParam MultiValueMap<String, String> allParams, HttpSession session) {
 

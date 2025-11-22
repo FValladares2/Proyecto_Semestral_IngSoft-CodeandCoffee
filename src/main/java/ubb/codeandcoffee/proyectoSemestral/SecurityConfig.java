@@ -37,6 +37,7 @@ public class SecurityConfig {
         return prov;
     }
 
+    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -64,11 +65,11 @@ public class SecurityConfig {
                         .hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
 
 
-                        /* aun no implementadas las opciones
+                        aun no implementadas las opciones
                         .requestMatchers("/exportar/**")
                         .hasAnyRole("ADMINISTRADOR", "ANALISTA")
 
-                         */
+
 
                         // solo la persona indicada puede ver el menu segun su rol
                         .requestMatchers("/menu/admin").hasRole("ADMINISTRADOR")
@@ -91,8 +92,8 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+    */
 
-    /* lo anterior que hizo la May
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -101,5 +102,5 @@ public class SecurityConfig {
                 .anyRequest().permitAll() // permite todo acceso sin autenticación
             );
         return http.build();
-    } */
+    }
 }

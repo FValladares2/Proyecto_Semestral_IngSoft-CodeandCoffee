@@ -28,9 +28,13 @@ public class DatoSolicitadoService {
     
     public DatoSolicitado guardarDatoSolicitado(DatoSolicitado dato) {
 
-        if (dato.getNombre() == null || dato.getNombre().isEmpty()) {
-            dato.setNombre(dato.getLeyenda());
+        if (dato.getNombre() == null || dato.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
         }
+        if (dato.getEstudio() == null) {
+            throw new IllegalArgumentException("El campo 'estudio' es obligatorio");
+        }
+
 
         Seccion seccionEnviada = dato.getSeccion();
         if (seccionEnviada == null) {
@@ -66,6 +70,12 @@ public class DatoSolicitadoService {
         // Solo actualiza si no es null
         if (request.getLeyenda() != null) {
             dato.setLeyenda(request.getLeyenda());
+        }
+        if (request.getNombreStata() != null) {
+            dato.setNombreStata(request.getNombreStata());
+        }
+        if (request.getNombre() != null) {
+            dato.setNombre(request.getNombre());
         }
         //AGREGAR SI ES QUE FALTAN (Y REVISAR)
     
