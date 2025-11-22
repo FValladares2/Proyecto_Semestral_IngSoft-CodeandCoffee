@@ -8,6 +8,12 @@ import ubb.codeandcoffee.proyectoSemestral.repositorios.UsuarioRepository;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.List;
+
+import ubb.codeandcoffee.proyectoSemestral.modelo.Estado;
+import ubb.codeandcoffee.proyectoSemestral.modelo.Rol;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -17,12 +23,20 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;//necesario para lo de spring security
 
+    
+
     public ArrayList<Usuario> getUsuario(){
         return(ArrayList<Usuario>) usuarioRepository.findAll();
     }
 
     public Usuario guardarUsuario(Usuario usuario) {
         usuario.setContraseña(passwordEncoder.encode(usuario.getContraseña()));
+        usuario.setEstado(Estado.ACTIVO);
+        
+        // se limpia el token
+        usuario.setTokenRegistro(null);
+        usuario.setTokenExpiracion(null);
+        
         return usuarioRepository.save(usuario);
     }
 
@@ -54,6 +68,43 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+    public Usuario crearInvitacion(String correo, Rol rol) {
+        // verificar si el correo ya está registrado
+        if (usuarioRepository.findByCorreo(correo).isPresent()) {
+            throw new RuntimeException("El correo " + correo + " ya está registrado.");
+        }
+        
+        // se generar token
+        String token = UUID.randomUUID().toString();
+        
+        // usuario temporal
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setCorreo(correo);
+        nuevoUsuario.setRol(rol);
+        nuevoUsuario.setEstado(Estado.INICIADO); // Estado inicial
+        nuevoUsuario.setTokenRegistro(token);
+        nuevoUsuario.setTokenExpiracion(LocalDateTime.now().plusHours(24)); // Token válido por 24h
+        
+        // Se guardar sin hashear contraseña, ya que no tiene
+        return usuarioRepository.save(nuevoUsuario);
+    }
+    public Usuario completarRegistro(String token, String nombre, String contrasena) {
+        // buscar usuario por token
+        Usuario usuario = usuarioRepository.findByTokenRegistro(token)
+            .orElseThrow(() -> new RuntimeException("Token inválido o no encontrado."));
+
+        //  validar expiración
+        if (usuario.getTokenExpiracion().isBefore(LocalDateTime.now())) {
+            // falta decidir si se elimina el usuario o solo se reenvia la invitación
+            throw new RuntimeException("El token de invitación ha expirado.");
+        }
+
+        
+        usuario.setNombre(nombre);
+        usuario.setContraseña(contrasena); // La contraseña se hasheará en el método guardarUsuario
+
+        return this.guardarUsuario(usuario);
+    }
 
     public Boolean deleteUsuario(Integer id){
         try{
@@ -63,4 +114,16 @@ public class UsuarioService {
             return false;
         }
     }
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
+
+    public void actualizarEstado(int idUsuario, Estado nuevoEstado) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        usuario.setEstado(nuevoEstado);
+        usuarioRepository.save(usuario);
+    }
+    
 }

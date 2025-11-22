@@ -235,7 +235,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `contraseña`, `correo`, `estado`, `rol`) VALUES
-(1, 'admin test', '$2y$10$CCSBXN3IxnfySxfcVfWdgO9EYhRKFpBuW9bWwAUykdAcV5WL48gUS', 'correo@ubiobio.cl', 'SUSPENDIDO', 'ADMINISTRADOR'),
+(1, 'adminTest', '$2a$12$Ut.twax7TZ/iF9x8VPh/DO2caVCsLEZKawkSuaFqgFC8MSYZAFMBO', 'correo@ubiobio.cl', 'ACTIVO', 'ADMINISTRADOR'),
 (2, 'Recolector test', '$2y$10$35ThpCNDehBpwCh2K9wcx.9g/6qcybBSjJ4vf98CLsB8qIubzTdbq', 'correo@gmail.com', 'INICIADO', 'RECOLECTOR_DE_DATOS');
 
 -- --------------------------------------------------------

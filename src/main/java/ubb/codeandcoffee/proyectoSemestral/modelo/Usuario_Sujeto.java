@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Entity
 @IdClass(usuario_sujeto_id.class)
@@ -32,6 +33,8 @@ public class Usuario_Sujeto {
 
     @Nonnull
     String accion;
+
+    
 
     public Usuario_Sujeto(@Nonnull SujetoEstudio sujetoEstudio, @Nonnull Usuario usuario, @Nonnull String accion) {
         this.sujetoEstudio = sujetoEstudio;
@@ -88,5 +91,7 @@ public class Usuario_Sujeto {
     public int hashCode() {
         return Objects.hash(sujetoEstudio, usuario);
     }
+
+    
 }
 

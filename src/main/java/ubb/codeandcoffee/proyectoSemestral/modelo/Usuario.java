@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Collection;
@@ -36,6 +37,13 @@ public class Usuario implements UserDetails{
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<Usuario_Sujeto> usuarioSujetos;
+
+    // Campos para la invitacion por email
+    @Column(name = "token_registro")
+    private String tokenRegistro;
+
+    @Column(name = "token_expiracion")
+    private LocalDateTime tokenExpiracion;
 
     public Usuario(@Nonnull String nombre,
                    @Nonnull String contraseña, @Nonnull String correo,
@@ -137,6 +145,22 @@ public class Usuario implements UserDetails{
     @Override
     public boolean isEnabled() {
         return this.estado == Estado.ACTIVO;
+    }
+    // Getters y Setters para tokenRegistro y tokenExpiracion
+    public String getTokenRegistro() {
+        return tokenRegistro;
+    }
+
+    public void setTokenRegistro(String tokenRegistro) {
+        this.tokenRegistro = tokenRegistro;
+    }
+
+    public LocalDateTime getTokenExpiracion() {
+        return tokenExpiracion;
+    }
+
+    public void setTokenExpiracion(LocalDateTime tokenExpiracion) {
+        this.tokenExpiracion = tokenExpiracion;
     }
 }
 
