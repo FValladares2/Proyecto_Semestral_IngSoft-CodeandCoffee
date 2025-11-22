@@ -2,10 +2,8 @@ package ubb.codeandcoffee.proyectoSemestral.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ubb.codeandcoffee.proyectoSemestral.modelo.Antecedente;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 import ubb.codeandcoffee.proyectoSemestral.modelo.codigo_sujeto;
-import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
 
 import java.util.ArrayList;
