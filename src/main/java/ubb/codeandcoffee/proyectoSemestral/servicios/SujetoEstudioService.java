@@ -65,6 +65,31 @@ public class SujetoEstudioService {
         return sujetoestudioRepository.save(sujeto);
     }
 
+    public SujetoEstudio updateById(SujetoEstudio request, String nombre) {
+        SujetoEstudio sujeto = sujetoestudioRepository.findByNombre(nombre);
+
+        if (!request.getNombre().equals(sujeto.getNombre())) {
+            sujeto.setNombre(request.getNombre());
+        }
+        if (request.getDireccion() != null) {
+            sujeto.setDireccion(request.getDireccion());
+        }
+        if (request.getOcupacion() != null) {
+            sujeto.setOcupacion(request.getOcupacion());
+        }
+        if (request.getTelefono() != null) {
+            sujeto.setTelefono(request.getTelefono());
+        }
+        if (request.getEmail() != null) {
+            sujeto.setEmail(request.getEmail());
+        }
+        if (request.getNacionalidad() != null) {
+            sujeto.setNacionalidad(request.getNacionalidad());
+        }
+
+        return sujetoestudioRepository.save(sujeto);
+    }
+
     public Boolean deleteSujetoEstudio(codigo_sujeto codigo){
         try{
             sujetoestudioRepository.deleteById(codigo);

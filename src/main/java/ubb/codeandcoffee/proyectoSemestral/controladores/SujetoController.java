@@ -24,7 +24,7 @@ public class SujetoController {
     @GetMapping("/ingreso")
     public String mostrarFormularioIngreso(Model model) {
 
-        model.addAttribute("sujetoEstudio", new SujetoEstudio());
+        model.addAttribute("sujeto", new SujetoEstudio());
         return "form/ingreso_sujeto";
     }
 

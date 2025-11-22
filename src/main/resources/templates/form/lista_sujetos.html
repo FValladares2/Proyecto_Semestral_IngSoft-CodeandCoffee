@@ -40,7 +40,7 @@
       <td th:text="${sujeto.nombre}"></td>
 
       <td class="text-center">
-        <a th:href="@{/admin/editar/{tipo}{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+        <a th:href="@{/admin/sujetos/editar/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
            class="btn btn-primary btn-sm">
           Actualizar
         </a>
