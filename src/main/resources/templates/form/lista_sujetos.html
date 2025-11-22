@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de sujetos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+  <style>
+    body { font-family: sans-serif; max-width: 900px; margin: 20px auto; }
+    .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .controles { margin-bottom: 20px; text-align: right; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Lista de sujetos de estudio registrados</h1>
+
+  <table class="table table-hover table-bordered">
+    <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col" class="text-center">Acción</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sujeto, iterStat : ${sujetos}">
+
+      <th scope="row" th:text="${iterStat.count}"></th>
+
+      <td th:text="${sujeto.id_sujeto}"></td>
+
+      <td th:text="${sujeto.nombre}"></td>
+
+      <td class="text-center">
+        <a th:href="@{/admin/editar/{id}/{tipo}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+           class="btn btn-primary btn-sm">
+          Actualizar
+        </a>
+      </td>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(sujetos)}">
+      <td colspan="4" class="text-center text-muted">No hay sujetos registrados.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
