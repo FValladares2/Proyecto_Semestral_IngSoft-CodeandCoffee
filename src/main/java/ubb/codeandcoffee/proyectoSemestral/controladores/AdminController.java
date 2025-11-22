@@ -2,17 +2,19 @@ package ubb.codeandcoffee.proyectoSemestral.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
+import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
+import ubb.codeandcoffee.proyectoSemestral.modelo.codigo_sujeto;
 import ubb.codeandcoffee.proyectoSemestral.servicios.DatoSolicitadoService;
 import ubb.codeandcoffee.proyectoSemestral.servicios.SeccionService;
+import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -23,12 +25,37 @@ public class AdminController {
     private SeccionService seccionService;
 
     @Autowired
+    private SujetoEstudioService sujetoEstudioService;
+
+    @Autowired
     private DatoSolicitadoService datoSolicitadoService;
 
     @GetMapping("/crear-usuario")
     public String mostrarCrearUsuario() {
         //templates/crearUsuario.html
         return "crearUsuario";
+    }
+
+    //habria que hacerlo con el codigo del paciente CAMBIAR MAS TARDEEE
+    @GetMapping("/editar/{id}/{tipo}")
+    public String mostrarOpcionesActualizar(@PathVariable("id") String id,@PathVariable("tipo") String tipo,  Model modelo) {
+
+        SujetoEstudio sujetoEncontrado = sujetoEstudioService.findByCompuesta(id, tipo);
+
+        modelo.addAttribute("sujeto", sujetoEncontrado);
+
+        return "form/menu_actualizar_sujeto";
+    }
+
+    @GetMapping("/sujetos")
+    public String mostrarSujetos( Model modelo) {
+
+        ArrayList<SujetoEstudio> sujetosEstudio = sujetoEstudioService.getSujetoEstudio();
+
+
+        modelo.addAttribute("sujetos", sujetosEstudio);
+
+        return "form/lista_sujetos";
     }
 
     @GetMapping("/gestionar-usuarios")
