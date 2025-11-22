@@ -122,7 +122,7 @@
         <p th:text="${error_nombre}"></p>
     </div>
 
-    <form th:action="@{/admin/sujetos/editar/ingreso/{tipo}/{id}(tipo=${sujeto.tipo}, id=${sujeto.id_sujeto})}" th:object="${sujeto}" method="post">
+    <form th:action="@{/edicion/sujetos/editar/ingreso/{tipo}/{id}(tipo=${sujeto.tipo}, id=${sujeto.id_sujeto})}" th:object="${sujeto}" method="post">
         <input type="hidden" th:field="*{id_sujeto}" />
         <input type="hidden" name="tipoOriginal" th:value="*{tipo}" />
 
