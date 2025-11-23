@@ -10,6 +10,7 @@ import java.util.*;
 
 @Repository
 public interface SujetoEstudioRepository extends JpaRepository<SujetoEstudio, codigo_sujeto> { //funcionará con codigo_sujeto?
+    @Query("select s from SujetoEstudio s where s.nombre = ?1")
     SujetoEstudio findByNombre(String nombre);
 
     @Query("select s from SujetoEstudio s where s.id_sujeto = ?1 and s.tipo = ?2")

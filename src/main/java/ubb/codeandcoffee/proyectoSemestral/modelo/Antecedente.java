@@ -1,5 +1,6 @@
 package ubb.codeandcoffee.proyectoSemestral.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,16 +14,17 @@ public class Antecedente {
 
     private Float valorNum;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "id_sujeto", referencedColumnName = "id_sujeto"),
-            @JoinColumn(name = "tipo", referencedColumnName = "tipo")
+            @JoinColumn(name = "id_sujeto"),
+            @JoinColumn(name = "tipo")
     })
     private SujetoEstudio sujetoEstudio;
 
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_variable", nullable = false)
+    @JoinColumn(name = "id_dato", nullable = false)
     private DatoSolicitado datoSolicitado;
 
 

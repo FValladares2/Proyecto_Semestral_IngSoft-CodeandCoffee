@@ -6,10 +6,13 @@ import org.springframework.stereotype.Repository;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario_Sujeto;
-import ubb.codeandcoffee.proyectoSemestral.modelo.usuario_sujeto_id;
+
+import java.util.ArrayList;
 
 @Repository
-public interface UsuarioSujetoRepository extends JpaRepository<Usuario_Sujeto, usuario_sujeto_id> {
+public interface UsuarioSujetoRepository extends JpaRepository<Usuario_Sujeto, Integer> {
     @Query("select u from Usuario_Sujeto u where u.usuario = ?1 and u.sujetoEstudio = ?2")
     Usuario_Sujeto findByQuery(Usuario usuario, SujetoEstudio sujeto);
+    @Query("select u from Usuario_Sujeto u where u.usuario is null")
+    ArrayList<Usuario_Sujeto> findAllNull();
 }

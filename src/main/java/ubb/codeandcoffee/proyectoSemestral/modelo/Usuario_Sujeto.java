@@ -10,10 +10,13 @@ import java.util.Objects;
 import java.time.LocalDateTime;
 
 @Entity
-@IdClass(usuario_sujeto_id.class)
 @Table(name = "usuario_sujeto")
 public class Usuario_Sujeto {
     @Id
+    @Nonnull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_cambio;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumns({
             @JoinColumn(name = "id_sujeto", referencedColumnName = "id_sujeto"),
@@ -21,11 +24,8 @@ public class Usuario_Sujeto {
     })
     SujetoEstudio sujetoEstudio;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    @JoinColumns({
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    })
+    @JoinColumn(name = "id_usuario", nullable = true)
     Usuario usuario;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,9 +34,8 @@ public class Usuario_Sujeto {
     @Nonnull
     String accion;
 
-    
-
-    public Usuario_Sujeto(@Nonnull SujetoEstudio sujetoEstudio, @Nonnull Usuario usuario, @Nonnull String accion) {
+    public Usuario_Sujeto(@Nonnull Integer id_cambio, SujetoEstudio sujetoEstudio, Usuario usuario, @Nonnull String accion) {
+        this.id_cambio = id_cambio;
         this.sujetoEstudio = sujetoEstudio;
         this.usuario = usuario;
         this.accion = accion;
@@ -45,8 +44,8 @@ public class Usuario_Sujeto {
 
     public Usuario_Sujeto() {}
 
-    public usuario_sujeto_id getId(){
-        return new usuario_sujeto_id(sujetoEstudio, usuario);
+    public Integer getId(){
+        return id_cambio;
     }
 
     @Nonnull
@@ -58,12 +57,12 @@ public class Usuario_Sujeto {
         this.sujetoEstudio = sujetoEstudio;
     }
 
-    @Nonnull
+
     public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(@Nonnull Usuario usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
@@ -92,6 +91,6 @@ public class Usuario_Sujeto {
         return Objects.hash(sujetoEstudio, usuario);
     }
 
-    
+
 }
 
