@@ -46,7 +46,7 @@ public class OpcionService {
             .orElseThrow(() -> new RuntimeException("Error: La sección con ID " + id_dato + " no existe."));
 
         //verificamos si ya existe otra opción con el mismo valor
-        boolean existeDuplicado = opcionRepository.existsByDatoSolicitadoAndValor(datoCompleto, opcion.getValor());
+        boolean existeDuplicado = opcionRepository.existsByDatoAndValor(datoCompleto, opcion.getValor());
 
         //si existe una opcion para el dato con el mismo valor
         if (existeDuplicado) {

@@ -13,6 +13,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.*;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
 import ubb.codeandcoffee.proyectoSemestral.servicios.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.*;
 
 import java.util.*;
@@ -86,9 +87,12 @@ public class FormularioController {
 
 
     @PostMapping
-    public String guardarFormulario(@ModelAttribute SujetoFormDTO formWrapper, HttpSession session){
+    public String guardarFormulario(@ModelAttribute SujetoFormDTO formWrapper, HttpSession session, RedirectAttributes redirectAttributes){
         //crear lista de Antecedentes, estos son los antecedentes que se guardan en la base
         List<Antecedente> antecedentesParaGuardar = new ArrayList<>();
+
+        boolean errorValidacion = false;
+
         //iterar por cada antecedenteDTO guardado anteriormente
         for (AntecedenteDTO dto : formWrapper.getAntecedentes()) {
             DatoSolicitado dato = dto.getDatoSolicitado();
@@ -141,14 +145,41 @@ public class FormularioController {
                 //si se espera un numero
                 if (dato.getTipoRespuesta()== TipoRespuesta.NUMERO) {
                     //intentamos parsear la respuesta
+                    Float valorNum;
                     try {
-                        Float valorNum = Float.parseFloat(dto.getRespuestaIngresada());
-                        antecedente.setValorNum(valorNum);
-                        antecedente.setValorString(null); // Aseguramos que el otro campo esté nulo
+                        valorNum = Float.parseFloat(dto.getRespuestaIngresada());
                     } catch (NumberFormatException e) {
-                        //si falla, lanzamos una excepcion
-                        throw new RuntimeException("Error de formato numérico. Redireccionando.");
+                        redirectAttributes.addFlashAttribute("error_nombre",
+                                "Error: el formato del valor ingresado no es valido");
+                        throw new RuntimeException("Error: formato no valido");
                     }
+                    //obtener los límites
+                    Integer min = dato.getValorMin();
+                    Integer max = dato.getValorMax();
+
+                    //VALIDACIÓN DE RANGO
+
+                    //si el valor es menor que el mínimo
+                    if (min != null && valorNum < min) {
+                        redirectAttributes.addFlashAttribute("error_validacion",
+                                "Error: El formato del valor ingresado para " + dato.getLeyenda() + " no es válido.");
+                        return "redirect:/formulario";
+                        //errorValidacion = true;
+                        //continue; // Salta este antecedente inválido
+                    }
+
+                    // Si el valor es mayor que el máximo
+                    if (max != null && valorNum > max) {
+                        redirectAttributes.addFlashAttribute("error_validacion",
+                                "Error: El formato del valor ingresado para " + dato.getLeyenda() + " no es válido.");
+                        return "redirect:/formulario";
+                        //errorValidacion = true;
+                        //continue; // Salta este antecedente inválido
+
+                    }
+                    antecedente.setValorNum(valorNum);
+                    antecedente.setValorString(null); // Aseguramos que el otro campo esté nulo
+
                 } else {
                     // Si se espera texto o una fecha
                     antecedente.setValorString(dto.getRespuestaIngresada());

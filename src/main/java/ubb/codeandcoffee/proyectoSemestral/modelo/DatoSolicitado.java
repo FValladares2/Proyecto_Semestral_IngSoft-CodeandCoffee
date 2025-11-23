@@ -22,6 +22,8 @@ public class DatoSolicitado {
     private String leyenda;
 
     private Boolean estudio;
+    private Integer valorMin;
+    private Integer valorMax;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,7 +59,8 @@ public class DatoSolicitado {
         this.tipoRespuesta=TipoRespuesta.OPCION_MULTIPLE;
     }
     public DatoSolicitado(String nombre, String nombreStata, String leyenda, Boolean estudio,
-                          Aplicable_a aplicable_a, Seccion seccion, TipoRespuesta tipoRespuesta) {
+                          Aplicable_a aplicable_a, Seccion seccion, TipoRespuesta tipoRespuesta,
+                          Integer valorMin, Integer valorMax) {
         this.nombre = nombre;
         this.nombreStata = nombreStata;
         this.leyenda = leyenda;
@@ -66,6 +69,8 @@ public class DatoSolicitado {
         this.seccion = seccion;
         this.tipoRespuesta=tipoRespuesta;
         this.opciones = new ArrayList<>();
+        this.valorMin=valorMin;
+        this.valorMax=valorMax;
     }
     public List<Opcion> getOpciones() {
         return opciones;
@@ -133,6 +138,22 @@ public class DatoSolicitado {
     }
     public void setTipoRespuesta(TipoRespuesta tipoRespuesta) {
         this.tipoRespuesta = tipoRespuesta;
+    }
+
+    public Integer getValorMin() {
+        return valorMin;
+    }
+
+    public void setValorMin(Integer valorMin) {
+        this.valorMin = valorMin;
+    }
+
+    public Integer getValorMax() {
+        return valorMax;
+    }
+
+    public void setValorMax(Integer valorMax) {
+        this.valorMax = valorMax;
     }
 }
 

@@ -299,6 +299,9 @@
                             class="text-input"
                             placeholder="Ingrese valor numérico"
                             step="any"
+
+                            th:min="${antecedente.datoSolicitado.valorMin}"
+                            th:max="${antecedente.datoSolicitado.valorMax}"
                     />
                 </div>
 

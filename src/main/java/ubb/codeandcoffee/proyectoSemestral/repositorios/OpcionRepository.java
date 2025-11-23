@@ -9,6 +9,6 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Opcion;
 public interface OpcionRepository extends JpaRepository<Opcion, Integer>{
     boolean existsByDatoAndRequiereTextoTrue(DatoSolicitado dato);
 
-    boolean existsByDatoSolicitadoAndValor(DatoSolicitado datoSolicitado, Integer valor);
+    boolean existsByDatoAndValor(DatoSolicitado datoSolicitado, Integer valor);
     
 } 
