@@ -11,10 +11,10 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Opcion;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.OpcionRepository;
 
-@Service //Marca esta clase como un servicio de Spring
+@Service
 public class OpcionService {
     @Autowired
-    OpcionRepository opcionRepository; //instancia del repositorio de Opcion
+    OpcionRepository opcionRepository;
     DatoSolicitadoRepository datoSolicitadoRepository;
 
     //Método para obtener las opciones de la base de datos
@@ -25,12 +25,15 @@ public class OpcionService {
     //Método para guardar una nueva opcion en la base de datos
     public Opcion guardarOpcion(Opcion opcion) {
         
-        // 1. Validar la opción (ej. que tenga nombre)
+        //valida los campos obligatorios de la opción
         if (opcion.getNombre() == null || opcion.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la opción es obligatorio");
         }
+        if (opcion.getValor() == null) {
+            throw new IllegalArgumentException("El valor numérico de la opción es obligatorio.");
+        }
 
-        // 2. Buscar el "padre" (DatoSolicitado)
+        //buscar el "padre" (DatoSolicitado)
         DatoSolicitado datoSolicitadoPadre = opcion.getDatoSolicitado();
         if (datoSolicitadoPadre == null) {
             throw new IllegalArgumentException("El objeto 'dato solicitado' es obligatorio en la solicitud");
@@ -41,32 +44,53 @@ public class OpcionService {
         }
         DatoSolicitado datoCompleto = datoSolicitadoRepository.findById(id_dato)
             .orElseThrow(() -> new RuntimeException("Error: La sección con ID " + id_dato + " no existe."));
-        // 3. Asignar el padre real a la opción
+
+        //verificamos si ya existe otra opción con el mismo valor
+        boolean existeDuplicado = opcionRepository.existsByDatoSolicitadoAndValor(datoCompleto, opcion.getValor());
+
+        //si existe una opcion para el dato con el mismo valor
+        if (existeDuplicado) {
+            throw new IllegalStateException("Ya existe una opción con el valor '" + opcion.getValor() + "' para este dato.");
+        }
+
+        //verifica que solo exista una opcion que requiera texto
+        if (opcion.isRequiereTexto()) {
+            boolean existeOtra = opcionRepository.existsByDatoAndRequiereTextoTrue(datoCompleto);
+            if (existeOtra) {
+                throw new IllegalStateException("Ya existe una opción con texto para el dato ingresado");
+            }
+        }
+        //signa el padre a la opcion
         opcion.setDatoSolicitado(datoCompleto);
 
-        // 4. Guardar la opción
+        //Guarda la opción
         return opcionRepository.save(opcion);
     }
 
     //Método para buscar una opcion por su ID
-    public Optional<Opcion> getById(Integer id_dato){
-        return opcionRepository.findById(id_dato);
+    public Optional<Opcion> getById(Integer id_opcion){
+        return opcionRepository.findById(id_opcion);
     }
 
     //Método para actualizar una opcion existente por ID
     public Opcion updateById(Opcion request, Integer id_dato) {
-        Opcion dato = opcionRepository.findById(id_dato)
+        Opcion opcion = opcionRepository.findById(id_dato)
             .orElseThrow(() -> new RuntimeException("Opcion no encontrada"));
 
         // Solo actualiza si no es null
         if (request.getNombre() != null) {
-            dato.setNombre(request.getNombre());
+            opcion.setNombre(request.getNombre());
         }
         if (request.getValor() != 0) {
-            dato.setValor(request.getValor());
+            //falta hacer la logica de que no se actualice a un valor que este asignado
+            //a otra opcion del dato "padre"
+            opcion.setValor(request.getValor());
+        }
+        if(opcion.isRequiereTexto() != false){
+            opcion.setRequiereTexto(request.isRequiereTexto());
         }
         // Guarda los cambios en la base de datos y retorna el la opcion actualizada
-        return opcionRepository.save(dato);
+        return opcionRepository.save(opcion);
     }
 
     //Método para eliminar una opcions por ID
