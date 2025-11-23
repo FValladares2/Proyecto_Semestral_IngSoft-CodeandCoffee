@@ -1,11 +1,13 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
@@ -90,5 +92,16 @@ public class DatoSolicitadoService {
         }catch(Exception e){
             return false;
         }
+    }
+
+    public List<DatoSolicitado> buscarTodosLosDatos(String tipoSujeto) {
+        Aplicable_a tipo;
+        if(tipoSujeto.equalsIgnoreCase("CASO")){
+            tipo= Aplicable_a.CASO;
+        }else{
+            tipo= Aplicable_a.CONTROL;
+        }
+        final Aplicable_a TIPO_AMBOS = Aplicable_a.AMBOS;
+        return datoRepository.buscarTodosLosDatos(tipo, TIPO_AMBOS);
     }
 }

@@ -22,11 +22,14 @@ public class Antecedente {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_variable", nullable = false)
+    @JoinColumn(name = "id_dato", nullable = false)
     private DatoSolicitado datoSolicitado;
 
 
     public Antecedente() {
+    }
+    public Antecedente(DatoSolicitado dato) {
+        this.datoSolicitado=dato;
     }
 
     public Antecedente(String valorString, Float valorNum, SujetoEstudio sujetoEstudio, DatoSolicitado datoSolicitado) {
