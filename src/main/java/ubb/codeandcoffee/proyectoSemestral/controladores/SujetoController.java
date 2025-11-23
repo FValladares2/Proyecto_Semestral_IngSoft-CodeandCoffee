@@ -13,6 +13,7 @@ import java.util.*;
 
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
+import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 
 
 @Controller
@@ -20,6 +21,9 @@ public class SujetoController {
 
     @Autowired
     private SujetoEstudioRepository sujetoEstudioRepository;
+
+    @Autowired
+    private SujetoEstudioService sujetoEstudioService;
 
     @GetMapping("/ingreso")
     public String mostrarFormularioIngreso(Model model) {
@@ -73,7 +77,7 @@ public class SujetoController {
 
 
             String idAleatorio = UUID.randomUUID().toString().substring(0, 8);
-            nuevoSujeto.setId_sujeto(idAleatorio);
+            nuevoSujeto.setId_sujeto("");
 
             nuevoSujeto.setNombre(nombre);
             nuevoSujeto.setTipo(tipoParaBD);
@@ -83,11 +87,11 @@ public class SujetoController {
             nuevoSujeto.setEmail(email);
             nuevoSujeto.setNacionalidad(nacionalidad);
 
-            sujetoEstudioRepository.save(nuevoSujeto);
+            nuevoSujeto = sujetoEstudioService.guardarSujetoEstudio(nuevoSujeto);
 
             session.setAttribute("tipo_sujeto", tipo);
 
-            return "redirect:/formulario?id_sujeto=" + idAleatorio;
+            return "redirect:/formulario?id_sujeto=" + nuevoSujeto.getId_sujeto();
 
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("error_nombre",

@@ -25,8 +25,8 @@ public class UsuarioSujetoService {
         return(ArrayList<Usuario_Sujeto>) usuarioSujetoRepository.findAll();
     }
 
-    public ArrayList<Usuario_Sujeto> getAllId0(){
-        return usuarioSujetoRepository.findAllId0();
+    public ArrayList<Usuario_Sujeto> getAllNull(){
+        return usuarioSujetoRepository.findAllNull();
     }
 
     public Usuario_Sujeto guardarUsuarioSujeto(Usuario_Sujeto sujeto) {
@@ -34,34 +34,39 @@ public class UsuarioSujetoService {
         return usuarioSujetoRepository.findByQuery(sujeto.getUsuario(), sujeto.getSujetoEstudio());
     }
 
-    public Optional<Usuario_Sujeto> getById(usuario_sujeto_id id){
+    public Optional<Usuario_Sujeto> getById(Integer id){
         return usuarioSujetoRepository.findById(id);
     }
 
     public Boolean setLatestChangesAsUsuario() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String correo = "correo@ubiobio.cl"; //por ahora
-        // TODO: fix autenticación de sesión actual
-        //  String correo = auth.getPrincipal(); //auth.getName()? asumo que principal = username = correo del usuario
-        //  System.out.println("correo: " + correo); //con ambos métodos, entrega un anonimousUser. Puede ser por la config de spring security
+        //String correo = "admin@correo.cl"; //para testearlo con postman / security .permitAll()
+        String correo = auth.getName(); //Me funciona testeandolo via web, por postman me entrega la pantalla inicio
+
         Optional<Usuario> query = usuarioRepository.findByCorreo(correo);
 
         Usuario usuario;
         if (query.isPresent()) usuario = query.get();
         else return false;
 
-        ArrayList<Usuario_Sujeto> cambios = getAllId0();
+        ArrayList<Usuario_Sujeto> cambios = getAllNull();
 
         if (cambios.isEmpty()) return false;
+
+        cambios.forEach(c -> c.setUsuario(usuario));
+        usuarioSujetoRepository.saveAll(cambios);
+
+        /* codigo anterior, por si algo no funciona con el de arriba
         while (!cambios.isEmpty()) {
             Usuario_Sujeto cambio = cambios.removeFirst();
             cambio.setUsuario(usuario);
-            usuarioSujetoRepository.save(cambio);
+            usuarioRepository.save(usuario);
         }
+        */
         return true;
     }
 
-    public Usuario_Sujeto updateById(Usuario_Sujeto request, usuario_sujeto_id id) {
+    public Usuario_Sujeto updateById(Usuario_Sujeto request, Integer id) {
         Usuario_Sujeto sujeto = usuarioSujetoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sujeto no encontrado"));
 
@@ -78,7 +83,7 @@ public class UsuarioSujetoService {
         return usuarioSujetoRepository.save(sujeto);
     }
 
-    public Boolean deleteUsuarioSujeto(usuario_sujeto_id id){
+    public Boolean deleteUsuarioSujeto(Integer id){
         try{
             usuarioSujetoRepository.deleteById(id);
             return true;
