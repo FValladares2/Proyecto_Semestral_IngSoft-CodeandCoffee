@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuario_sujeto")
@@ -89,5 +90,7 @@ public class Usuario_Sujeto {
     public int hashCode() {
         return Objects.hash(sujetoEstudio, usuario);
     }
+
+
 }
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editor de Formulario</title>
+    <style>
+        body { font-family: sans-serif; max-width: 900px; margin: 20px auto; }
+        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        h1 { text-align: center; }
+        .controles { margin-bottom: 20px; padding: 10px; background-color: #f4f4f4; border-radius: 4px; }
+        .controles a { margin-right: 20px; text-decoration: none; font-weight: bold; }
+        .seccion { margin-bottom: 15px; border: 1px solid #eee; padding: 10px; }
+        .pregunta { margin-left: 20px; padding: 5px; border-bottom: 1px dashed #ddd; }
+        .pregunta:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Editor de Formulario Dinámico</h1>
+
+        <div class="controles">
+            <a th:href="@{/admin/crear-seccion}">+ Crear Nueva Sección</a>
+            <a th:href="@{/admin/crear-pregunta}">+ Crear Nueva Pregunta</a>
+        </div>
+
+        <h2>Estructura Actual del Formulario</h2>
+        
+        <div th:each="seccion : ${secciones}" class="seccion">
+            <h3 th:text="${seccion.numero} + '. ' + ${seccion.nombre}"></h3>
+            
+            <div th:each="pregunta : ${seccion.datosSolicitados}" class="pregunta">
+                <span th:text="${pregunta.leyenda}"></span>
+                
+                <strong th:if="${#lists.isEmpty(pregunta.opciones)}">
+                    (Tipo: Texto/Número)
+                </strong>
+                <strong th:if="${!#lists.isEmpty(pregunta.opciones)}">
+                    (Tipo: Selección Múltiple)
+                </strong>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(seccion.datosSolicitados)}">
+                <em style="color: #777;">(Esta sección no tiene preguntas)</em>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

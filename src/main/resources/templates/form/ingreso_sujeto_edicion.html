@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingreso de Sujeto</title>
+    <style>
+        body {
+          font-family: "Segoe UI", Tahoma, sans-serif;
+          background-color: #f5f7fb;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          min-height: 100vh;
+          margin: 0;
+          padding: 40px 20px;
+        }
+
+        .card {
+          background-color: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          padding: 30px 40px;
+          max-width: 500px;
+          width: 100%;
+        }
+
+        h2, h3 {
+          text-align: center;
+          color: #333;
+          margin-bottom: 20px;
+        }
+
+        hr {
+          border: none;
+          border-top: 1px solid #ddd;
+          margin: 25px 0;
+        }
+
+        label {
+          font-weight: 600;
+          margin-bottom: 6px;
+          display: block;
+          color: #444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-size: 14px;
+          box-sizing: border-box;
+          transition: border-color 0.2s;
+        }
+
+        input:focus {
+          outline: none;
+          border-color: #007bff;
+          box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        .radio-group {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          margin-top: 5px;
+        }
+
+        .radio-group label {
+          font-weight: normal;
+          margin: 0;
+        }
+
+        .form-group {
+          margin-bottom: 18px;
+        }
+
+        .error {
+          color: #b30000;
+          background-color: #ffe6e6;
+          border: 1px solid #ffb3b3;
+          padding: 10px;
+          border-radius: 6px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        button {
+          width: 100%;
+          padding: 12px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+
+        button:active {
+          transform: scale(0.98);
+        }
+
+        small {
+          color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Ingresar Datos del Sujeto</h2>
+
+    <div th:if="${error_nombre}" class="error">
+        <p th:text="${error_nombre}"></p>
+    </div>
+
+    <form th:action="@{/edicion/sujetos/editar/ingreso/{tipo}/{id}(tipo=${sujeto.tipo}, id=${sujeto.id_sujeto})}" th:object="${sujeto}" method="post">
+        <input type="hidden" th:field="*{id_sujeto}" />
+        <input type="hidden" name="tipoOriginal" th:value="*{tipo}" />
+
+        <div class="form-group">
+
+            <label for="nombre">Nombre Completo del Paciente:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Tipo de Sujeto:</label>
+            <div class="radio-group">
+                <input type="radio" id="tipo_caso" th:field="*{tipo}" value="CA" required>
+                <label for="tipo_caso">Caso</label>
+                <input type="radio" id="tipo_control" th:field="*{tipo}" value="CO">
+                <label for="tipo_control">Control</label>
+            </div>
+        </div>
+
+        <hr>
+
+        <h3>Datos Adicionales <small>(Opcional)</small></h3>
+
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" th:field="*{direccion}">
+        </div>
+
+        <div class="form-group">
+            <label for="ocupacion">Ocupación:</label>
+            <input type="text" id="ocupacion" th:field="*{ocupacion}">
+        </div>
+
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" th:field="*{telefono}">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}">
+        </div>
+
+        <div class="form-group">
+            <label for="nacionalidad">Nacionalidad:</label>
+            <input type="text" id="nacionalidad" th:field="*{nacionalidad}">
+        </div>
+
+        <button type="submit" th:text="${editar} ? 'Actualizar Datos' : 'Guardar y Continuar'"></button>
+    </form>
+    </form>
+</div>
+
+</body>
+</html>

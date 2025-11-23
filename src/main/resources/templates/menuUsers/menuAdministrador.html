@@ -118,22 +118,27 @@
             <div class="menu-card">
                 <h2>Gestión de Usuarios</h2>
                 <a th:href="@{/admin/crear-usuario}" class="btn">Crear nuevo usuario</a>
-                <a href="#" class="btn btn-disabled">Gestionar usuarios</a>
+                
+                <a th:href="@{/admin/gestionar-usuarios}" class="btn btn-primary">
+                    Gestionar Usuarios
+                </a>
             </div>
 
             <div class="menu-card">
-                <h2>Gestión de Formulario</h2>
-                <a th:href="@{/admin/crear-formulario}" class="btn">Crear formulario</a>
-                <a th:href="@{/ingreso}" class="btn">Responder formulario</a>
+                <h2>Ingreso de datos</h2>
+                <a th:href="@{/ingreso}" class="btn">Rellenar un nuevo formulario</a>
+                <a th:href="@{/edicion/sujetos}" class="btn">Actualizar datos sujeto de estudio</a>
             </div>
 
             <div class="menu-card">
-                <h2>Gestión de Datos</h2>
+                <h2>Gestión de formulario y datos</h2>
+                <a th:href="@{/admin/crear-formulario}" class="btn">Actualizar formulario</a>
                 <a href="#" class="btn btn-disabled">Visualizar respuestas</a>
                 <a href="#" class="btn btn-disabled">Exportar Respuestas</a>
             </div>
-
+            <a th:href="@{/logout}" class="btn-logout">Cerrar Sesión</a>
         </div>
+
     </div>
 
 </body>

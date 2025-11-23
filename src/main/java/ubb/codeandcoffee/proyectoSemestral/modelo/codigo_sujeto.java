@@ -13,7 +13,7 @@ public class codigo_sujeto implements Serializable {
     }
     public codigo_sujeto() {}
 
-    public String getCodigo(){return ""+id_sujeto+tipo;}
+    public String getCodigo(){return ""+tipo+id_sujeto;}
 
     public String getId_sujeto() {
         return id_sujeto;
@@ -41,5 +41,10 @@ public class codigo_sujeto implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id_sujeto, tipo);
+    }
+
+    @Override
+    public String toString() {
+        return ""+tipo+id_sujeto;
     }
 }
