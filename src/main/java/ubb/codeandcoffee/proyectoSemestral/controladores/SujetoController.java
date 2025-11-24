@@ -79,7 +79,7 @@ public class SujetoController {
             nuevoSujeto.setEmail(email);
             nuevoSujeto.setNacionalidad(nacionalidad);
             //se crea el sujeto
-            sujetoEstudioRepository.save(nuevoSujeto);
+            //sujetoEstudioRepository.save(nuevoSujeto);
 
             session.setAttribute("SUJETO_PENDIENTE", nuevoSujeto);
             session.setAttribute("tipo_sujeto", tipo);

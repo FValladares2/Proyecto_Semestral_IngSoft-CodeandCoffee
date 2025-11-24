@@ -22,10 +22,16 @@ public class DatoSolicitado {
     private String leyenda;
 
     private Boolean estudio;
+    private Integer valorMin;
+    private Integer valorMax;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Aplicable_a aplicable_a;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoRespuesta tipoRespuesta;
 
     @ManyToOne
     @JoinColumn(name="id_seccion", nullable = false)
@@ -50,15 +56,21 @@ public class DatoSolicitado {
         this.opciones = new ArrayList<>();
         this.aplicable_a = Aplicable_a.AMBOS;
         this.estudio = true;
+        this.tipoRespuesta=TipoRespuesta.OPCION_MULTIPLE;
     }
-    public DatoSolicitado(String nombre, String nombreStata, String leyenda, Boolean estudio, Aplicable_a aplicable_a, Seccion seccion) {
+    public DatoSolicitado(String nombre, String nombreStata, String leyenda, Boolean estudio,
+                          Aplicable_a aplicable_a, Seccion seccion, TipoRespuesta tipoRespuesta,
+                          Integer valorMin, Integer valorMax) {
         this.nombre = nombre;
         this.nombreStata = nombreStata;
         this.leyenda = leyenda;
         this.estudio = estudio;
         this.aplicable_a = aplicable_a;
         this.seccion = seccion;
+        this.tipoRespuesta=tipoRespuesta;
         this.opciones = new ArrayList<>();
+        this.valorMin=valorMin;
+        this.valorMax=valorMax;
     }
     public List<Opcion> getOpciones() {
         return opciones;
@@ -120,6 +132,28 @@ public class DatoSolicitado {
 
     public void setCriterios(Set<Criterio> criterios) {
         this.criterios = criterios;
+    }
+    public TipoRespuesta getTipoRespuesta(){
+        return tipoRespuesta;
+    }
+    public void setTipoRespuesta(TipoRespuesta tipoRespuesta) {
+        this.tipoRespuesta = tipoRespuesta;
+    }
+
+    public Integer getValorMin() {
+        return valorMin;
+    }
+
+    public void setValorMin(Integer valorMin) {
+        this.valorMin = valorMin;
+    }
+
+    public Integer getValorMax() {
+        return valorMax;
+    }
+
+    public void setValorMax(Integer valorMax) {
+        this.valorMax = valorMax;
     }
 }
 
