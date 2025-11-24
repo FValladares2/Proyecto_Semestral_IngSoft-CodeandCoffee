@@ -144,45 +144,53 @@ public class FormularioController {
             }else{
                 //si se espera un numero
                 if (dato.getTipoRespuesta()== TipoRespuesta.NUMERO) {
-                    //intentamos parsear la respuesta
-                    Float valorNum;
-                    try {
-                        valorNum = Float.parseFloat(dto.getRespuestaIngresada());
-                    } catch (NumberFormatException e) {
-                        redirectAttributes.addFlashAttribute("error_nombre",
-                                "Error: el formato del valor ingresado no es valido");
-                        throw new RuntimeException("Error: formato no valido");
+                    if(dto.getRespuestaIngresada().trim().isEmpty()){
+                        antecedente.setValorString(null);
+                    }else{
+                        //intentamos parsear la respuesta
+                        Float valorNum;
+                        try {
+                            valorNum = Float.parseFloat(dto.getRespuestaIngresada());
+                        } catch (NumberFormatException e) {
+                            redirectAttributes.addFlashAttribute("error_nombre",
+                                    "Error: el formato del valor ingresado no es valido");
+                            throw new RuntimeException("Error: formato no valido");
+                        }
+                        //obtener los límites
+                        Integer min = dato.getValorMin();
+                        Integer max = dato.getValorMax();
+
+                        //VALIDACIÓN DE RANGO
+
+                        //si el valor es menor que el mínimo
+                        if (min != null && valorNum < min) {
+                            redirectAttributes.addFlashAttribute("error_validacion",
+                                    "Error: El formato del valor ingresado para " + dato.getLeyenda() + " no es válido.");
+                            return "redirect:/formulario";
+                            //errorValidacion = true;
+                            //continue; // Salta este antecedente inválido
+                        }
+
+                        // Si el valor es mayor que el máximo
+                        if (max != null && valorNum > max) {
+                            redirectAttributes.addFlashAttribute("error_validacion",
+                                    "Error: El formato del valor ingresado para " + dato.getLeyenda() + " no es válido.");
+                            return "redirect:/formulario";
+                            //errorValidacion = true;
+                            //continue; // Salta este antecedente inválido
+
+                        }
+                        antecedente.setValorNum(valorNum);
                     }
-                    //obtener los límites
-                    Integer min = dato.getValorMin();
-                    Integer max = dato.getValorMax();
-
-                    //VALIDACIÓN DE RANGO
-
-                    //si el valor es menor que el mínimo
-                    if (min != null && valorNum < min) {
-                        redirectAttributes.addFlashAttribute("error_validacion",
-                                "Error: El formato del valor ingresado para " + dato.getLeyenda() + " no es válido.");
-                        return "redirect:/formulario";
-                        //errorValidacion = true;
-                        //continue; // Salta este antecedente inválido
-                    }
-
-                    // Si el valor es mayor que el máximo
-                    if (max != null && valorNum > max) {
-                        redirectAttributes.addFlashAttribute("error_validacion",
-                                "Error: El formato del valor ingresado para " + dato.getLeyenda() + " no es válido.");
-                        return "redirect:/formulario";
-                        //errorValidacion = true;
-                        //continue; // Salta este antecedente inválido
-
-                    }
-                    antecedente.setValorNum(valorNum);
                     antecedente.setValorString(null); // Aseguramos que el otro campo esté nulo
 
                 } else {
                     // Si se espera texto o una fecha
-                    antecedente.setValorString(dto.getRespuestaIngresada());
+                    if(dto.getRespuestaIngresada().trim().isEmpty()){
+                        antecedente.setValorString(null);
+                    }else{
+                        antecedente.setValorString(dto.getRespuestaIngresada());
+                    }
                     antecedente.setValorNum(null); // Aseguramos que el otro campo esté nulo
                 }
             }
