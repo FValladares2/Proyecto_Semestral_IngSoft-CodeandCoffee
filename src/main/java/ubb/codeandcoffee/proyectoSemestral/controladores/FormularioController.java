@@ -124,6 +124,7 @@ public class FormularioController {
                         Float valorFloat = (float) opcion.getValor();
                         // asignar
                         antecedente.setValorNum(valorFloat);
+                        antecedente.setTextoOpcion(opcion.getNombre());
                     } else {
                         antecedente.setValorNum(null);
                     }
@@ -198,8 +199,21 @@ public class FormularioController {
             antecedentesParaGuardar.add(antecedente);
         }
 
+        //guardar el sujeto y los antecedentes
+        SujetoEstudio sujetoPendiente = (SujetoEstudio) session.getAttribute("SUJETO_PENDIENTE");
+        if (sujetoPendiente == null) {
+            //manejo de error si el sujeto no se encontró en la sesión (debería venir del ingreso)
+            redirectAttributes.addFlashAttribute("error", "Error: Sujeto de estudio no encontrado. Reingrese los datos.");
+            return "redirect:/ingreso";
+        }
+        session.setAttribute("ANTECEDENTES_PENDIENTES", antecedentesParaGuardar);
+        //redirigir a la vista de la confirmación
+        return "redirect:/confirmacion";
 
-        //Guardado, se supone que esta parte pasa a la vista previa, cuando la haga XD
+        /*
+
+        // Esta parte se traslado a la confirmacion del form XD
+
         //obtener sujeto de la seccion (se guardo ahi en el ingreso)
         SujetoEstudio sujetoPendiente = (SujetoEstudio) session.getAttribute("SUJETO_PENDIENTE");
         if (sujetoPendiente == null) {
@@ -225,6 +239,6 @@ public class FormularioController {
 
         //redirigir, creo que deberia redirigir al menu pero ni idea como XD
         return "redirect:/ingreso";
-
+*/
     }
 }

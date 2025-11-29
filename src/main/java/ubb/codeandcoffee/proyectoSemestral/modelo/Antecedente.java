@@ -12,6 +12,8 @@ public class Antecedente {
     private String valorString;
 
     private Float valorNum;
+    @Transient // Indica a JPA que ignore este campo
+    private String textoOpcion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
@@ -39,6 +41,17 @@ public class Antecedente {
         this.datoSolicitado = datoSolicitado;
     }
 
+    public String getTextoOpcion() {
+        return textoOpcion;
+    }
+
+    public void setTextoOpcion(String textoOpcion) {
+        this.textoOpcion = textoOpcion;
+    }
+
+    public void setIdantecedentes(int idantecedentes) {
+        this.idantecedentes = idantecedentes;
+    }
 
     public int getIdAntecedentes() {
         return idantecedentes;
