@@ -134,12 +134,7 @@
 
         <div class="form-group">
             <label>Tipo de Sujeto:</label>
-            <div class="radio-group">
-                <input type="radio" id="tipo_caso" th:field="*{tipo}" value="CA" required>
-                <label for="tipo_caso">Caso</label>
-                <input type="radio" id="tipo_control" th:field="*{tipo}" value="CO">
-                <label for="tipo_control">Control</label>
-            </div>
+            <span class="texto-tipo" th:text="${sujeto.tipo}" style="font-weight: bold;"></span>
         </div>
 
         <hr>
