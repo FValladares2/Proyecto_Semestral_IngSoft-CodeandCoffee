@@ -243,6 +243,7 @@ public class EdicionController {
                 return "redirect:/edicion/sujetos/editar/formulario/" + tipo + "/" + id;
             }
 
+            List<Antecedente> guardar = new ArrayList<>();
             for (AntecedenteDTO dto : formWrapper.getAntecedentes()) {
                 Antecedente antecedente;
                 DatoSolicitado dato;
@@ -297,10 +298,18 @@ public class EdicionController {
 
                     antecedente.setValorString(dto.getRespuestaIngresada());
                 }
-
+                guardar.add(antecedente);
             }
 
-            redirectAttributes.addFlashAttribute("exito", "datos actualizados correctamente");
+            if (!guardar.isEmpty()) {
+                antecedenteRepository.saveAll(guardar);
+                antecedenteRepository.flush();
+                System.out.println("Guardados " + guardar.size() + " registros correctamente.");
+            } else {
+                System.err.println("Hubo un error");
+            }
+
+            redirectAttributes.addFlashAttribute("exito", "Datos actualizados correctamente.");
 
             if (request.isUserInRole("ROLE_ADMINISTRADOR")) {
                 return "redirect:/menu/admin";
