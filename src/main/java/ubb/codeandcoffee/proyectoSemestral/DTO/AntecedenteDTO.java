@@ -5,10 +5,22 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 
 public class AntecedenteDTO {
+    private Integer id_antecedente;
     private String respuestaIngresada;
     private int id_opcion;
     private SujetoEstudio sujetoEstudio;
     private DatoSolicitado datoSolicitado;
+
+    public AntecedenteDTO() {
+    }
+
+    public Integer getId_antecedente() {
+        return id_antecedente;
+    }
+
+    public void setId_antecedente(Integer id_antecedente) {
+        this.id_antecedente = id_antecedente;
+    }
 
     public String getRespuestaIngresada() {
         return respuestaIngresada;
