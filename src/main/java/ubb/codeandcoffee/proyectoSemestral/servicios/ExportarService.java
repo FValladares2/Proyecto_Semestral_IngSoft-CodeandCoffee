@@ -1,10 +1,7 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 
 import jakarta.transaction.Transactional;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,27 @@ public class ExportarService {
     CriterioService critService;
     @Autowired
     UsuarioSujetoService usujService;
+
+    //shoutouts stackoverflow: https://stackoverflow.com/questions/7153254/how-to-add-cell-comments-to-excel-sheet-using-poi
+    private void addComment(Workbook workbook, Sheet sheet, Cell cell, int rowIdx, int colIdx, String author, String commentText) {
+        CreationHelper factory = workbook.getCreationHelper();
+
+        ClientAnchor anchor = factory.createClientAnchor();
+        //i found it useful to show the comment box at the bottom right corner
+        anchor.setCol1(cell.getColumnIndex() + 1); //the box of the comment starts at this given column...
+        anchor.setCol2(cell.getColumnIndex() + 3); //...and ends at that given column
+        anchor.setRow1(rowIdx + 1); //one row below the cell...
+        anchor.setRow2(rowIdx + 5); //...and 4 rows high
+
+        Drawing drawing = sheet.createDrawingPatriarch();
+        Comment comment = drawing.createCellComment(anchor);
+        //set the comment text and author
+        comment.setString(factory.createRichTextString(commentText));
+        comment.setAuthor(author);
+
+        cell.setCellComment(comment);
+    }
+
 
     public boolean makeFile(String fileName) {
         try {
@@ -55,10 +73,12 @@ public class ExportarService {
 
             ArrayList<SujetoEstudio> sujetos = sujEstService.getSujetoEstudio();
             ArrayList<DatoSolicitado> preguntas = datoService.getDatoSolicitados();
-            ArrayList<Criterio> criterios = critService.getCriterios();
+            ArrayList<Criterio> criteriosObj = critService.getCriterios();
 
             //mapa para recordar las columnas en que va cada cosa
             ArrayList<String> map = new ArrayList<>();
+            //guarda un k/v pair, del indice del criterio en el mapa y los indices de las columnas asociadas
+            HashMap<Integer, ArrayList<Integer>> criterios = new HashMap<>();
 
             int rowNum = 0;
             int columnNum = 0;
@@ -76,16 +96,7 @@ public class ExportarService {
             for (DatoSolicitado pregunta : preguntas) {
                 if (pregunta.getEstudio()) {
                     //solo van las preguntas que van a STATA (ya dicotomizados)
-                    r.createCell(columnNum).setCellValue(pregunta.getNombreStata());
-                    map.add(pregunta.getNombreStata());
-                    columnNum++;
-
-                    Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
-                    for (Criterio criterio : criteriosEnPregunta) {
-                        r.createCell(columnNum).setCellValue(criterio.getNombreStata());
-                        map.add(criterio.getNombreStata());
-                        columnNum++;
-                    }
+                    columnNum = setupPregunta(r, map, criterios, columnNum, pregunta);
                 }
             }
 
@@ -107,6 +118,16 @@ public class ExportarService {
                     if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
                 }
 
+                for (Criterio criterio: criteriosObj){
+                    //buscar la columna en la que está el criterio
+                    int indexCriterio = map.indexOf(criterio.getNombreStata());
+                    int valor = 0;
+                    String[] argumentos = criterio.getExpresion().split(" ");
+                    String resultado = lidiarConCriterio(argumentos, criterios.get(indexCriterio), r);
+
+                    //guardar el dato en la columna del criterio
+                    r.createCell(indexCriterio).setCellValue(resultado);
+                }
 
 
                 rowNum++;
@@ -137,10 +158,12 @@ public class ExportarService {
 
             ArrayList<SujetoEstudio> sujetos = sujEstService.getSujetoEstudio();
             ArrayList<DatoSolicitado> preguntas = datoService.getDatoSolicitados();
-            ArrayList<Criterio> criterios = critService.getCriterios();
+            ArrayList<Criterio> criteriosObj = critService.getCriterios();
 
             //mapa para recordar las columnas en que va cada cosa
             ArrayList<String> map = new ArrayList<>();
+            //guarda un k/v pair, del indice del criterio en el mapa y los indices de las columnas asociadas
+            HashMap<Integer, ArrayList<Integer>> criterios = new HashMap<>();
 
             int rowNum = 0;
             int columnNum = 0;
@@ -197,17 +220,7 @@ public class ExportarService {
 
             for (DatoSolicitado pregunta : preguntas) {
                 //añade toda pregunta, dicotomizada o no
-                r.createCell(columnNum).setCellValue(pregunta.getNombreStata());
-                map.add(pregunta.getNombreStata());
-                columnNum++;
-
-                Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
-                for (Criterio criterio : criteriosEnPregunta) {
-                    r.createCell(columnNum).setCellValue(criterio.getNombreStata());
-                    map.add(criterio.getNombreStata());
-                    columnNum++;
-                }
-
+                columnNum = setupPregunta(r, map, criterios, columnNum, pregunta);
             }
 
 
@@ -245,6 +258,17 @@ public class ExportarService {
                     else if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
                 }
 
+                for (Criterio criterio: criteriosObj){
+                    //buscar la columna en la que está el criterio
+                    int indexCriterio = map.indexOf(criterio.getNombreStata());
+                    int valor = 0;
+                    String[] argumentos = criterio.getExpresion().split(" ");
+                    String resultado = lidiarConCriterio(argumentos, criterios.get(indexCriterio), r);
+
+                    //guardar el dato en la columna del criterio
+                    r.createCell(indexCriterio).setCellValue(resultado);
+                }
+
                 rowNum++;
             }
 
@@ -253,5 +277,79 @@ public class ExportarService {
         }catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private int setupPregunta(Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, DatoSolicitado pregunta) {
+        r.createCell(columnNum).setCellValue(pregunta.getNombreStata());
+        map.add(pregunta.getNombreStata());
+        int columnaPregunta = columnNum;
+        columnNum++;
+
+        Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
+        for (Criterio criterio : criteriosEnPregunta) {
+            //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
+            //  segun entiendo, eso implica las columnas por las que obtiene valores sus
+            int indexCriterio = map.indexOf(criterio.getNombreStata());
+            columnNum = setupCriterios(r, map, criterios, columnNum, columnaPregunta, criterio, indexCriterio);
+        }
+        return columnNum;
+    }
+
+    private int setupCriterios(Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, int columnaPregunta, Criterio criterio, int indexCriterio) {
+        if (indexCriterio == -1) {
+            //si no está el criterio en el mapa, se añade en ambos mapa y criterios
+            r.createCell(columnNum).setCellValue(criterio.getNombreStata());
+            map.add(criterio.getNombreStata());
+            int guardadoEn = map.indexOf(criterio.getNombreStata());
+            ArrayList<Integer> arr = new ArrayList<>();
+            arr.add(columnaPregunta);
+            criterios.put(guardadoEn, arr);
+            columnNum++;
+        }else{
+            //si está en el mapa, se añade al criterio ya existente
+            ArrayList<Integer> arr = criterios.get(indexCriterio);
+            arr.add(columnaPregunta);
+            criterios.replace(indexCriterio, arr); //alternativamente put() ?
+        }
+        return columnNum;
+    }
+
+    private String lidiarConCriterio(String[] argumento, ArrayList<Integer> columnasDatos, Row r) {
+        if (argumento.length <= 3) {
+            //si es un argumento estilo VALOR1 ACCION VALOR2
+            //realizar accion acuerdo a lo indicado
+            //todo: obtener el valor de la celda dependiendo del tipo de criterio (promedio, media, algo específico, etc)
+
+            switch (argumento[1]) {
+                case "":
+
+            }
+
+        }else{
+            //si es un argumento que tiene más variables estilo (arg1) AND/OR (arg2)
+            String[] argumento1 = new String[3];
+            String[] argumento2 = new String[argumento.length - 4];
+            String separador = argumento[3];
+
+            argumento1[0] = argumento[0];
+            argumento1[1] = argumento[1];
+            argumento1[2] = argumento[2];
+            System.arraycopy(argumento, 4, argumento2, 0, argumento.length - 4);
+
+            String resultado1 = lidiarConCriterio(argumento1, columnasDatos, r);
+            String resultado2 = lidiarConCriterio(argumento2, columnasDatos, r);
+            if (separador.equals("Y")){
+                if (resultado1 == null || resultado2 == null) return null;
+
+                if (resultado1.equals("1") && resultado2.equals("1")) return "1";
+                else return "0";
+            }else if (separador.equals("O")){
+                if (resultado1 == null || resultado2 == null) return null;
+
+                if (resultado1.equals("1") || resultado2.equals("1")) return "1";
+                else return "0";
+            }else throw new RuntimeException("Expresión inesperada, separador no es \"Y\" ni \"O\"");
+        }
+        return null;
     }
 }

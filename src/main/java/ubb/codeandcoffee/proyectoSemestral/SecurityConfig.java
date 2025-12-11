@@ -37,6 +37,7 @@ public class SecurityConfig {
         return prov;
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -91,6 +92,7 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+    /*
 
     /*
     @Bean
