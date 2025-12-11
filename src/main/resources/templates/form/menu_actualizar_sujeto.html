@@ -113,7 +113,9 @@
                class="btn btn-primary btn-sm">
                 Actualizar datos personales
             </a>
-            <a href="#" class="btn btn-disabled">Actualizar respuestas del formulario</a>
+            <a th:href="@{/edicion/sujetos/editar/formulario/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+               class="btn btn-primary btn-sm">
+                Actualizar respuestas del formulario</a>
         </div>
 
 </div>

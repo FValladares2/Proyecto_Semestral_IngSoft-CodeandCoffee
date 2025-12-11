@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vista Previa y Confirmación</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .preview-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0288d1 0%, #03a9f4 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section-title {
+            color: #0288d1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #b3e5fc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, #0288d1 0%, #03a9f4 100%);
+            border-radius: 2px;
+        }
+
+        .data-group {
+            background: #f8fcff;
+            border: 1px solid #e1f5fe;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .data-group:hover {
+            box-shadow: 0 4px 16px rgba(33, 150, 243, 0.1);
+            border-color: #b3e5fc;
+        }
+
+        .data-label {
+            font-weight: 600;
+            color: #01579b;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+
+        .data-content {
+            flex: 1;
+        }
+
+        .data-value {
+            color: #37474f;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .no-answer {
+            color: #b0bec5;
+            font-style: italic;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #78909c;
+            font-size: 15px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 40px 30px 30px;
+            background: #fafafa;
+            border-top: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .confirm-btn, .cancel-btn {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, #0288d1 0%, #03a9f4 100%);
+            color: white;
+        }
+
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3);
+        }
+
+        .cancel-btn {
+            background: white;
+            color: #0288d1;
+            border: 2px solid #0288d1;
+        }
+
+        .cancel-btn:hover {
+            background: #e3f2fd;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 24px 20px;
+            }
+
+            .data-group {
+                flex-direction: column;
+                gap: 8px;
+                padding: 14px;
+            }
+
+            .data-label {
+                min-width: auto;
+            }
+
+            .confirmation-buttons {
+                flex-direction: column;
+                padding: 24px 20px;
+            }
+
+            .confirm-btn, .cancel-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="preview-container">
+    <div class="header">
+        <h1>Resumen de Datos Ingresados</h1>
+        <p>Por favor, revise la información antes de confirmar el guardado final</p>
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">Información del Sujeto</h2>
+        <div th:object="${sujeto}">
+
+            <div class="data-group">
+                <span class="data-label">Nombre:</span>
+                <span class="data-value" th:text="*{nombre}">May</span>
+            </div>
+
+            <div class="data-group">
+                <span class="data-label">Tipo:</span>
+                <span class="data-value"
+                      th:text="*{tipo} == 'CA' ? 'Caso (CA)' : 'Control (CO)'">Tipo de Sujeto</span>
+            </div>
+
+            <div class="data-group" th:if="*{direccion}" != null>
+                <span class="data-label">Dirección:</span>
+                <span class="data-value" th:text="*{direccion}">Dirección del Sujeto</span>
+            </div>
+
+            <div class="data-group" th:unless="*{direccion}" != null>
+                <span class="data-label">Dirección:</span>
+                <span class="data-value no-answer">Sin respuesta</span>
+            </div>
+
+            <div class="data-group" th:if="*{ocupacion}" != null>
+                <span class="data-label">Ocupación:</span>
+                <span class="data-value" th:text="*{ocupacion}">Ocupación del Sujeto</span>
+            </div>
+
+            <div class="data-group" th:unless="*{ocupacion}" != null>
+                <span class="data-label">Ocupación:</span>
+                <span class="data-value no-answer">Sin respuesta</span>
+            </div>
+
+            <div class="data-group" th:if="*{telefono}" != null>
+                <span class="data-label">Teléfono:</span>
+                <span class="data-value" th:text="*{telefono}">123456789</span>
+            </div>
+
+            <div class="data-group" th:unless="*{telefono}" != null>
+                <span class="data-label">Teléfono:</span>
+                <span class="data-value no-answer">Sin respuesta</span>
+            </div>
+
+            <div class="data-group" th:if="*{email}" != null>
+                <span class="data-label">Email:</span>
+                <span class="data-value" th:text="*{email}">correo@ejemplo.com</span>
+            </div>
+
+            <div class="data-group" th:unless="*{email}" != null>
+                <span class="data-label">Email:</span>
+                <span class="data-value no-answer">Sin respuesta</span>
+            </div>
+
+            <div class="data-group" th:if="*{nacionalidad}" != null>
+                <span class="data-label">Nacionalidad:</span>
+                <span class="data-value" th:text="*{nacionalidad}">Nacionalidad</span>
+            </div>
+
+            <div class="data-group" th:unless="*{nacionalidad}" != null>
+                <span class="data-label">Nacionalidad:</span>
+                <span class="data-value no-answer">Sin respuesta</span>
+            </div>
+
+
+        </div>
+
+        <h2 class="section-title">Respuestas del Formulario</h2>
+
+        <div th:if="${#lists.isEmpty(antecedentes)}">
+            <p class="empty-message">No se registraron respuestas válidas en el formulario.</p>
+        </div>
+
+        <div th:unless="${#lists.isEmpty(antecedentes)}">
+
+            <div th:each="antecedente : ${antecedentes}" class="data-group">
+                <span class="data-label" th:text="${antecedente.datoSolicitado.leyenda}">Pregunta</span>
+                <div class="data-content">
+                    <span th:if="${antecedente.textoOpcion != null}" class="data-value">
+                        <span th:text="${antecedente.textoOpcion}">Etiqueta de la opción (Sí/No)</span>
+                    </span>
+
+                    <span th:if="${antecedente.valorNum != null and antecedente.textoOpcion == null}" class="data-value">
+                        <span th:text="${antecedente.valorNum}"></span>
+                    </span>
+
+                    <span th:if="${antecedente.valorString != null}" class="data-value">
+                        <span th:text="${antecedente.valorString}"></span>
+                    </span>
+
+                    <span th:if="${antecedente.textoOpcion == null and antecedente.valorNum == null and antecedente.valorString == null}" class="no-answer">
+                        Sin respuesta
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirmation-buttons">
+
+        <form th:action="@{/confirmar-guardado}" method="post" style="display:inline;">
+            <button type="submit" class="confirm-btn">
+                <span>✓</span> Confirmar y Guardar
+            </button>
+        </form>
+
+        <a th:href="@{/formulario}" class="cancel-btn">
+            <span>←</span> Volver y Editar
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,23 +1,24 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
+import ubb.codeandcoffee.proyectoSemestral.modelo.TipoRespuesta;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SeccionRepository;
 
 @Service //Marca esta clase como un servicio de Spring
 public class DatoSolicitadoService {
-    @Autowired
-    DatoSolicitadoRepository datoRepository; //instancia del repositorio de DatoSolicitado
-
-    @Autowired
-    private SeccionRepository seccionRepository;
+    private final DatoSolicitadoRepository datoRepository; //instancia del repositorio de DatoSolicitado
+    private final SeccionRepository seccionRepository;
+    public DatoSolicitadoService(DatoSolicitadoRepository datoRepository, SeccionRepository seccionRepository) {
+        this.datoRepository = datoRepository;
+        this.seccionRepository = seccionRepository;
+    }
 
     //Método para obtener los datos de la base de datos
     public ArrayList<DatoSolicitado> getDatoSolicitados(){
@@ -25,7 +26,6 @@ public class DatoSolicitadoService {
     }
 
     //Método para guardar un nuevo dato en la base de datos
-    
     public DatoSolicitado guardarDatoSolicitado(DatoSolicitado dato) {
 
         if (dato.getNombre() == null || dato.getNombre().trim().isEmpty()) {
@@ -34,8 +34,6 @@ public class DatoSolicitadoService {
         if (dato.getEstudio() == null) {
             throw new IllegalArgumentException("El campo 'estudio' es obligatorio");
         }
-
-
         Seccion seccionEnviada = dato.getSeccion();
         if (seccionEnviada == null) {
             throw new IllegalArgumentException("El objeto 'seccion' es obligatorio en la solicitud");
@@ -44,15 +42,11 @@ public class DatoSolicitadoService {
         if (idSeccion == null) {
             throw new IllegalArgumentException("El 'idSeccion' dentro del objeto 'seccion' es obligatorio");
         }
-
-
-
         Seccion seccionCompleta = seccionRepository.findById(idSeccion)
             .orElseThrow(() -> new RuntimeException("Error: La sección con ID " + idSeccion + " no existe."));
 
-
+        tipoRespuestaNumero(dato);
         dato.setSeccion(seccionCompleta);
-
 
         return datoRepository.save(dato);
     }
@@ -77,10 +71,35 @@ public class DatoSolicitadoService {
         if (request.getNombre() != null) {
             dato.setNombre(request.getNombre());
         }
-        //AGREGAR SI ES QUE FALTAN (Y REVISAR)
-    
+        if (request.getAplicable_a() != null) {
+            dato.setAplicable_a(request.getAplicable_a());
+        }
+
+        if (request.getTipoRespuesta() != null) {
+            dato.setTipoRespuesta(request.getTipoRespuesta());
+            tipoRespuestaNumero(request);
+        }
+
+        if (request.getValorMin() != null) {
+            dato.setValorMin(request.getValorMin());
+        }
+        if (request.getValorMax() != null) {
+            dato.setValorMax(request.getValorMax());
+        }
 
         return datoRepository.save(dato);
+    }
+
+    private void tipoRespuestaNumero(DatoSolicitado request) {
+        if(request.getTipoRespuesta()== TipoRespuesta.NUMERO){
+            if(request.getValorMin()==null||request.getValorMax()==null){
+                throw new IllegalArgumentException("para el tipo de respuesta: Numero, " +
+                        "los campos valorMin y ValorMax son obigatorios");
+            }
+            if(request.getValorMin()>request.getValorMax()){
+                throw new IllegalArgumentException("valorMin no puede ser Mayor a valorMax");
+            }
+        }
     }
 
     public Boolean deleteDatoSolicitado(Integer id_dato){
@@ -90,5 +109,16 @@ public class DatoSolicitadoService {
         }catch(Exception e){
             return false;
         }
+    }
+
+    public List<DatoSolicitado> buscarTodosLosDatos(String tipoSujeto) {
+        Aplicable_a tipo;
+        if(tipoSujeto.equalsIgnoreCase("CASO")){
+            tipo= Aplicable_a.CASO;
+        }else{
+            tipo= Aplicable_a.CONTROL;
+        }
+        final Aplicable_a TIPO_AMBOS = Aplicable_a.AMBOS;
+        return datoRepository.buscarTodosLosDatos(tipo, TIPO_AMBOS);
     }
 }

@@ -7,17 +7,27 @@ import jakarta.persistence.*;
 public class Opcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_opcion;
+    private Integer id_opcion;
     private String nombre;
-    private int valor;
+    private Integer valor;
+    @JoinColumn(name="requiere_texto")
+    private boolean requiereTexto;
     @ManyToOne
     @JoinColumn(name="id_dato", nullable = false)
     private DatoSolicitado dato;
 
-    public Opcion() {}
-    public Opcion(String nombre, int valor) {
+    public Opcion() {this.requiereTexto=false;}
+    public Opcion(String nombre, int valor, DatoSolicitado dato) {
         this.nombre = nombre;
         this.valor = valor;
+        this.dato=dato;
+        this.requiereTexto=false;
+    }
+    public Opcion(String nombre, int valor, boolean requiereTexto, DatoSolicitado dato) {
+        this.nombre = nombre;
+        this.valor = valor;
+        this.requiereTexto=requiereTexto;
+        this.dato=dato;
     }
 
     public DatoSolicitado getDatoSolicitado(){
@@ -28,10 +38,10 @@ public class Opcion {
         this.dato=dato;
     }
 
-    public int getId_opcion() {
+    public Integer  getId_opcion() {
         return id_opcion;
     }
-    public void setId_opcion(int id_opcion){
+    public void setId_opcion(Integer id_opcion){
         this.id_opcion=id_opcion;
     }
 
@@ -43,11 +53,19 @@ public class Opcion {
         this.nombre = nombre;
     }
 
-    public int getValor() {
+    public Integer getValor() {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
+    public boolean isRequiereTexto() {
+        return this.requiereTexto;
+    }
+
+    public void setRequiereTexto(boolean text) {
+        this.requiereTexto=text;
+    }
+
 }

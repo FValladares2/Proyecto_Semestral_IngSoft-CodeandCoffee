@@ -13,6 +13,8 @@ public class Antecedente {
     private String valorString;
 
     private Float valorNum;
+    @Transient // Indica a JPA que ignore este campo
+    private String textoOpcion;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +32,9 @@ public class Antecedente {
 
     public Antecedente() {
     }
+    public Antecedente(DatoSolicitado dato) {
+        this.datoSolicitado=dato;
+    }
 
     public Antecedente(String valorString, Float valorNum, SujetoEstudio sujetoEstudio, DatoSolicitado datoSolicitado) {
         this.valorString = valorString;
@@ -38,6 +43,17 @@ public class Antecedente {
         this.datoSolicitado = datoSolicitado;
     }
 
+    public String getTextoOpcion() {
+        return textoOpcion;
+    }
+
+    public void setTextoOpcion(String textoOpcion) {
+        this.textoOpcion = textoOpcion;
+    }
+
+    public void setIdantecedentes(int idantecedentes) {
+        this.idantecedentes = idantecedentes;
+    }
 
     public int getIdAntecedentes() {
         return idantecedentes;
