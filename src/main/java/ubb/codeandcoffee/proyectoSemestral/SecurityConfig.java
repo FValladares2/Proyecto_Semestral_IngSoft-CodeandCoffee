@@ -37,7 +37,7 @@ public class SecurityConfig {
         return prov;
     }
 
-    /*
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -65,7 +65,6 @@ public class SecurityConfig {
                         .hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
 
 
-                        aun no implementadas las opciones
                         .requestMatchers("/exportar/**")
                         .hasAnyRole("ADMINISTRADOR", "ANALISTA")
 
@@ -92,7 +91,7 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-    */
+    /*
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -103,4 +102,6 @@ public class SecurityConfig {
             );
         return http.build();
     }
+
+     */
 }
