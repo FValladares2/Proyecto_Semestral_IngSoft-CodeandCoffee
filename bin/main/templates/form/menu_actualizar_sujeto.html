@@ -34,14 +34,6 @@
             padding: 0 2rem;
         }
 
-        /* grilla para las 3 columnas */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* tres columnas de igual tamaño */
-            gap: 2rem; /* Espacio entre las cajas */
-        }
-
-        
         .menu-card {
             background-color: #ffffff;
             padding: 1.5rem;
@@ -49,7 +41,8 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .menu-card h2 {
+        .menu-card h {
+
             font-size: 20px;
             color: #1F618D; /* Color del proyecto */
             border-bottom: 2px solid #f0f2f5;
@@ -60,28 +53,28 @@
 
         /* estilo de los botones dentro de las cajas */
         .btn {
-            display: block; 
+            display: block;
             width: 100%;
             padding: 0.75rem;
             margin-bottom: 1rem;
-            box-sizing: border-box; 
-            
+            box-sizing: border-box;
+
             text-decoration: none;
             color: white;
             background-color: #1F618D;
             border: none;
             border-radius: 4px;
-            text-align: center; 
+            text-align: center;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        
+
         .btn:hover {
             background-color: #154360;
         }
 
-        
+
         .btn:last-child {
             margin-bottom: 0;
         }
@@ -92,12 +85,12 @@
             color: #6c757d; /* texto gris oscuro */
             cursor: not-allowed;
         }
-        
+
         .btn-disabled:hover {
-            background-color: #adb5bd; 
+            background-color: #adb5bd;
         }
 
-        
+
         @media (max-width: 900px) {
             .menu-grid {
                 grid-template-columns: 1fr; /* Apila las 3 columnas */
@@ -108,38 +101,24 @@
 </head>
 <body>
 
-    <div class="header-bar">
-        <span class="user-role">Nivel de usuario: Administrador</span>
-    </div>
+<div class="header-bar">
+    <span class="user-role">Nivel de usuario: Administrador</span>
+</div>
 
-    <div class="menu-container">
-        <div class="menu-grid">
+<div class="menu-container">
 
-            <div class="menu-card">
-                <h2>Gestión de Usuarios</h2>
-                <a th:href="@{/admin/crear-usuario}" class="btn">Crear nuevo usuario</a>
-                
-                <a th:href="@{/admin/gestionar-usuarios}" class="btn btn-primary">
-                    Gestionar Usuarios
-                </a>
-            </div>
-
-            <div class="menu-card">
-                <h2>Ingreso de datos</h2>
-                <a th:href="@{/ingreso}" class="btn">Rellenar un nuevo formulario</a>
-                <a th:href="@{/edicion/sujetos}" class="btn">Actualizar datos sujeto de estudio</a>
-            </div>
-
-            <div class="menu-card">
-                <h2>Gestión de formulario y datos</h2>
-                <a th:href="@{/admin/crear-formulario}" class="btn">Actualizar formulario</a>
-                <a href="#" class="btn btn-disabled">Visualizar respuestas</a>
-                <a href="#" class="btn btn-disabled">Exportar Respuestas</a>
-            </div>
-            <a th:href="@{/logout}" class="btn-logout">Cerrar Sesión</a>
+        <div class="menu-card">
+            <h2>Selecciona una opción:</h2>
+            <a th:href="@{/edicion/sujetos/editar/ingreso/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+               class="btn btn-primary btn-sm">
+                Actualizar datos personales
+            </a>
+            <a th:href="@{/edicion/sujetos/editar/formulario/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+               class="btn btn-primary btn-sm">
+                Actualizar respuestas del formulario</a>
         </div>
 
-    </div>
+</div>
 
 </body>
 </html>
