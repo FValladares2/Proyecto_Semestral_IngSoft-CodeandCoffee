@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nuevo Criterio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+
+<div class="container" style="max-width: 800px;">
+
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Crear Nuevo Criterio</h4>
+        </div>
+        <div class="card-body">
+
+            <form th:action="@{/criterios/guardar}" th:object="${criterioDTO}" method="post" id="formCriterio">
+
+                <h5 class="text-secondary mb-3">Información General</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre (Humano)</label>
+                        <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Edad Alta" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre Stata (Técnico)</label>
+                        <input type="text" th:field="*{nombreStata}" class="form-control" placeholder="Ej: edad_alta" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Leyenda</label>
+                    <input type="text" th:field="*{leyenda}" class="form-control" placeholder="Ej: 0=Normal, 1=Alto Riesgo">
+                </div>
+
+                <hr>
+
+                <h5 class="text-secondary mb-3">Regla de Negocio (¿Cuándo es 1?)</h5>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tipo de Cálculo:</label>
+                    <select th:field="*{tipoCalculo}" id="tipoSelect" class="form-select" onchange="cambiarVista()">
+                        <option value="PROMEDIO">Contra PROMEDIO</option>
+                        <option value="MEDIANA">Contra MEDIANA</option>
+                        <option value="PARTICULAR">Criterio PARTICULAR (Manual)</option>
+                    </select>
+                </div>
+
+                <div id="panelSimple" class="p-3 bg-primary bg-opacity-10 rounded border border-primary">
+                    <p class="small text-muted mb-2">
+                        Configura la condición. Si se cumple, el valor será <strong>1</strong>. Si no, será <strong>0</strong>.
+                    </p>
+                    <div class="input-group">
+                        <span class="input-group-text">Si la variable</span>
+
+                        <select th:field="*{idVariableSimple}" class="form-select">
+                            <option th:each="v : ${listaVariables}" th:value="${v.id_dato}" th:text="${v.nombre}"></option>
+                        </select>
+
+                        <select th:field="*{operadorSimple}" class="form-select" style="max-width: 150px;">
+                            <option value=">">Es Mayor a (>)</option>
+                            <option value=">=">Mayor o Igual (>=)</option>
+                            <option value="<">Es Menor a (<)</option>
+                            <option value="<=">Menor o Igual (<=)</option>
+                            <option value="==">Es Igual a (==)</option>
+                        </select>
+
+                        <span class="input-group-text fw-bold" id="labelRef">EL PROMEDIO</span>
+                    </div>
+                    <div class="mt-2 text-end text-success fw-bold">entonces Resultado = 1</div>
+                </div>
+
+                <div id="panelParticular" style="display:none;" class="p-3 bg-warning bg-opacity-10 rounded border border-warning">
+                    <p class="small text-muted">Define las condiciones manuales. Puedes unir varias variables.</p>
+
+                    <div id="contenedorReglas">
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-outline-dark mt-2" onclick="agregarFila()">
+                        + Agregar Variable/Condición
+                    </button>
+
+                    <div class="mt-3 text-end text-success fw-bold">entonces Resultado = 1</div>
+                </div>
+
+                <div class="mt-4 d-grid">
+                    <button type="submit" class="btn btn-success btn-lg">Guardar Criterio</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /* Obtenemos las variables desde Java para usarlas en JS */
+    var listaVariablesJS = [[${listaVariables}]];
+    var contador = 0;
+
+    // Inicializar vista
+    document.addEventListener("DOMContentLoaded", function() {
+        cambiarVista(); // Ajustar al cargar
+    });
+
+    function cambiarVista() {
+        var tipo = document.getElementById("tipoSelect").value;
+        var panelSimple = document.getElementById("panelSimple");
+        var panelPart = document.getElementById("panelParticular");
+        var labelRef = document.getElementById("labelRef");
+
+        if (tipo === "PARTICULAR") {
+            panelSimple.style.display = "none";
+            panelPart.style.display = "block";
+            // Si no hay filas, agregamos la primera automáticamente
+            if(contador === 0) agregarFila();
+        } else {
+            panelSimple.style.display = "block";
+            panelPart.style.display = "none";
+            labelRef.innerText = (tipo === "PROMEDIO") ? "EL PROMEDIO" : "LA MEDIANA";
+        }
+    }
+
+    function agregarFila() {
+        var contenedor = document.getElementById("contenedorReglas");
+        var div = document.createElement("div");
+        div.className = "row g-2 mb-2 align-items-center";
+
+        // Generar opciones del select de variables
+        let opcionesVars = "";
+        listaVariablesJS.forEach(v => {
+            opcionesVars += `<option value="${v.id_dato}">${v.nombre}</option>`;
+        });
+
+        // HTML DE LA FILA DINÁMICA
+        // Nota el uso de name="reglas[X].campo" -> Esto es lo que lee Spring
+        div.innerHTML = `
+            <div class="col-md-4">
+                <select name="reglas[${contador}].idVariable" class="form-select form-select-sm" required>
+                    ${opcionesVars}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="reglas[${contador}].operador" class="form-select form-select-sm">
+                    <option value="==">Igual</option>
+                    <option value=">">Mayor</option>
+                    <option value="<">Menor</option>
+                    <option value=">=">Mayor =</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="reglas[${contador}].valor" class="form-control form-control-sm" placeholder="Valor (ej: 10)" required>
+            </div>
+            <div class="col-md-2">
+                <select name="reglas[${contador}].conector" class="form-select form-select-sm bg-light">
+                    <option value="">(Fin)</option>
+                    <option value="AND">Y (AND)</option>
+                    <option value="OR">O (OR)</option>
+                </select>
+            </div>
+            <div class="col-md-1 text-center">
+                 <button type="button" class="btn btn-sm btn-danger" onclick="this.parentNode.parentNode.remove()">X</button>
+            </div>
+        `;
+
+        contenedor.appendChild(div);
+        contador++;
+    }
+</script>
+
+</body>
+</html>
