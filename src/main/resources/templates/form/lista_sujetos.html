@@ -1,62 +1,69 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Lista de sujetos</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-  <style>
-    body { font-family: sans-serif; max-width: 900px; margin: 20px auto; }
-    .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-    h1 { text-align: center; margin-bottom: 20px; }
-    .controles { margin-bottom: 20px; text-align: right; }
-  </style>
-</head>
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <body>
 
-<div class="container">
-  <h1>Lista de sujetos de estudio registrados</h1>
-  <nav class="navbar navbar-light bg-light justify-content-between">
-    <a class="navbar-brand"></a>
-    <form class="form-inline">
-      <input id="buscador" class="form-control mr-sm-2" placeholder="Buscar" type="search"  aria-label="Search">
-    </form>
-  </nav>
-  <table class="table table-hover table-bordered" id="tablaSujetos">
-    <thead class="thead-light">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Código</th>
-      <th scope="col">Nombre</th>
-      <th scope="col" class="text-center">Acción</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="sujeto, iterStat : ${sujetos}">
+<section>
+  <style>
+    body { font-family: sans-serif;}
+    h3 { text-align: center; margin-bottom: 20px; }
+    .controles { margin-bottom: 20px; text-align: right; }
+  </style>
+  <div class="container-fluid">
+    <!-- linea de inicio-->
+    <h3>Sujetos de Estudio Registrados en el Sistema</h3>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+      <a class="navbar-brand"></a>
+      <form class="form-inline">
+        <input id="buscador" class="form-control mr-sm-2" placeholder="Buscar" type="search"  aria-label="Search">
+      </form>
+    </nav>
+    <table class="table table-hover table-bordered" id="tablaSujetos">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Código</th>
+        <th scope="col">Nombre</th>
+        <th scope="col" class="text-center">Acción</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="sujeto, iterStat : ${sujetos}">
 
-      <th scope="row" th:text="${iterStat.count}"></th>
+        <th scope="row" th:text="${iterStat.count}"></th>
 
-      <td th:text="${sujeto.getCodigo_sujeto().toString()}"></td>
+        <td th:text="${sujeto.getCodigo_sujeto().toString()}"></td>
 
-      <td th:text="${sujeto.nombre}"></td>
+        <td th:text="${sujeto.nombre}"></td>
 
-      <td class="text-center">
-        <a th:href="@{/edicion/sujetos/editar/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
-           class="btn btn-primary btn-sm">
-          Actualizar
-        </a>
-        <a th:href="@{/edicion/sujetos/editar/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
-           class="btn btn-primary btn-sm">
-          Actualizar 2
-        </a>
-      </td>
-    </tr>
+        <td class="text-center">
+          <a th:href="@{/edicion/sujetos/editar/ingreso/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+             class="btn btn-secondary btn-icon-split mr-2">
+    <span class="icon text-white-50">
+      <i class="fas fa-user-edit"></i>
+    </span>
+            <span class="text">Actualizar Datos Personales</span>
+          </a>
 
-    <tr th:if="${#lists.isEmpty(sujetos)}">
-      <td colspan="4" class="text-center text-muted">No hay sujetos registrados.</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+          <a th:href="@{/edicion/sujetos/editar/formulario/{tipo}/{id}(id=${sujeto.id_sujeto}, tipo=${sujeto.tipo})}"
+             class="btn btn-secondary btn-icon-split">
+    <span class="icon text-white-50">
+      <i class="fas fa-clipboard-list"></i>
+    </span>
+            <span class="text">Actualizar Respuestas</span>
+          </a>
+        </td>
+      </tr>
+
+      <tr th:if="${#lists.isEmpty(sujetos)}">
+        <td colspan="4" class="text-center text-muted">No hay sujetos registrados.</td>
+      </tr>
+      </tbody>
+    </table>
+    <!-- linea de fin-->
+  </div>
+
+</section>
 <script>
   document.getElementById('buscador').addEventListener('keyup', function() {
       var input = this.value.toLowerCase();
