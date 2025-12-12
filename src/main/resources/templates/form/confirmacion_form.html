@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Vista Previa y Confirmación</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
         * {
             margin: 0;
@@ -12,10 +12,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
-            min-height: 100vh;
-            padding: 20px;
+
         }
 
         .preview-container {
@@ -209,128 +206,129 @@
             }
         }
     </style>
-</head>
-<body>
-
-<div class="preview-container">
-    <div class="header">
-        <h1>Resumen de Datos Ingresados</h1>
-        <p>Por favor, revise la información antes de confirmar el guardado final</p>
-    </div>
-
-    <div class="content">
-        <h2 class="section-title">Información del Sujeto</h2>
-        <div th:object="${sujeto}">
-
-            <div class="data-group">
-                <span class="data-label">Nombre:</span>
-                <span class="data-value" th:text="*{nombre}">May</span>
+    <div class="container-fluid">
+        <div class="preview-container">
+            <div class="header">
+                <h1>Resumen de Datos Ingresados</h1>
+                <p>Por favor, revise la información antes de confirmar el guardado final</p>
             </div>
 
-            <div class="data-group">
-                <span class="data-label">Tipo:</span>
-                <span class="data-value"
-                      th:text="*{tipo} == 'CA' ? 'Caso (CA)' : 'Control (CO)'">Tipo de Sujeto</span>
-            </div>
+            <div class="content">
+                <h2 class="section-title">Información del Sujeto</h2>
+                <div th:object="${sujeto}">
 
-            <div class="data-group" th:if="*{direccion}" != null>
-                <span class="data-label">Dirección:</span>
-                <span class="data-value" th:text="*{direccion}">Dirección del Sujeto</span>
-            </div>
+                    <div class="data-group">
+                        <span class="data-label">Nombre:</span>
+                        <span class="data-value" th:text="*{nombre}">May</span>
+                    </div>
 
-            <div class="data-group" th:unless="*{direccion}" != null>
-                <span class="data-label">Dirección:</span>
-                <span class="data-value no-answer">Sin respuesta</span>
-            </div>
+                    <div class="data-group">
+                        <span class="data-label">Tipo:</span>
+                        <span class="data-value"
+                              th:text="*{tipo} == 'CA' ? 'Caso (CA)' : 'Control (CO)'">Tipo de Sujeto</span>
+                    </div>
 
-            <div class="data-group" th:if="*{ocupacion}" != null>
-                <span class="data-label">Ocupación:</span>
-                <span class="data-value" th:text="*{ocupacion}">Ocupación del Sujeto</span>
-            </div>
+                    <div class="data-group" th:if="*{direccion}" != null>
+                        <span class="data-label">Dirección:</span>
+                        <span class="data-value" th:text="*{direccion}">Dirección del Sujeto</span>
+                    </div>
 
-            <div class="data-group" th:unless="*{ocupacion}" != null>
-                <span class="data-label">Ocupación:</span>
-                <span class="data-value no-answer">Sin respuesta</span>
-            </div>
+                    <div class="data-group" th:unless="*{direccion}" != null>
+                        <span class="data-label">Dirección:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
 
-            <div class="data-group" th:if="*{telefono}" != null>
-                <span class="data-label">Teléfono:</span>
-                <span class="data-value" th:text="*{telefono}">123456789</span>
-            </div>
+                    <div class="data-group" th:if="*{ocupacion}" != null>
+                        <span class="data-label">Ocupación:</span>
+                        <span class="data-value" th:text="*{ocupacion}">Ocupación del Sujeto</span>
+                    </div>
 
-            <div class="data-group" th:unless="*{telefono}" != null>
-                <span class="data-label">Teléfono:</span>
-                <span class="data-value no-answer">Sin respuesta</span>
-            </div>
+                    <div class="data-group" th:unless="*{ocupacion}" != null>
+                        <span class="data-label">Ocupación:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
 
-            <div class="data-group" th:if="*{email}" != null>
-                <span class="data-label">Email:</span>
-                <span class="data-value" th:text="*{email}">correo@ejemplo.com</span>
-            </div>
+                    <div class="data-group" th:if="*{telefono}" != null>
+                        <span class="data-label">Teléfono:</span>
+                        <span class="data-value" th:text="*{telefono}">123456789</span>
+                    </div>
 
-            <div class="data-group" th:unless="*{email}" != null>
-                <span class="data-label">Email:</span>
-                <span class="data-value no-answer">Sin respuesta</span>
-            </div>
+                    <div class="data-group" th:unless="*{telefono}" != null>
+                        <span class="data-label">Teléfono:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
 
-            <div class="data-group" th:if="*{nacionalidad}" != null>
-                <span class="data-label">Nacionalidad:</span>
-                <span class="data-value" th:text="*{nacionalidad}">Nacionalidad</span>
-            </div>
+                    <div class="data-group" th:if="*{email}" != null>
+                        <span class="data-label">Email:</span>
+                        <span class="data-value" th:text="*{email}">correo@ejemplo.com</span>
+                    </div>
 
-            <div class="data-group" th:unless="*{nacionalidad}" != null>
-                <span class="data-label">Nacionalidad:</span>
-                <span class="data-value no-answer">Sin respuesta</span>
-            </div>
+                    <div class="data-group" th:unless="*{email}" != null>
+                        <span class="data-label">Email:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
+
+                    <div class="data-group" th:if="*{nacionalidad}" != null>
+                        <span class="data-label">Nacionalidad:</span>
+                        <span class="data-value" th:text="*{nacionalidad}">Nacionalidad</span>
+                    </div>
+
+                    <div class="data-group" th:unless="*{nacionalidad}" != null>
+                        <span class="data-label">Nacionalidad:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
 
 
-        </div>
+                </div>
 
-        <h2 class="section-title">Respuestas del Formulario</h2>
+                <h2 class="section-title">Respuestas del Formulario</h2>
 
-        <div th:if="${#lists.isEmpty(antecedentes)}">
-            <p class="empty-message">No se registraron respuestas válidas en el formulario.</p>
-        </div>
+                <div th:if="${#lists.isEmpty(antecedentes)}">
+                    <p class="empty-message">No se registraron respuestas válidas en el formulario.</p>
+                </div>
 
-        <div th:unless="${#lists.isEmpty(antecedentes)}">
+                <div th:unless="${#lists.isEmpty(antecedentes)}">
 
-            <div th:each="antecedente : ${antecedentes}" class="data-group">
-                <span class="data-label" th:text="${antecedente.datoSolicitado.leyenda}">Pregunta</span>
-                <div class="data-content">
+                    <div th:each="antecedente : ${antecedentes}" class="data-group">
+                        <span class="data-label" th:text="${antecedente.datoSolicitado.leyenda}">Pregunta</span>
+                        <div class="data-content">
                     <span th:if="${antecedente.textoOpcion != null}" class="data-value">
                         <span th:text="${antecedente.textoOpcion}">Etiqueta de la opción (Sí/No)</span>
                     </span>
 
-                    <span th:if="${antecedente.valorNum != null and antecedente.textoOpcion == null}" class="data-value">
+                            <span th:if="${antecedente.valorNum != null and antecedente.textoOpcion == null}" class="data-value">
                         <span th:text="${antecedente.valorNum}"></span>
                     </span>
 
-                    <span th:if="${antecedente.valorString != null}" class="data-value">
+                            <span th:if="${antecedente.valorString != null}" class="data-value">
                         <span th:text="${antecedente.valorString}"></span>
                     </span>
 
-                    <span th:if="${antecedente.textoOpcion == null and antecedente.valorNum == null and antecedente.valorString == null}" class="no-answer">
+                            <span th:if="${antecedente.textoOpcion == null and antecedente.valorNum == null and antecedente.valorString == null}" class="no-answer">
                         Sin respuesta
                     </span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="confirmation-buttons">
+
+                <form th:action="@{/confirmar-guardado}" method="post" style="display:inline;">
+                    <button type="submit" class="confirm-btn">
+                        <span>✓</span> Confirmar y Guardar
+                    </button>
+                </form>
+
+                <a th:href="@{/formulario}" class="cancel-btn">
+                    <span>←</span> Volver y Editar
+                </a>
+            </div>
+
         </div>
     </div>
 
-    <div class="confirmation-buttons">
-
-        <form th:action="@{/confirmar-guardado}" method="post" style="display:inline;">
-            <button type="submit" class="confirm-btn">
-                <span>✓</span> Confirmar y Guardar
-            </button>
-        </form>
-
-        <a th:href="@{/formulario}" class="cancel-btn">
-            <span>←</span> Volver y Editar
-        </a>
-    </div>
-
-</div>
+</section>
 
 </body>
 </html>

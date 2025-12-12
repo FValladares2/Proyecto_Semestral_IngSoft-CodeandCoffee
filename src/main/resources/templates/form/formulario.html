@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario Cáncer Gástrico</title>
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
         * {
             margin: 0;
@@ -12,11 +12,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            line-height: 1.6;
+
         }
 
         .container {
@@ -345,104 +341,105 @@
             filter: invert(54%) sepia(98%) saturate(1780%) hue-rotate(183deg) brightness(97%) contrast(92%);
         }
     </style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1>Formulario Cáncer Gástrico</h1>
-        <p>Complete la información solicitada en cada sección</p>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressBar"></div>
-        </div>
-    </div>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="header">
+                <h1>Formulario Cáncer Gástrico</h1>
+                <p>Complete la información solicitada en cada sección</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+            </div>
 
-    <div class="form-content">
-        <form id="gastricForm" th:object="${formWrapper}" th:action="@{/formulario}" method="post">
+            <div class="form-content">
+                <form id="gastricForm" th:object="${formWrapper}" th:action="@{/formulario}" method="post">
 
 
-            <div th:each="antecedente, status : *{antecedentes}" class="section">
+                    <div th:each="antecedente, status : *{antecedentes}" class="section">
 
-                <h2 th:text="${status.count} + '. ' + ${antecedente.datoSolicitado.leyenda}" class="section-title"></h2>
+                        <h2 th:text="${status.count} + '. ' + ${antecedente.datoSolicitado.leyenda}" class="section-title"></h2>
 
-                <input type="hidden" th:field="*{antecedentes[__${status.index}__].datoSolicitado}" />
+                        <input type="hidden" th:field="*{antecedentes[__${status.index}__].datoSolicitado}" />
 
-                <div class="field-group"
-                     th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'OPCION_MULTIPLE'}">
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'OPCION_MULTIPLE'}">
 
-                    <div class="radio-group"
-                         th:with="datosolicitado=${antecedente.datoSolicitado}">
+                            <div class="radio-group"
+                                 th:with="datosolicitado=${antecedente.datoSolicitado}">
 
-                        <div class="radio-option" th:each="opcion : ${datosolicitado.opciones}">
-                            <input
-                                    type="radio"
-                                    th:id="${'opc' + opcion.id_opcion}"
+                                <div class="radio-option" th:each="opcion : ${datosolicitado.opciones}">
+                                    <input
+                                            type="radio"
+                                            th:id="${'opc' + opcion.id_opcion}"
 
-                                    th:field="*{antecedentes[__${status.index}__].id_opcion}"
+                                            th:field="*{antecedentes[__${status.index}__].id_opcion}"
 
-                                    th:value="${opcion.id_opcion}"
+                                            th:value="${opcion.id_opcion}"
 
-                                    th:data-requiere-texto="${opcion.requiereTexto}"
-                                    class="radio-opcion-input"
-                            />
-                            <label class="radio-label" th:for="${'opc' + opcion.id_opcion}" th:text="${opcion.nombre}"></label>
+                                            th:data-requiere-texto="${opcion.requiereTexto}"
+                                            class="radio-opcion-input"
+                                    />
+                                    <label class="radio-label" th:for="${'opc' + opcion.id_opcion}" th:text="${opcion.nombre}"></label>
+                                </div>
+                            </div>
+
+                            <div class="sub-input" th:id="${'texto-adicional-' + status.index}" style="display:none;">
+                                <input
+                                        type="text"
+                                        th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                                        class="text-input"
+                                        placeholder="Especifique el detalle"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="sub-input" th:id="${'texto-adicional-' + status.index}" style="display:none;">
-                        <input
-                                type="text"
-                                th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                                class="text-input"
-                                placeholder="Especifique el detalle"
-                        />
-                    </div>
-                </div>
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'NUMERO'}">
+                            <input
+                                    type="number"
+                                    th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                                    class="text-input"
+                                    placeholder="Ingrese valor numérico"
+                                    step="any"
 
-                <div class="field-group"
-                     th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'NUMERO'}">
-                    <input
-                            type="number"
-                            th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                            class="text-input"
-                            placeholder="Ingrese valor numérico"
-                            step="any"
+                                    th:min="${antecedente.datoSolicitado.valorMin}"
+                                    th:max="${antecedente.datoSolicitado.valorMax}"
+                            />
+                        </div>
 
-                            th:min="${antecedente.datoSolicitado.valorMin}"
-                            th:max="${antecedente.datoSolicitado.valorMax}"
-                    />
-                </div>
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'FECHA'}">
+                            <input
+                                    type="date"
+                                    th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                                    class="text-input"
+                            />
+                        </div>
 
-                <div class="field-group"
-                     th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'FECHA'}">
-                    <input
-                            type="date"
-                            th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                            class="text-input"
-                    />
-                </div>
-
-                <div class="field-group"
-                     th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'TEXTO'}">
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'TEXTO'}">
                     <textarea
                             th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
                             class="text-input"
                             rows="3"
                             placeholder="Escriba su respuesta aquí..."
                     ></textarea>
-                </div>
+                        </div>
 
+                    </div>
+
+                    <div class="submit-container">
+                        <button type="submit" class="submit-btn">
+                            Guardar Formulario
+                        </button>
+                    </div>
+
+                </form>
             </div>
-
-            <div class="submit-container">
-                <button type="submit" class="submit-btn">
-                    Guardar Formulario
-                </button>
-            </div>
-
-        </form>
+        </div>
     </div>
-</div>
 
+</section>
 <script>
     const form = document.getElementById('gastricForm');
     const progressBar = document.getElementById('progressBar');
