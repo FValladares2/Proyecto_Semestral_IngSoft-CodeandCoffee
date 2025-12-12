@@ -83,7 +83,7 @@ public class SujetoController {
             nuevoSujeto.setEmail(email);
             nuevoSujeto.setNacionalidad(nacionalidad);
             //se crea el sujeto
-            nuevoSujeto = sujetoEstudioService.guardarSujetoEstudio(nuevoSujeto);
+            //nuevoSujeto = sujetoEstudioService.guardarSujetoEstudio(nuevoSujeto);
 
             session.setAttribute("SUJETO_PENDIENTE", nuevoSujeto);
             session.setAttribute("tipo_sujeto", tipo);

@@ -17,14 +17,14 @@ public class Usuario_Sujeto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_cambio;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "id_sujeto", referencedColumnName = "id_sujeto"),
-            @JoinColumn(name = "tipo", referencedColumnName = "tipo")
+            @JoinColumn(name = "id_sujeto", referencedColumnName = "id_sujeto", nullable = true),
+            @JoinColumn(name = "tipo", referencedColumnName = "tipo", nullable = true),
     })
     SujetoEstudio sujetoEstudio;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = true)
     Usuario usuario;
 

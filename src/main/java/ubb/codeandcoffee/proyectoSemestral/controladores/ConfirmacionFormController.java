@@ -11,6 +11,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Antecedente;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
+import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class ConfirmacionFormController {
         this.sujetoEstudioRepository = sujetoEstudioRepository;
         this.antecedenteRepository = antecedenteRepository;
     }
+
+    @Autowired
+    private SujetoEstudioService sujetoEstudioService;
 
     @GetMapping("/confirmacion")
     public String mostrarConfirmacion(HttpSession session, Model model) {
@@ -64,9 +68,8 @@ public class ConfirmacionFormController {
         //logica de guardado en la base
         try {
 
-            sujetoEstudioRepository.save(sujetoPendiente);
-            //obtener el sujeto completo buscando por el nombre
-            SujetoEstudio sujeto = sujetoEstudioRepository.findByNombre(sujetoPendiente.getNombre());
+            //guardar y obtener el sujeto completo
+            SujetoEstudio sujeto = sujetoEstudioService.guardarSujetoEstudio(sujetoPendiente);
 
             //despues de obtener el sujeto completo lo agregamos a cada antecedente
             for (Antecedente antecedente : antecedentesParaGuardar) {
