@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysqldb:3306
--- Generation Time: Dec 12, 2025 at 03:14 AM
+-- Generation Time: Dec 12, 2025 at 06:07 PM
 -- Server version: 8.0.44
 -- PHP Version: 8.3.26
 
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `antecedentes` (
   `idantecedentes` int NOT NULL,
   `valor_num` float DEFAULT NULL,
-  `valor_string` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `valor_string` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_dato` int NOT NULL,
-  `id_sujeto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `id_sujeto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -55,7 +55,7 @@ CREATE TRIGGER `ante_insert-audittrigger` AFTER INSERT ON `antecedentes` FOR EAC
     SET v_action = CONCAT('INSERT en tabla antecedentes, id ', CONVERT(NEW.idantecedentes,char));
 
     INSERT INTO usuario_sujeto (id_usuario, id_sujeto, tipo, fecha, accion)
-    VALUES (NOW(), NEW.id_sujeto, NEW.tipo, NULL, v_action);
+    VALUES (NULL, NEW.id_sujeto, NEW.tipo, NOW(), v_action);
 END
 $$
 DELIMITER ;
@@ -65,7 +65,7 @@ CREATE TRIGGER `ante_update-audittrigger` AFTER UPDATE ON `antecedentes` FOR EAC
     SET v_action = CONCAT('UPDATE en tabla antecedentes, id ', CONVERT(NEW.idantecedentes,char));
 
     INSERT INTO usuario_sujeto (fecha, id_usuario, id_sujeto, tipo, accion)
-    VALUES (NOW(), NULL, NEW.id_sujeto, NEW.tipo, v_action);
+    VALUES (NOW(), NULL, NULL, NULL, v_action);
 END
 $$
 DELIMITER ;
@@ -78,11 +78,11 @@ DELIMITER ;
 
 CREATE TABLE `criterio` (
   `id_criterio` int NOT NULL,
-  `expresion` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `leyenda` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `nombre_stata` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo_calculo` enum('GENERAL','PARTICULAR') COLLATE utf8mb4_general_ci NOT NULL
+  `expresion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `leyenda` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre_stata` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_calculo` enum('GENERAL','PARTICULAR') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -93,13 +93,13 @@ CREATE TABLE `criterio` (
 
 CREATE TABLE `datosolicitado` (
   `id_dato` int NOT NULL,
-  `aplicable_a` enum('AMBOS','CASO','CONTROL') COLLATE utf8mb4_general_ci NOT NULL,
+  `aplicable_a` enum('AMBOS','CASO','CONTROL') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estudio` bit(1) DEFAULT NULL,
-  `leyenda` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombre_stata` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `leyenda` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre_stata` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_seccion` int NOT NULL,
-  `tipo_respuesta` enum('FECHA','NUMERO','OPCION_MULTIPLE','TEXTO') COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_respuesta` enum('FECHA','NUMERO','OPCION_MULTIPLE','TEXTO') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `valor_max` int DEFAULT NULL,
   `valor_min` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -123,7 +123,7 @@ CREATE TABLE `dato_criterio` (
 
 CREATE TABLE `opcion` (
   `id_opcion` int NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `valor` int NOT NULL,
   `id_dato` int NOT NULL,
   `requiere_texto` bit(1) NOT NULL
@@ -137,7 +137,7 @@ CREATE TABLE `opcion` (
 
 CREATE TABLE `seccion` (
   `id_seccion` int NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `numero` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -148,14 +148,14 @@ CREATE TABLE `seccion` (
 --
 
 CREATE TABLE `sujetoestudio` (
-  `id_sujeto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `direccion` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nacionalidad` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ocupacion` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `telefono` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `id_sujeto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `direccion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nacionalidad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ocupacion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telefono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -210,13 +210,13 @@ DELIMITER ;
 
 CREATE TABLE `usuario` (
   `id_usuario` int NOT NULL,
-  `contraseña` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `correo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `estado` enum('ACTIVO','DADO_DE_BAJA','INICIADO','SUSPENDIDO') COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `rol` enum('ADMINISTRADOR','ANALISTA','RECOLECTOR_DE_DATOS') COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `contraseña` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `correo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `estado` enum('ACTIVO','DADO_DE_BAJA','INICIADO','SUSPENDIDO') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `rol` enum('ADMINISTRADOR','ANALISTA','RECOLECTOR_DE_DATOS') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `token_expiracion` datetime(6) DEFAULT NULL,
-  `token_registro` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `token_registro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -234,10 +234,10 @@ INSERT INTO `usuario` (`id_usuario`, `contraseña`, `correo`, `estado`, `nombre`
 
 CREATE TABLE `usuario_sujeto` (
   `id_cambio` int NOT NULL,
-  `accion` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `accion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `id_sujeto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_sujeto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_usuario` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -316,7 +316,7 @@ ALTER TABLE `usuario_sujeto`
 -- AUTO_INCREMENT for table `antecedentes`
 --
 ALTER TABLE `antecedentes`
-  MODIFY `idantecedentes` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idantecedentes` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `criterio`

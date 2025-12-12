@@ -1,5 +1,6 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,22 @@ public class AntecedenteService {
         Antecedente ret = antecedenteRepository.save(antecedente);
         usujService.setLatestChangesAsUsuario();
         return ret;
+    }
+
+    //guardar un grupo de antecedentes
+    public boolean guardarAntecedentes(List<Antecedente> antecedentes) {
+        //Validación: las claves foráneas no pueden ser null
+        for (Antecedente antecedente : antecedentes) {
+            if (antecedente.getDatoSolicitado() == null) {
+                throw new IllegalArgumentException("El DatoSolicitado es obligatorio");
+            }
+            if (antecedente.getSujetoEstudio() == null) {
+                throw new IllegalArgumentException("El SujetoEstudio es obligatorio");
+            }
+        }
+        antecedenteRepository.saveAll(antecedentes);
+        usujService.setLatestChangesAsUsuario();
+        return true;
     }
 
     //Buscar por ID
