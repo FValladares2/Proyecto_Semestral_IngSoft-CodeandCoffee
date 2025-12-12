@@ -32,7 +32,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/menu/admin}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/menu/analista}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-solid fa-code"></i>
             </div>
@@ -44,59 +44,13 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" th:href="@{/menu/admin}">
+            <a class="nav-link" th:href="@{/menu/analista}">
                 <i class="fas fa-fw fa-house"></i>
                 <span>Inicio</span></a>
         </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Gestión de Usuarios
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/crear-usuario}">
-                <i class="fas fa-solid fa-user-plus"></i>
-                <span>Crear un Nuevo Usuario</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/gestionar-usuarios}">
-                <i class="fas fa-solid fa-user"></i>
-                <span>Modificar Usuarios</span></a>
-        </li>
-
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Gestión de Formulario y Datos
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-               aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-solid fa-clipboard-list"></i>
-                <span>Formulario</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Estructura Formulario</h6>
-                    <a class="collapse-item" th:href="@{/admin/crear-formulario}">Cambiar Formulario</a>
-                    <div class="collapse-divider"></div>
-                    <h6 class="collapse-header">Llenado de Datos</h6>
-                    <a class="collapse-item" th:href="@{/ingreso}">Rellenar Formulario</a>
-                    <a class="collapse-item" th:href="@{/edicion/sujetos}">Actualizar Datos</a>
-                </div>
-            </div>
-        </li>
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
@@ -164,7 +118,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Analista</span>
                             <img class="img-profile rounded-circle" th:src="@{/img/undraw_profile.svg}">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -233,7 +187,6 @@
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 <script th:src="@{/js/sb-admin-2.min.js}"></script>
-
 
 <div th:replace="${scripts} ?: ~{}"></div>
 
