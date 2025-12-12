@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:fragment="layout_base(contenido)">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:fragment="layout_base(contenido, scripts)">
 
 <head>
 
@@ -68,7 +68,7 @@
         <li class="nav-item">
             <a class="nav-link" th:href="@{/admin/gestionar-usuarios}">
                 <i class="fas fa-solid fa-user"></i>
-                <span>Ver Usuarios Existentes</span></a>
+                <span>Modificar Usuarios</span></a>
         </li>
 
 
@@ -234,6 +234,10 @@
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+<div th:replace="${scripts} ?: ~{}"></div>
 
 </body>
 
