@@ -1,5 +1,6 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,9 @@ import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 public class AntecedenteService {
     @Autowired
     AntecedenteRepository antecedenteRepository; //instancia del repositorio de Antecedente
+
+    @Autowired
+    UsuarioSujetoService usujService;
 
     //obtener antecedentes
     public ArrayList<Antecedente> getAntecedentes(){
@@ -25,8 +29,25 @@ public class AntecedenteService {
         if (antecedente.getSujetoEstudio() == null) {
             throw new IllegalArgumentException("El SujetoEstudio es obligatorio");
         }
+        Antecedente ret = antecedenteRepository.save(antecedente);
+        usujService.setLatestChangesAsUsuario();
+        return ret;
+    }
 
-        return antecedenteRepository.save(antecedente);
+    //guardar un grupo de antecedentes
+    public boolean guardarAntecedentes(List<Antecedente> antecedentes) {
+        //Validación: las claves foráneas no pueden ser null
+        for (Antecedente antecedente : antecedentes) {
+            if (antecedente.getDatoSolicitado() == null) {
+                throw new IllegalArgumentException("El DatoSolicitado es obligatorio");
+            }
+            if (antecedente.getSujetoEstudio() == null) {
+                throw new IllegalArgumentException("El SujetoEstudio es obligatorio");
+            }
+        }
+        antecedenteRepository.saveAll(antecedentes);
+        usujService.setLatestChangesAsUsuario();
+        return true;
     }
 
     //Buscar por ID
@@ -48,13 +69,16 @@ public class AntecedenteService {
         }
 
         //Guarda los cambios en la base de datos y retorna el antecedente actualizado
-        return antecedenteRepository.save(antecedente);
+        Antecedente ret = antecedenteRepository.save(antecedente);
+        usujService.setLatestChangesAsUsuario();
+        return ret;
     }
 
     //Eliminar por ID
     public Boolean deleteAntecedente(Integer id_antecedente){
         try{
             antecedenteRepository.deleteById(id_antecedente);
+            usujService.setLatestChangesAsUsuario();
             return true;
         }catch(Exception e){
             return false;

@@ -37,7 +37,6 @@ public class SecurityConfig {
         return prov;
     }
 
-    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -48,6 +47,7 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/login",
+                                "/login-post",
                                 "/completar_registro",
                                 "/css/**", "/js/**", "/images/**"
                         ).permitAll()
@@ -65,7 +65,6 @@ public class SecurityConfig {
                         .hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
 
 
-                        aun no implementadas las opciones
                         .requestMatchers("/exportar/**")
                         .hasAnyRole("ADMINISTRADOR", "ANALISTA")
 
@@ -92,8 +91,8 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-    */
 
+    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -102,5 +101,5 @@ public class SecurityConfig {
                 .anyRequest().permitAll() // permite todo acceso sin autenticación
             );
         return http.build();
-    }
+    }*/
 }

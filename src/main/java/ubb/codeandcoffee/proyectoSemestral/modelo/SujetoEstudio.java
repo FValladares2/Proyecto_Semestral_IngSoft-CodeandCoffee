@@ -32,8 +32,9 @@ public class SujetoEstudio {
     private String email;
     private String nacionalidad;
     @JsonIgnore
-    @OneToMany(mappedBy = "sujetoEstudio")
+    @OneToMany(mappedBy = "sujetoEstudio", orphanRemoval = true)
     Set<Usuario_Sujeto> usuj;
+
     @JsonIgnore
     @OneToMany(mappedBy = "sujetoEstudio")
     Set<Antecedente> antecedentes;

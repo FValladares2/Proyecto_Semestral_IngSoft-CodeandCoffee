@@ -30,22 +30,22 @@ public class UsuarioSujetoController {
     }
 
     @GetMapping(path = "{id}") //Endpoint GET
-    public Optional<Usuario_Sujeto> getUsuarioSujetoById(@PathVariable("id") usuario_sujeto_id id){
+    public Optional<Usuario_Sujeto> getUsuarioSujetoById(@PathVariable("id") Integer id){
         return this.usuarioSujetoService.getById(id);
     }
 
     @PutMapping(path = "{id}") //Endpoint PUT
-    public Usuario_Sujeto updateUsuarioSujetoById(@RequestBody Usuario_Sujeto request, @PathVariable("id") usuario_sujeto_id id){
+    public Usuario_Sujeto updateUsuarioSujetoById(@RequestBody Usuario_Sujeto request, @PathVariable("id") Integer id){
         return this.usuarioSujetoService.updateById(request, id);
     }
 
     @PatchMapping(path = "{id}") //Endpoint PATCH
-    public Usuario_Sujeto updateParcialById(@RequestBody Usuario_Sujeto request, @PathVariable("id") usuario_sujeto_id id){
+    public Usuario_Sujeto updateParcialById(@RequestBody Usuario_Sujeto request, @PathVariable("id") Integer id){
         return this.usuarioSujetoService.updateById(request, id);
     }
 
     @DeleteMapping(path = "{id}") //Endpoint DELETE
-    public String deleteUsuarioSujetoById(@PathVariable("id") usuario_sujeto_id id){
+    public String deleteUsuarioSujetoById(@PathVariable("id") Integer id){
         boolean ok = this.usuarioSujetoService.deleteUsuarioSujeto(id);
         if(ok){
             return "El usuj con id: "+ id +" fue eliminado exitosamente";

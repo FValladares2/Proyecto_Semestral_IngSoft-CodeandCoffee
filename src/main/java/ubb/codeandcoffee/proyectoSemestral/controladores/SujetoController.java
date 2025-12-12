@@ -13,6 +13,7 @@ import java.util.*;
 
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
+import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 
 
 @Controller
@@ -20,6 +21,9 @@ public class SujetoController {
 
     @Autowired
     private SujetoEstudioRepository sujetoEstudioRepository;
+
+    @Autowired
+    private SujetoEstudioService sujetoEstudioService;
 
     @GetMapping("/ingreso")
     public String mostrarFormularioIngreso(Model model) {
@@ -79,7 +83,7 @@ public class SujetoController {
             nuevoSujeto.setEmail(email);
             nuevoSujeto.setNacionalidad(nacionalidad);
             //se crea el sujeto
-            //sujetoEstudioRepository.save(nuevoSujeto);
+            //nuevoSujeto = sujetoEstudioService.guardarSujetoEstudio(nuevoSujeto);
 
             session.setAttribute("SUJETO_PENDIENTE", nuevoSujeto);
             session.setAttribute("tipo_sujeto", tipo);

@@ -18,7 +18,7 @@ import java.util.List;
 public class Usuario implements UserDetails{
     @Id
     @Nonnull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
 
     @Nonnull
