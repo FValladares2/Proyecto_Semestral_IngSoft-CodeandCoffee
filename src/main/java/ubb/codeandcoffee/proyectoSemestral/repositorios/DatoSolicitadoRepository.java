@@ -16,4 +16,5 @@ public interface DatoSolicitadoRepository extends JpaRepository<DatoSolicitado, 
             @Param("tipoSujeto") Aplicable_a tipoSujeto,
             @Param("tipoAmbos") Aplicable_a tipoAmbos
     );
+    List<DatoSolicitado> findAllById(Iterable<Integer> ids);
 }

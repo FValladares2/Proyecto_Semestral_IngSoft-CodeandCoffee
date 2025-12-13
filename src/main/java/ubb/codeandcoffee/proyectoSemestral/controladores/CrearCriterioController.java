@@ -32,20 +32,20 @@ public class CrearCriterioController {
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("listaVariables", datoSolicitadoService.getDatoSolicitados());
-        model.addAttribute("criterioDTO", new CriterioDTO()); // Nombre exacto para el HTML
+        model.addAttribute("criterioDTO", new CriterioDTO()); 
         return "crear_criterio";
     }
 
     @PostMapping("/guardar")
     public String procesarCriterio(@ModelAttribute("criterioDTO") CriterioDTO dto,
-                                   BindingResult result, // <--- ESTO CAPTURA ERRORES DE VALIDACIÓN
+                                   BindingResult result, 
                                    RedirectAttributes redirectAttrs) {
 
-        // 1. Verificar errores de datos (ej: tipos incompatibles)
+        // verificar errores de datos 
         if (result.hasErrors()) {
             System.out.println("--- ERROR DE VALIDACIÓN ---");
             result.getAllErrors().forEach(e -> System.out.println(e.toString()));
-            return "menuUsers/crear_criterio"; // Vuelve al form si hay error
+            return "menuUsers/crear_criterio"; // vuelve al form si hay error
         }
 
         try {
@@ -58,18 +58,18 @@ public class CrearCriterioController {
             Set<DatoSolicitado> variablesInvolucradas = new HashSet<>();
             StringBuilder expresionBuilder = new StringBuilder();
 
-            // CASO A: PARTICULAR (Múltiples reglas)
+            // CASO PARTICULAR (Múltiples reglas)
             if ("PARTICULAR".equals(dto.getTipoCalculo())) {
                 List<CriterioDTO.ReglaFila> filas = dto.getReglas();
                 if (filas != null) {
                     for (int i = 0; i < filas.size(); i++) {
                         CriterioDTO.ReglaFila fila = filas.get(i);
-                        // Ignorar filas vacías si el usuario agregó de más
+                        // ignorar filas vacías si el usuario agregó de más
                         if (fila.getIdVariable() != null) {
                             DatoSolicitado var = datoSolicitadoService.getById(fila.getIdVariable()).orElse(null);
                             if (var != null) {
                                 variablesInvolucradas.add(var);
-                                // Construye: "variable > valor AND..."
+                                // construye: "variable > valor AND..."
                                 expresionBuilder.append(var.getNombreStata())
                                         .append(" ")
                                         .append(fila.getOperador())
@@ -84,17 +84,17 @@ public class CrearCriterioController {
                     }
                 }
             }
-            // CASO B: ESTADÍSTICO (Promedio/Mediana)
+            // CASO ESTADÍSTICO (Promedio/Mediana)
             else {
                 DatoSolicitado var = datoSolicitadoService.getById(dto.getIdVariableSimple())
                         .orElseThrow(() -> new RuntimeException("Debe seleccionar una variable"));
                 variablesInvolucradas.add(var);
 
                 String func = "PROMEDIO".equals(dto.getTipoCalculo()) ? "AVG" : "MEDIAN";
-                // Construye: "variable >= AVG"
+                // construye: "variable >= AVG"
                 expresionBuilder.append(var.getNombreStata())
                         .append(" ")
-                        .append(dto.getOperadorSimple()) // El operador que eligió el usuario
+                        .append(dto.getOperadorSimple()) // el operador que eligió el usuario
                         .append(" ")
                         .append(func);
             }
