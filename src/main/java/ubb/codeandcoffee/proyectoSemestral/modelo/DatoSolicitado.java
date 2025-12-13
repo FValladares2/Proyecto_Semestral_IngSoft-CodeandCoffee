@@ -1,10 +1,8 @@
 package ubb.codeandcoffee.proyectoSemestral.modelo;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class DatoSolicitado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_dato;
+    private Integer id_dato;
 
     private String nombre;
 
@@ -42,14 +40,14 @@ public class DatoSolicitado {
     @JsonIgnore
     private List<Opcion> opciones;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    /*@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "dato_criterio",
             joinColumns = @JoinColumn(name = "id_dato"),
             inverseJoinColumns = @JoinColumn(name = "id_criterio")
     )
     @JsonIgnore
-    private Set<Criterio> criterios = new HashSet<>();
+    private Set<Criterio> criterios = new HashSet<>();*/
     
 
     public DatoSolicitado(){
@@ -80,11 +78,11 @@ public class DatoSolicitado {
         this.opciones = opciones;
     }
 
-    public int getId_dato () {
+    public Integer getId_dato () {
         return id_dato;
     }
 
-    public void setId_dato(int id_dato) {
+    public void setId_dato(Integer id_dato) {
         this.id_dato = id_dato;
     }
 
@@ -126,13 +124,6 @@ public class DatoSolicitado {
         this.seccion = seccion;
     }
 
-    public Set<Criterio> getCriterios() {
-        return criterios;
-    }
-
-    public void setCriterios(Set<Criterio> criterios) {
-        this.criterios = criterios;
-    }
     public TipoRespuesta getTipoRespuesta(){
         return tipoRespuesta;
     }
@@ -155,5 +146,7 @@ public class DatoSolicitado {
     public void setValorMax(Integer valorMax) {
         this.valorMax = valorMax;
     }
+
+
 }
 

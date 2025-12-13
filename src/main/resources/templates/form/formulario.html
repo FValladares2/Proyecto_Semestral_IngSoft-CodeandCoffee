@@ -264,6 +264,45 @@
             box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
             letter-spacing: 0.3px;
         }
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 40px 30px 30px;
+            background: #fafafa;
+            border-top: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        .confirm-btn, .cancel-btn {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3);
+        }
+        .cancel-btn {
+            background: white;
+            color: #0288d1;
+            border: 2px solid #0288d1;
+        }
+
+        .cancel-btn:hover {
+            background: #e3f2fd;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.2);
+        }
 
         .submit-btn:hover {
             transform: translateY(-3px);
@@ -320,6 +359,15 @@
             .submit-btn {
                 width: 100%;
                 padding: 12px 24px;
+            }
+            .confirmation-buttons {
+                flex-direction: column;
+                padding: 24px 20px;
+            }
+
+            .confirm-btn, .cancel-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -429,11 +477,14 @@
 
                     </div>
 
-                    <div class="submit-container">
-                        <button type="submit" class="submit-btn">
-                            Guardar Formulario
-                        </button>
-                    </div>
+            <div class="submit-container">
+                <a href="#" onclick="history.back()" class="cancel-btn">
+                    <span>←</span> Volver y Editar Sujeto
+                </a>
+                <button type="submit" class="submit-btn">
+                    Guardar Formulario
+                </button>
+            </div>
 
                 </form>
             </div>
