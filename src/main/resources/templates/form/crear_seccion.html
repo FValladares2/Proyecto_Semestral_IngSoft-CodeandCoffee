@@ -1,38 +1,43 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Sección</title>
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; }
-        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+
+        .container {padding: 20px; border-radius: 8px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
         input[type="text"], input[type="number"] { width: 95%; padding: 8px; }
         button { padding: 10px 15px; background-color: #007bff; color: white; border: none; }
     </style>
-</head>
-<body>
+    <div class="container-fluid">
+        <!-- linea de inicio-->
+        <div class="container">
+            <h1>Crear Nueva Sección</h1>
 
-<div class="container">
-    <h1>Crear Nueva Sección</h1>
+            <form th:action="@{/admin/seccion/guardar}" method="post" th:object="${seccion}">
 
-    <form th:action="@{/admin/seccion/guardar}" method="post" th:object="${seccion}">
+                <div class="form-group">
+                    <label for="nombre">Nombre de la Sección</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" required>
+                </div>
 
-        <div class="form-group">
-            <label for="nombre">Nombre de la Sección</label>
-            <input type="text" id="nombre" th:field="*{nombre}" required>
+                <div class="form-group">
+                    <label for="numero">Número de Orden</label>
+                    <input type="number" id="numero" th:field="*{numero}" required>
+                </div>
+
+                <button type="submit">Guardar Sección</button>
+                <a th:href="@{/admin/crear-formulario}">Cancelar</a>
+            </form>
         </div>
+        <!-- linea de fin-->
+    </div>
 
-        <div class="form-group">
-            <label for="numero">Número de Orden</label>
-            <input type="number" id="numero" th:field="*{numero}" required>
-        </div>
+</section>
 
-        <button type="submit">Guardar Sección</button>
-        <a th:href="@{/admin/crear-formulario}">Cancelar</a>
-    </form>
-</div>
 
 </body>
 </html>
