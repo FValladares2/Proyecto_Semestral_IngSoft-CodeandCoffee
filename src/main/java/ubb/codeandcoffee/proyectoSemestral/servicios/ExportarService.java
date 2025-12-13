@@ -26,7 +26,7 @@ public class ExportarService {
     UsuarioSujetoService usujService;
 
     //shoutouts stackoverflow: https://stackoverflow.com/questions/7153254/how-to-add-cell-comments-to-excel-sheet-using-poi
-    private void addComment(Workbook workbook, Sheet sheet, Cell cell, int rowIdx, int colIdx, String author, String commentText) {
+    private void addComment(Workbook workbook, Sheet sheet, Cell cell, int rowIdx, String commentText) {
         CreationHelper factory = workbook.getCreationHelper();
 
         ClientAnchor anchor = factory.createClientAnchor();
@@ -40,7 +40,7 @@ public class ExportarService {
         Comment comment = drawing.createCellComment(anchor);
         //set the comment text and author
         comment.setString(factory.createRichTextString(commentText));
-        comment.setAuthor(author);
+        comment.setAuthor("Leyenda");
 
         cell.setCellComment(comment);
     }
@@ -96,7 +96,7 @@ public class ExportarService {
             for (DatoSolicitado pregunta : preguntas) {
                 if (pregunta.getEstudio()) {
                     //solo van las preguntas que van a STATA (ya dicotomizados)
-                    columnNum = setupPregunta(r, map, criterios, columnNum, pregunta);
+                    columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
                 }
             }
 
@@ -220,7 +220,7 @@ public class ExportarService {
 
             for (DatoSolicitado pregunta : preguntas) {
                 //añade toda pregunta, dicotomizada o no
-                columnNum = setupPregunta(r, map, criterios, columnNum, pregunta);
+                columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
             }
 
 
@@ -279,8 +279,11 @@ public class ExportarService {
         }
     }
 
-    private int setupPregunta(Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, DatoSolicitado pregunta) {
-        r.createCell(columnNum).setCellValue(pregunta.getNombreStata());
+    private int setupPregunta(Workbook w, Sheet s, Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, DatoSolicitado pregunta) {
+        Cell c = r.createCell(columnNum);
+        c.setCellValue(pregunta.getNombreStata());
+        addComment(w, s, c, 0, pregunta.getLeyenda());
+
         map.add(pregunta.getNombreStata());
         int columnaPregunta = columnNum;
         columnNum++;

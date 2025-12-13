@@ -7,9 +7,11 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Antecedente;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public interface AntecedenteRepository extends JpaRepository<Antecedente, Integer> {
+    List<Antecedente> findAllBySujetoEstudio(SujetoEstudio s);
     @Query("select a from Antecedente a where a.sujetoEstudio = ?1")
     ArrayList<Antecedente> getAllBySujeto(SujetoEstudio sujeto);
 }
