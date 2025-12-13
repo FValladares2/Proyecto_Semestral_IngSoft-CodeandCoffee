@@ -93,10 +93,20 @@ public class ExportarService {
             map.add(columnNum, "Tipo_sujeto");
             columnNum++;
 
-            for (DatoSolicitado pregunta : preguntas) {
-                if (pregunta.getEstudio()) {
-                    //solo van las preguntas que van a STATA (ya dicotomizados)
-                    columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
+            //Separar las preguntas por su grupo (id_seccion)
+            SortedMap<Integer, List<DatoSolicitado>> datosAgrupados = new TreeMap<>();
+            for (DatoSolicitado pregunta : preguntas){
+                datosAgrupados.computeIfAbsent(pregunta.getSeccion().getNumero(),
+                        k -> new ArrayList<>()).add(pregunta);
+            }
+
+            for (var entry : datosAgrupados.entrySet()) {
+                int seccion = entry.getKey();
+                for (DatoSolicitado pregunta : entry.getValue()) {
+                    if (pregunta.getEstudio()) {
+                        //solo van las preguntas que van a STATA (ya dicotomizados)
+                        columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
+                    }
                 }
             }
 
@@ -121,6 +131,10 @@ public class ExportarService {
                 for (Criterio criterio: criteriosObj){
                     //buscar la columna en la que está el criterio
                     int indexCriterio = map.indexOf(criterio.getNombreStata());
+                    if (indexCriterio == -1){
+                        System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas en excel");
+                        continue;
+                    }
                     int valor = 0;
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, criterios.get(indexCriterio), r);
@@ -218,9 +232,20 @@ public class ExportarService {
             columnNum++;
              */
 
-            for (DatoSolicitado pregunta : preguntas) {
-                //añade toda pregunta, dicotomizada o no
-                columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
+            //Separar las preguntas por su grupo (id_seccion)
+            SortedMap<Integer, List<DatoSolicitado>> datosAgrupados = new TreeMap<>();
+            for (DatoSolicitado pregunta : preguntas){
+                datosAgrupados.computeIfAbsent(pregunta.getSeccion().getNumero(),
+                        k -> new ArrayList<>()).add(pregunta);
+            }
+
+            for (var entry : datosAgrupados.entrySet()) {
+                int seccion = entry.getKey();
+                System.out.println("seccion: " + seccion);
+                for (DatoSolicitado pregunta : entry.getValue()) {
+                    //añade toda pregunta, dicotomizada o no
+                    columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
+                }
             }
 
 
@@ -261,6 +286,10 @@ public class ExportarService {
                 for (Criterio criterio: criteriosObj){
                     //buscar la columna en la que está el criterio
                     int indexCriterio = map.indexOf(criterio.getNombreStata());
+                    if (indexCriterio == -1){
+                        System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas en excel");
+                        continue;
+                    }
                     int valor = 0;
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, criterios.get(indexCriterio), r);
