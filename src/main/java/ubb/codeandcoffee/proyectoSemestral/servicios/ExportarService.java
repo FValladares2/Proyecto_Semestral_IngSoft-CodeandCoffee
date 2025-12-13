@@ -293,15 +293,18 @@ public class ExportarService {
             //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
             //  segun entiendo, eso implica las columnas por las que obtiene valores sus
             int indexCriterio = map.indexOf(criterio.getNombreStata());
-            columnNum = setupCriterios(r, map, criterios, columnNum, columnaPregunta, criterio, indexCriterio);
+            columnNum = setupCriterios(w, s, r, map, criterios, columnNum, columnaPregunta, criterio, indexCriterio);
         }
         return columnNum;
     }
 
-    private int setupCriterios(Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, int columnaPregunta, Criterio criterio, int indexCriterio) {
+    private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, int columnaPregunta, Criterio criterio, int indexCriterio) {
         if (indexCriterio == -1) {
             //si no está el criterio en el mapa, se añade en ambos mapa y criterios
-            r.createCell(columnNum).setCellValue(criterio.getNombreStata());
+            Cell c = r.createCell(columnNum);
+            c.setCellValue(criterio.getNombreStata());
+            addComment(w, s, c, 0, criterio.getLeyenda());
+
             map.add(criterio.getNombreStata());
             int guardadoEn = map.indexOf(criterio.getNombreStata());
             ArrayList<Integer> arr = new ArrayList<>();
