@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Editor de Formulario</title>
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
-        body { font-family: sans-serif; max-width: 900px; margin: 20px auto; }
-        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+
+        .container { padding: 20px; border-radius: 8px; }
         h1 { text-align: center; }
         .controles { margin-bottom: 20px; padding: 10px; background-color: #f4f4f4; border-radius: 4px; }
         .controles a { margin-right: 20px; text-decoration: none; font-weight: bold; color: #0056b3; }
@@ -27,56 +28,61 @@
 
         .lista-opciones { font-size: 0.85em; color: #555; margin-left: 20px; margin-top: 5px; }
     </style>
-</head>
-<body>
+    <div class="container-fluid">
+        <!-- linea de inicio-->
+        <div class="container">
+            <h1>Editor de Formulario Dinámico</h1>
 
-<div class="container">
-    <h1>Editor de Formulario Dinámico</h1>
-
-    <div class="controles">
-        <a th:href="@{/admin/formulario/crear-seccion}">+ Crear Nueva Sección</a>
-        <a th:href="@{/admin/formulario/crear-pregunta}">+ Crear Nueva Pregunta</a>
-    </div>
-
-    <h2>Estructura Actual del Formulario</h2>
-
-    <div th:each="seccion : ${secciones}" class="seccion">
-        <h3 th:text="${seccion.numero != null ? seccion.numero : ''} + '. ' + ${seccion.nombre}"></h3>
-
-
-        <div th:each="pregunta : ${seccion.datosSolicitados}" class="pregunta">
-
-            <strong th:text="${pregunta.leyenda}"></strong>
-
-            <div style="float: right;">
-
-                <a th:href="@{/admin/formulario/pregunta/editar/{id}(id=${pregunta.id_dato})}"
-                   style="background-color: #ffc107; color: black; padding: 3px 8px; border-radius: 3px; text-decoration: none; font-size: 0.8em; margin-right: 5px;">
-                    Editar
-                </a>
-
-                <a th:if="${pregunta.tipoRespuesta.toString() == 'OPCION_MULTIPLE'}"
-                   th:href="@{/admin/formulario/opcion/nueva/{id}(id=${pregunta.id_dato})}"
-                   style="background-color: #28a745; color: white; padding: 3px 8px; border-radius: 3px; text-decoration: none; font-size: 0.8em;">
-                    + Opción
-                </a>
-
+            <div class="controles">
+                <a th:href="@{/admin/formulario/crear-seccion}">+ Crear Nueva Sección</a>
+                <a th:href="@{/admin/formulario/crear-pregunta}">+ Crear Nueva Pregunta</a>
             </div>
 
-            <div style="clear: both;"></div>
+            <h2>Estructura Actual del Formulario</h2>
 
-            <div th:if="${!#lists.isEmpty(pregunta.opciones)}" style="margin-top: 5px;">
-                <ul class="lista-opciones">
-                    <li th:each="op : ${pregunta.opciones}" th:text="${op.nombre}"></li>
-                </ul>
+            <div th:each="seccion : ${secciones}" class="seccion">
+                <h3 th:text="${seccion.numero != null ? seccion.numero : ''} + '. ' + ${seccion.nombre}"></h3>
+
+
+                <div th:each="pregunta : ${seccion.datosSolicitados}" class="pregunta">
+
+                    <strong th:text="${pregunta.leyenda}"></strong>
+
+                    <div style="float: right;">
+
+                        <a th:href="@{/admin/formulario/pregunta/editar/{id}(id=${pregunta.id_dato})}"
+                           style="background-color: #ffc107; color: black; padding: 3px 8px; border-radius: 3px; text-decoration: none; font-size: 0.8em; margin-right: 5px;">
+                            Editar
+                        </a>
+
+                        <a th:if="${pregunta.tipoRespuesta.toString() == 'OPCION_MULTIPLE'}"
+                           th:href="@{/admin/formulario/opcion/nueva/{id}(id=${pregunta.id_dato})}"
+                           style="background-color: #28a745; color: white; padding: 3px 8px; border-radius: 3px; text-decoration: none; font-size: 0.8em;">
+                            + Opción
+                        </a>
+
+                    </div>
+
+                    <div style="clear: both;"></div>
+
+                    <div th:if="${!#lists.isEmpty(pregunta.opciones)}" style="margin-top: 5px;">
+                        <ul class="lista-opciones">
+                            <li th:each="op : ${pregunta.opciones}" th:text="${op.nombre}"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(seccion.datosSolicitados)}">
+                    <em style="color: #777;">(Esta sección no tiene preguntas)</em>
+                </div>
             </div>
         </div>
 
-        <div th:if="${#lists.isEmpty(seccion.datosSolicitados)}">
-            <em style="color: #777;">(Esta sección no tiene preguntas)</em>
-        </div>
+        <!-- linea de fin-->
     </div>
-</div>
+
+</section>
+
 
 </body>
 </html>
