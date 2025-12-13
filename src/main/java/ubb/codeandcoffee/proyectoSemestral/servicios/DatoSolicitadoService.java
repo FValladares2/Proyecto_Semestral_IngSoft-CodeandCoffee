@@ -3,11 +3,13 @@ package ubb.codeandcoffee.proyectoSemestral.servicios;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
-import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
-import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
-import ubb.codeandcoffee.proyectoSemestral.modelo.TipoRespuesta;
+import ubb.codeandcoffee.proyectoSemestral.modelo.*;
+import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
+import ubb.codeandcoffee.proyectoSemestral.repositorios.CriterioRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SeccionRepository;
 
@@ -15,6 +17,11 @@ import ubb.codeandcoffee.proyectoSemestral.repositorios.SeccionRepository;
 public class DatoSolicitadoService {
     private final DatoSolicitadoRepository datoRepository; //instancia del repositorio de DatoSolicitado
     private final SeccionRepository seccionRepository;
+    @Autowired
+    private AntecedenteRepository antecedenteRepository;
+
+    @Autowired
+    private CriterioRepository criterioRepository;
     public DatoSolicitadoService(DatoSolicitadoRepository datoRepository, SeccionRepository seccionRepository) {
         this.datoRepository = datoRepository;
         this.seccionRepository = seccionRepository;
@@ -111,6 +118,39 @@ public class DatoSolicitadoService {
         }
     }
 
+    @Transactional
+    public void eliminarDato(Integer datoId) {
+
+        // buscamos el dato
+        DatoSolicitado dato = datoRepository.findById(datoId)
+                .orElseThrow(() -> new RuntimeException("Dato no encontrado"));
+
+        // Verificamos dependencias
+        boolean tieneAntecedentes = antecedenteRepository.verificarSiTieneAntecedentes(datoId);
+        boolean tieneCriterios = criterioRepository.verificarSiEsParteDeCriterio(datoId);
+
+        // lógica
+        if (tieneAntecedentes || tieneCriterios) {
+            // desactivar
+            dato.setActivo(false);
+
+            if (tieneCriterios) {
+                // buscamos los criterios asociados a este dato
+                List<Criterio> criteriosAsociados = criterioRepository.buscarCriteriosPorDato(datoId);
+
+                for (Criterio c : criteriosAsociados) {
+                    c.setActivo(false);
+                    criterioRepository.save(c);
+                }
+            }
+
+            datoRepository.save(dato);
+
+        } else {
+            // borrar de la bd, no tiene ni criterios ni antecedentes relacionados
+            datoRepository.delete(dato);
+        }
+    }
     public List<DatoSolicitado> buscarTodosLosDatos(String tipoSujeto) {
         Aplicable_a tipo;
         if(tipoSujeto.equalsIgnoreCase("CASO")){

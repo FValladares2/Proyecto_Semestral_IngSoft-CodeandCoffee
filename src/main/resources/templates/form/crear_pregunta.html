@@ -4,121 +4,206 @@
     <meta charset="UTF-8">
     <title>Crear Pregunta</title>
     <style>
-        body { font-family: sans-serif; max-width: 700px; margin: 20px auto; }
-        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        body { font-family: sans-serif; max-width: 800px; margin: 20px auto; }
+        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; background-color: #ffff; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], select { width: 95%; padding: 8px; }
-        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; }
-        
-        /* Contenedor de opciones, oculto por defecto */
-        #opciones-container {
-            display: none;
-            border: 1px solid #ddd;
-            background: #f9f9f9;
+        input[type="text"], input[type="number"], select, textarea { width: 95%; padding: 8px; }
+
+        .caja-opcional {
+            border: 1px solid #e2e2e2;
+            background: #fdfdfd;
             padding: 15px;
             margin-top: 10px;
+            border-radius: 5px;
+            display: none; /* oculto por defecto */
         }
-        .opcion-fila { margin-bottom: 5px; }
-        .opcion-fila input { margin-right: 5px; }
+
+        .radio-group label { display: inline-block; margin-right: 15px; font-weight: normal; }
+
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .btn-danger { background-color: #dc3545; margin-left: 5px; }
+
+        .hint { font-size: 0.85em; color: #666; margin-top: 2px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Crear Nueva Pregunta (Dato Solicitado)</h1>
+    <h1>Configurar Nueva Pregunta</h1>
 
-    <form th:action="@{/admin/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
-        
+    <form th:action="@{/admin/formulario/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
+
         <div class="form-group">
-            <label for="leyenda">Texto de la Pregunta (Leyenda)</label>
-            <input type="text" id="leyenda" th:field="*{leyenda}" required>
+            <label for="nombre">Título de la Pregunta (Lo que se ve en grande)</label>
+            <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Edad del paciente" required>
         </div>
-        
+
         <div class="form-group">
-            <label for="seccion">Asignar a Sección:</label>
+            <label for="leyenda">Detalle / Explicación (Leyenda)</label>
+            <textarea id="leyenda" th:field="*{leyenda}" rows="2" placeholder="Ej: Ingrese la edad cumplida en años..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="seccion">Sección:</label>
             <select id="seccion" th:field="*{seccion}" required>
-                <option value="" disabled selected>-- Elija una sección --</option>
+                <option value="" disabled selected>-- Seleccione Sección --</option>
                 <th:block th:each="sec : ${secciones}">
                     <option th:value="${sec.id_seccion}" th:text="${sec.nombre}"></option>
                 </th:block>
             </select>
         </div>
-        
+
         <div class="form-group">
-            <label for="tipoRespuesta">Tipo de Respuesta</label>
-            <select id="tipoRespuesta">
-                <option value="texto">Respuesta de Texto / Numérica</option>
-                <option value="seleccion">Respuesta de Selección Múltiple</option>
+            <label>¿A quién aplica esta pregunta?</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" th:field="*{aplicable_a}" value="AMBOS" checked> Ambos (Caso y Control)
+                </label>
+                <label>
+                    <input type="radio" th:field="*{aplicable_a}" value="CASO"> Solo Casos
+                </label>
+                <label>
+                    <input type="radio" th:field="*{aplicable_a}" value="CONTROL"> Solo Controles
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group" style="background: #eef; padding: 10px; border-radius: 5px;">
+            <label style="display: inline-block;">
+                <input type="checkbox" id="checkEstudio" th:field="*{estudio}">
+                ¿Utilizar en el Estudio (Excel)?
+            </label>
+
+            <div id="stata-container" style="display: none; margin-top: 10px;">
+                <label for="nombreStata">Nombre variable Stata (Sin espacios ni caracteres raros)</label>
+                <input type="text" id="nombreStata" th:field="*{nombreStata}" placeholder="Ej: edad_paciente">
+                <p class="hint">Se eliminarán automáticamente los símbolos especiales al guardar.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+            <label for="tipoRespuesta">Tipo de Respuesta Esperada</label>
+            <select id="tipoRespuesta" th:field="*{tipoRespuesta}">
+                <option value="TEXTO">Texto Libre</option>
+                <option value="NUMERO">Numérico (Edad, Peso, etc)</option>
+                <option value="FECHA">Fecha</option>
+                <option value="OPCION_MULTIPLE">Selección (Opciones)</option>
             </select>
         </div>
 
-        <div id="opciones-container">
-            <h4>Opciones de Respuesta</h4>
-            <div id="lista-opciones">
+        <div id="panel-numero" class="caja-opcional">
+            <h4>Restricciones Numéricas</h4>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Valor Mínimo</label>
+                    <input type="number" th:field="*{valorMin}" placeholder="Opcional">
                 </div>
-            <button type="button" id="btn-add-opcion">+ Añadir Opción</button>
+                <div style="flex: 1;">
+                    <label>Valor Máximo</label>
+                    <input type="number" th:field="*{valorMax}" placeholder="Opcional">
+                </div>
+            </div>
         </div>
-        
+
+        <div id="panel-opciones" class="caja-opcional">
+            <h4>Gestión de Opciones</h4>
+            <div id="lista-opciones"></div>
+            <button type="button" id="btn-add-opcion" style="margin-top:10px;">+ Agregar Opción</button>
+        </div>
+
         <hr style="margin-top: 20px;">
-        <button type="submit">Guardar Pregunta Completa</button>
-        <a th:href="@{/admin/formulario/dashboard}">Cancelar</a>
+        <button type="submit" style="width: 100%; font-size: 1.1em;">Guardar Pregunta</button>
     </form>
 </div>
 
 <script>
-    // Referencias a los elementos del DOM
-    const tipoRespuestaSelect = document.getElementById('tipoRespuesta');
-    const opcionesContainer = document.getElementById('opciones-container');
+    // Referencias DOM
+    const tipoSelect = document.getElementById('tipoRespuesta');
+    const panelNumero = document.getElementById('panel-numero');
+    const panelOpciones = document.getElementById('panel-opciones');
+
+    const checkEstudio = document.getElementById('checkEstudio');
+    const stataContainer = document.getElementById('stata-container');
+    const inputStata = document.getElementById('nombreStata');
+
     const btnAddOpcion = document.getElementById('btn-add-opcion');
     const listaOpcionesDiv = document.getElementById('lista-opciones');
     let indiceOpcion = 0;
 
-    // 1. Mostrar/ocultar el contenedor de opciones
-    tipoRespuestaSelect.addEventListener('change', function() {
-        if (this.value === 'seleccion') {
-            opcionesContainer.style.display = 'block';
-        } else {
-            opcionesContainer.style.display = 'none';
+    // --- LOGICA 1: Mostrar paneles segun Tipo Respuesta ---
+    function actualizarPaneles() {
+        const valor = tipoSelect.value;
+
+        // Ocultar todos primero
+        panelNumero.style.display = 'none';
+        panelOpciones.style.display = 'none';
+
+        if (valor === 'NUMERO') {
+            panelNumero.style.display = 'block';
+        } else if (valor === 'OPCION_MULTIPLE') {
+            panelOpciones.style.display = 'block';
         }
-    });
+        // Texto y Fecha no muestran nada extra
+    }
 
-    // 2. Lógica para añadir una nueva fila de opción
+    tipoSelect.addEventListener('change', actualizarPaneles);
+
+    // --- LOGICA 2: Checkbox Estudio y Nombre Stata ---
+    function actualizarEstudio() {
+        if (checkEstudio.checked) {
+            stataContainer.style.display = 'block';
+            inputStata.required = true; // Si es estudio, obligamos a poner nombre stata
+        } else {
+            stataContainer.style.display = 'none';
+            inputStata.required = false;
+            inputStata.value = ''; // Limpiamos si desmarca
+        }
+    }
+
+    checkEstudio.addEventListener('change', actualizarEstudio);
+
+    // --- LOGICA 3: Agregar Opciones (Igual que antes) ---
     btnAddOpcion.addEventListener('click', function() {
-        // Crear el div de la fila
         const fila = document.createElement('div');
-        fila.className = 'opcion-fila';
+        fila.style.marginBottom = "5px";
+        fila.style.display = "flex";
+        fila.style.gap = "5px";
 
-        // Crear el input para el "Nombre" (Ej: Hombre, Mujer)
         const inputNombre = document.createElement('input');
         inputNombre.type = 'text';
-        // El 'name' es crucial para que Spring Boot reciba la lista
         inputNombre.name = 'opciones[' + indiceOpcion + '].nombre';
-        inputNombre.placeholder = 'Texto (Ej: Sí)';
+        inputNombre.placeholder = 'Texto Opción (Ej: Femenino)';
+        inputNombre.required = true;
+        inputNombre.style.flex = "2";
 
-        // Crear el input para el "Valor" (Ej: 0, 1)
         const inputValor = document.createElement('input');
         inputValor.type = 'number';
         inputValor.name = 'opciones[' + indiceOpcion + '].valor';
-        inputValor.placeholder = 'Valor (Ej: 1)';
+        inputValor.placeholder = 'Valor (Ej: 2)';
+        inputValor.style.flex = "1";
 
-        // Botón para eliminar (opcional pero recomendado)
         const btnEliminar = document.createElement('button');
         btnEliminar.type = 'button';
         btnEliminar.innerText = 'X';
-        btnEliminar.onclick = function() {
-            fila.remove();
-        };
+        btnEliminar.className = 'btn-danger';
+        btnEliminar.onclick = function() { fila.remove(); };
 
-        // Añadir los inputs a la fila y la fila a la lista
-        fila.appendChild(document.createTextNode('Opción ' + (indiceOpcion + 1) + ': '));
         fila.appendChild(inputNombre);
         fila.appendChild(inputValor);
         fila.appendChild(btnEliminar);
         listaOpcionesDiv.appendChild(fila);
-        
-        indiceOpcion++; // Incrementar el índice
+
+        indiceOpcion++;
     });
+
+    // Inicializar estado al cargar (por si hay error y vuelve al form)
+    actualizarPaneles();
+    actualizarEstudio();
+
 </script>
 
 </body>

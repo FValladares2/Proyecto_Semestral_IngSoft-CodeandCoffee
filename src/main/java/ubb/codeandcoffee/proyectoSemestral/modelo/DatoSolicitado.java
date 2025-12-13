@@ -23,6 +23,9 @@ public class DatoSolicitado {
     private Integer valorMin;
     private Integer valorMax;
 
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = true;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Aplicable_a aplicable_a;
@@ -36,7 +39,7 @@ public class DatoSolicitado {
     private Seccion seccion;
 
 
-    @OneToMany(mappedBy = "dato")
+    @OneToMany(mappedBy = "dato", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Opcion> opciones;
 
@@ -48,7 +51,16 @@ public class DatoSolicitado {
     )
     @JsonIgnore
     private Set<Criterio> criterios = new HashSet<>();*/
-    
+
+    public void addOpcion(Opcion opcion) {
+        opciones.add(opcion);
+        opcion.setDatoSolicitado(this);
+    }
+
+    public void removeOpcion(Opcion opcion) {
+        opciones.remove(opcion);
+        opcion.setDatoSolicitado(null);
+    }
 
     public DatoSolicitado(){
         this.opciones = new ArrayList<>();
@@ -86,6 +98,13 @@ public class DatoSolicitado {
         this.id_dato = id_dato;
     }
 
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
 
     public String getNombre() {
         return nombre;

@@ -27,6 +27,9 @@ public class Criterio {
     @Column(nullable = false)
     private String expresion;
 
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = true;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "criterio_datosolicitado",
@@ -99,6 +102,14 @@ public class Criterio {
         this.datosSolicitados = datosSolicitados;
     }
 
+    // Getters y Setters
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
 
     @Override
     public boolean equals(Object o) {
