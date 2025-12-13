@@ -61,8 +61,6 @@ public class FormularioAdminController {
         return "redirect:/admin/formulario/crear-formulario";
     }
 
-    // --- MÉTODOS DE OPCIÓN (Corregidos) ---
-
     @GetMapping("/opcion/nueva/{idDato}")
     public String mostrarCrearOpcion(@PathVariable("idDato") Integer idDato, Model modelo) {
 
@@ -80,7 +78,6 @@ public class FormularioAdminController {
             return "form/crear_opcion";
 
         } else {
-            // CORREGIDO: Redirige a tu vista principal real
             return "redirect:/admin/formulario/crear-formulario";
         }
     }
@@ -88,47 +85,44 @@ public class FormularioAdminController {
     @PostMapping("/opcion/guardar")
     public String guardarOpcion(@ModelAttribute("opcion") Opcion opcion, Model modelo) {
         try {
-            // 1. Intentamos guardar. Si falla, saltará al bloque 'catch'
+            // intentamos guardar
             opcionService.guardarOpcion(opcion);
-
-            // 2. Si pasa, redirigimos al éxito
+            
             return "redirect:/admin/formulario/crear-formulario";
 
         } catch (RuntimeException e) {
-            // 3. AQUÍ ATRAPAMOS EL ERROR (IllegalStateException o IllegalArgumentException)
+            // ATRAPAMOS EL ERROR 
 
-            // Pasamos el mensaje de error a la vista (Ej: "Ya existe una opción con valor 1")
+            // pasamos el mensaje de error a la vista 
             modelo.addAttribute("error", e.getMessage());
 
-            // Devolvemos el objeto 'opcion' para que el usuario no tenga que escribir todo de nuevo
+            // devolvemos el objeto 'opcion' para que el usuario no tenga que escribir todo de nuevo
             modelo.addAttribute("opcion", opcion);
 
-            // RE-CARGAMOS EL NOMBRE DE LA PREGUNTA
-            // Como la vista espera 'nombrePregunta' para el título, hay que buscarlo de nuevo
+            // como la vista espera 'nombrePregunta' para el título, hay que buscarlo de nuevo
             if (opcion.getDatoSolicitado() != null && opcion.getDatoSolicitado().getId_dato() != null) {
-                // Buscamos la pregunta original para sacar el nombre (leyenda)
+                // buscamos la pregunta original para sacar el nombre (leyenda)
                 datoSolicitadoService.getById(opcion.getDatoSolicitado().getId_dato())
                         .ifPresent(pregunta -> modelo.addAttribute("nombrePregunta", pregunta.getLeyenda()));
             }
 
-            // 4. Retornamos la VISTA "crear_opcion" (No redirect) para mostrar el error
+            // fetornamos la VISTA "crear_opcion" (no redirect) para mostrar el error
             return "form/crear_opcion";
         }
     }
 
-    // URL: /admin/formulario/pregunta/editar/5
     @GetMapping("/pregunta/editar/{id}")
     public String mostrarEditarPregunta(@PathVariable("id") Integer id, Model modelo) {
         Optional<DatoSolicitado> preguntaExistente = datoSolicitadoService.getById(id);
 
         if (preguntaExistente.isPresent()) {
-            // 1. Mandamos la pregunta existente al modelo
+            // mandamos la pregunta existente al modelo
             modelo.addAttribute("datoSolicitado", preguntaExistente.get());
 
-            // 2. También necesitamos la lista de secciones para el <select>
+            // también necesitamos la lista de secciones para el <select>
             modelo.addAttribute("secciones", seccionService.getAllSecciones());
 
-            // Reutilizamos la misma vista de creación
+            // reutilizamos la misma vista de creación
             return "form/crear_pregunta";
         } else {
             return "redirect:/admin/formulario/crear-formulario";
