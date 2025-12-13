@@ -106,6 +106,13 @@ public class ExportarService {
                     if (pregunta.getEstudio()) {
                         //solo van las preguntas que van a STATA (ya dicotomizados)
                         columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
+                    }else{
+                        //si no va la pregunta, solo añadir el criterio
+                        Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
+                        for (Criterio criterio : criteriosEnPregunta) {
+                            int indexCriterio = map.indexOf(criterio.getNombreStata());
+                            columnNum = setupCriterios(workbook, sheet, r, map, columnNum, criterio, indexCriterio);
+                        }
                     }
                 }
             }
@@ -320,7 +327,6 @@ public class ExportarService {
         addComment(w, s, c, 0, pregunta.getLeyenda());
 
         map.add(pregunta.getNombreStata());
-        int columnaPregunta = columnNum;
         columnNum++;
 
         Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
@@ -328,12 +334,12 @@ public class ExportarService {
             //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
             //  segun entiendo, eso implica las columnas por las que obtiene valores sus
             int indexCriterio = map.indexOf(criterio.getNombreStata());
-            columnNum = setupCriterios(w, s, r, map, columnNum, columnaPregunta, criterio, indexCriterio);
+            columnNum = setupCriterios(w, s, r, map, columnNum, criterio, indexCriterio);
         }
         return columnNum;
     }
 
-    private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, int columnaPregunta, Criterio criterio, int indexCriterio) {
+    private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, Criterio criterio, int indexCriterio) {
         if (indexCriterio == -1) {
             //si no está el criterio en el mapa, se añade su columna en mapa
             Cell c = r.createCell(columnNum);
