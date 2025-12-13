@@ -67,7 +67,7 @@ public class AdminController {
         
         return "gestionar_usuarios";
     }
-
+/*
     @GetMapping("/crear-formulario")
     public String mostrarCrearFormulario(Model modelo) {
         //templates/form/admin_formulario_dashboard.html
@@ -103,7 +103,7 @@ public class AdminController {
         datoSolicitadoService.guardarDatoSolicitado(datoSolicitado);
         return "redirect:/admin/crear-formulario";
     }
-    // nuevo metodo para procesar la creacion de usuarios con invitación por email
+    // nuevo metodo para procesar la creacion de usuarios con invitación por email*/
     @PostMapping("/crear-usuario")
     public String procesarCrearUsuario(
             @RequestParam("correo") String correo,
