@@ -105,7 +105,7 @@ public class ExportarService {
                 for (DatoSolicitado pregunta : entry.getValue()) {
                     if (pregunta.getEstudio()) {
                         //solo van las preguntas que van a STATA (ya dicotomizados)
-                        columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
+                        columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
                     }
                 }
             }
@@ -122,8 +122,10 @@ public class ExportarService {
                 r.createCell(0).setCellValue(sujeto.getId_sujeto());
                 r.createCell(1).setCellValue(sujeto.getTipo());
                 ArrayList<Antecedente> respuestasSujeto = antService.getAntecedentesBySujeto(sujeto);
+                HashMap<DatoSolicitado, Antecedente> respuestasMapa = new HashMap<>();
 
                 for (Antecedente res : respuestasSujeto) {
+                    respuestasMapa.put(res.getDatoSolicitado(), res);
                     columnNum = map.indexOf(res.getDatoSolicitado().getNombreStata());
                     if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
                 }
@@ -136,8 +138,9 @@ public class ExportarService {
                         continue;
                     }
                     int valor = 0;
+                    Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     String[] argumentos = criterio.getExpresion().split(" ");
-                    String resultado = lidiarConCriterio(argumentos, criterios.get(indexCriterio), r);
+                    String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r);
 
                     //guardar el dato en la columna del criterio
                     r.createCell(indexCriterio).setCellValue(resultado);
@@ -177,7 +180,6 @@ public class ExportarService {
             //mapa para recordar las columnas en que va cada cosa
             ArrayList<String> map = new ArrayList<>();
             //guarda un k/v pair, del indice del criterio en el mapa y los indices de las columnas asociadas
-            HashMap<Integer, ArrayList<Integer>> criterios = new HashMap<>();
 
             int rowNum = 0;
             int columnNum = 0;
@@ -244,7 +246,7 @@ public class ExportarService {
                 System.out.println("seccion: " + seccion);
                 for (DatoSolicitado pregunta : entry.getValue()) {
                     //añade toda pregunta, dicotomizada o no
-                    columnNum = setupPregunta(workbook, sheet, r, map, criterios, columnNum, pregunta);
+                    columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
                 }
             }
 
@@ -276,8 +278,10 @@ public class ExportarService {
                  */
 
                 ArrayList<Antecedente> respuestasSujeto = antService.getAntecedentesBySujeto(sujeto);
+                HashMap<DatoSolicitado, Antecedente> respuestasMapa = new HashMap<>();
 
                 for (Antecedente res : respuestasSujeto) {
+                    respuestasMapa.put(res.getDatoSolicitado(), res);
                     columnNum = map.indexOf(res.getDatoSolicitado().getNombreStata());
                     if (res.getValorString() != null) r.createCell(columnNum).setCellValue(res.getValorString());
                     else if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
@@ -290,9 +294,11 @@ public class ExportarService {
                         System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas en excel");
                         continue;
                     }
+
+                    Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     int valor = 0;
                     String[] argumentos = criterio.getExpresion().split(" ");
-                    String resultado = lidiarConCriterio(argumentos, criterios.get(indexCriterio), r);
+                    String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r);
 
                     //guardar el dato en la columna del criterio
                     r.createCell(indexCriterio).setCellValue(resultado);
@@ -308,7 +314,7 @@ public class ExportarService {
         }
     }
 
-    private int setupPregunta(Workbook w, Sheet s, Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, DatoSolicitado pregunta) {
+    private int setupPregunta(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, DatoSolicitado pregunta) {
         Cell c = r.createCell(columnNum);
         c.setCellValue(pregunta.getNombreStata());
         addComment(w, s, c, 0, pregunta.getLeyenda());
@@ -322,34 +328,25 @@ public class ExportarService {
             //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
             //  segun entiendo, eso implica las columnas por las que obtiene valores sus
             int indexCriterio = map.indexOf(criterio.getNombreStata());
-            columnNum = setupCriterios(w, s, r, map, criterios, columnNum, columnaPregunta, criterio, indexCriterio);
+            columnNum = setupCriterios(w, s, r, map, columnNum, columnaPregunta, criterio, indexCriterio);
         }
         return columnNum;
     }
 
-    private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, HashMap<Integer, ArrayList<Integer>> criterios, int columnNum, int columnaPregunta, Criterio criterio, int indexCriterio) {
+    private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, int columnaPregunta, Criterio criterio, int indexCriterio) {
         if (indexCriterio == -1) {
-            //si no está el criterio en el mapa, se añade en ambos mapa y criterios
+            //si no está el criterio en el mapa, se añade su columna en mapa
             Cell c = r.createCell(columnNum);
             c.setCellValue(criterio.getNombreStata());
             addComment(w, s, c, 0, criterio.getLeyenda());
 
             map.add(criterio.getNombreStata());
-            int guardadoEn = map.indexOf(criterio.getNombreStata());
-            ArrayList<Integer> arr = new ArrayList<>();
-            arr.add(columnaPregunta);
-            criterios.put(guardadoEn, arr);
             columnNum++;
-        }else{
-            //si está en el mapa, se añade al criterio ya existente
-            ArrayList<Integer> arr = criterios.get(indexCriterio);
-            arr.add(columnaPregunta);
-            criterios.replace(indexCriterio, arr); //alternativamente put() ?
-        }
+        }//si está en el mapa, continúa
         return columnNum;
     }
 
-    private String lidiarConCriterio(String[] argumento, ArrayList<Integer> columnasDatos, Row r) {
+    private String lidiarConCriterio(String[] argumento, HashMap<DatoSolicitado, Antecedente> columnasDatos, Set<DatoSolicitado> datos, Row r) {
         if (argumento.length <= 3) {
             //si es un argumento estilo VALOR1 ACCION VALOR2
             //realizar accion acuerdo a lo indicado
@@ -371,8 +368,8 @@ public class ExportarService {
             argumento1[2] = argumento[2];
             System.arraycopy(argumento, 4, argumento2, 0, argumento.length - 4);
 
-            String resultado1 = lidiarConCriterio(argumento1, columnasDatos, r);
-            String resultado2 = lidiarConCriterio(argumento2, columnasDatos, r);
+            String resultado1 = lidiarConCriterio(argumento1, columnasDatos, datos, r);
+            String resultado2 = lidiarConCriterio(argumento2, columnasDatos, datos, r);
             if (separador.equals("Y")){
                 if (resultado1 == null || resultado2 == null) return null;
 
