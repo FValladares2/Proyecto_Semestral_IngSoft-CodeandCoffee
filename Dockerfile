@@ -1,14 +1,17 @@
-# imagen base de java 21
+#usamos java 21
 FROM eclipse-temurin:21-jdk-alpine
+
+# intalamos las dependencias necesarias
+RUN apk update && apk add --no-cache mariadb-client
 
 WORKDIR /app
 
-
-# se copia el archivo jar generado en la carpeta build/libs del proyecto al contenedor y se renombra como app.jar
+# copiar el JAR compilado
 COPY build/libs/*.jar app.jar
 
-# usamos el puerto 8085 para el contenedor
+#documentamos el puerto que usara la app
 EXPOSE 8085
 
-# comando para ejecutar la aplicacion
+
+# ejecutar la aplicacion
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -20,63 +20,55 @@ public class DataSourceConfig {
     private String dbPass;
 
     @Value("${spring.datasource.url}")
-    private String dbUrl; // ejem---> jdbc:mysql://localhost:3306/bdd_formulario
+    private String dbUrl; // Viene del properties: jdbc:mysql://mysqldb:3306/bdd_formulario...
 
-    // nombre de la base de datos por defecto
     private final String DEFAULT_DB = "bdd_formulario";
 
-    /**
-     * este es el Bean principal. Spring ya no se conectara directamente a una base,
-     * sino a este "Enrutador" que decidira a cual ir según el contexto.
-     */
     @Bean
     @Primary
     public DataSource dataSource() {
         MultiTenantDataSource routingDataSource = new MultiTenantDataSource();
 
-        // Crear la conexión por defecto (se usa la plantilla)
-        // Se usa "bdd_formulario" como clave inicial
+        // configuramos la conexión por defecto
         DataSource defaultDataSource = crearConexion(DEFAULT_DB);
 
-        //configurar el mapa inicial de conexiones
+        // mapa inicial
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DEFAULT_DB, defaultDataSource);
-        
-
-
-        /*  
-            codigo para un futuro, sirve para cargar estudios existentes al iniciar,
-            pudiendo inyectar el repositorio 'EstudioRegistroRepository' y llenar este mapa con un bucle for.
-         */
 
         routingDataSource.setTargetDataSources(targetDataSources);
         routingDataSource.setDefaultTargetDataSource(defaultDataSource);
-        
+
         return routingDataSource;
     }
 
-    
-    /*
-        metodo para crear una nueva conexion a una base de datos dada su nombre
-    */
+    /**
+      crea una conexión a una base de datos específica.
+      Maneja la URL de Docker correctamente.
+     */
     public DataSource crearConexion(String nombreDb) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
+        // Lógica para limpiar la URL base
+        // Entrada: jdbc:mysql://mysqldb:3306/bdd_formulario?opciones...
+        // Objetivo: jdbc:mysql://mysqldb:3306/nuevo_estudio?opciones...
         
-        /* se construlle dinamicamente la URL. 
-            en este ejemplo se esta usando 3066 como puerto o el servicio 'mysqldb' en docker, 
-            se adpta la url base quitando el nombre de la DB actual.        
-        */
+        String cleanUrl = dbUrl;
+        // Cortar parámetros GET si existen
+        if (cleanUrl.contains("?")) {
+            cleanUrl = cleanUrl.substring(0, cleanUrl.indexOf("?"));
+        }
+        // Obtener la raíz (jdbc:mysql://mysqldb:3306/)
+        String baseUrl = cleanUrl.substring(0, cleanUrl.lastIndexOf("/") + 1);
         
-        String baseUrl = dbUrl.substring(0, dbUrl.lastIndexOf("/") + 1); 
-        // esto convierte "jdbc:mysql://localhost:3306/bdd_formulario" en "jdbc:mysql://localhost:3306/"
-        
-        String nuevaUrl = baseUrl + nombreDb + "?allowPublicKeyRetrieval=true&useSSL=false";
-        
+        // Reconstruir con parámetros necesarios para Docker
+        String nuevaUrl = baseUrl + nombreDb + "?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=false";
+
         dataSource.setUrl(nuevaUrl);
         dataSource.setUsername(dbUser);
         dataSource.setPassword(dbPass);
-        
+
         return dataSource;
     }
 }
