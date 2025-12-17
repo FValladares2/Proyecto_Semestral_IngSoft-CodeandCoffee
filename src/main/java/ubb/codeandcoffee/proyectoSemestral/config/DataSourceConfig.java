@@ -50,19 +50,21 @@ public class DataSourceConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-        // Lógica para limpiar la URL base
-        // Entrada: jdbc:mysql://mysqldb:3306/bdd_formulario?opciones...
-        // Objetivo: jdbc:mysql://mysqldb:3306/nuevo_estudio?opciones...
+       /*
+            se usa para limpiar la url de la base de datos y reconstruirla
+            entrada: jdbc:mysql://mysqldb:3306/bdd_formulario?opciones...
+            salida: jdbc:mysql://mysqldb:3306/nuevo_estudio?opciones
+        */
         
         String cleanUrl = dbUrl;
-        // Cortar parámetros GET si existen
+        // se cortan los parámetros GET si es que existen
         if (cleanUrl.contains("?")) {
             cleanUrl = cleanUrl.substring(0, cleanUrl.indexOf("?"));
         }
-        // Obtener la raíz (jdbc:mysql://mysqldb:3306/)
+        // obtenemos la raíz (jdbc:mysql://mysqldb:3306/)
         String baseUrl = cleanUrl.substring(0, cleanUrl.lastIndexOf("/") + 1);
         
-        // Reconstruir con parámetros necesarios para Docker
+        // reconstruimos con los parámetros necesarios para Docker
         String nuevaUrl = baseUrl + nombreDb + "?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=false";
 
         dataSource.setUrl(nuevaUrl);
