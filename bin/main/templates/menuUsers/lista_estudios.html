@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Estudios Científicos</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        
+        /* Tabla */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+
+        /* Botones */
+        .btn { padding: 8px 15px; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; display: inline-block; }
+        .btn-primary { background-color: #28a745; color: white; }
+        .btn-info { background-color: #17a2b8; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 15% auto; padding: 20px; width: 400px; border-radius: 5px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; }
+        
+        /* Alertas */
+        .alert { padding: 10px; margin-bottom: 20px; border-radius: 4px; }
+        .alert-success { background-color: #d4edda; color: #155724; }
+        .alert-danger { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Mis Estudios Científicos</h1>
+        <div>
+            <a href="/admin/menu" class="btn btn-secondary">Volver al Menú</a>
+            <button onclick="abrirModal()" class="btn btn-primary">+ Nuevo Estudio</button>
+        </div>
+    </div>
+
+    <div th:if="${exito}" class="alert alert-success" th:text="${exito}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre del Estudio</th>
+            <th>Base de Datos (Técnico)</th>
+            <th>Creado Por</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="estudio : ${listaEstudios}">
+            <td th:text="${estudio.id_estudio}">1</td>
+            <td th:text="${estudio.nombreVisible}" style="font-weight: bold;">Estudio Cáncer</td>
+            <td th:text="${estudio.nombreBd}" style="color: #666; font-size: 0.9em;">estudio_cancer_123</td>
+            <td th:text="${estudio.creador != null ? estudio.creador.nombre : 'Sistema'}">Admin</td>
+            <td th:text="${#temporals.format(estudio.fechaCreacion, 'dd-MM-yyyy HH:mm')}">Fecha</td>
+            <td th:text="${estudio.estado}">ACTIVO</td>
+            <td>
+                <a th:href="@{/admin/estudios/acceder/{bd}(bd=${estudio.nombreBd})}" class="btn btn-info">
+                    Entrar &rarr;
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <div th:if="${#lists.isEmpty(listaEstudios)}" style="text-align: center; margin-top: 20px; color: #777;">
+        <p>No hay estudios creados aún. ¡Crea el primero!</p>
+    </div>
+</div>
+
+<div id="modalCrear" class="modal">
+    <div class="modal-content">
+        <h2>Crear Nuevo Estudio</h2>
+        <p>Esto creará una base de datos nueva clonando el formulario actual.</p>
+        
+        <form action="/admin/estudios/crear" method="post">
+            <div class="form-group">
+                <label for="nombreEstudio">Nombre del Estudio:</label>
+                <input type="text" id="nombreEstudio" name="nombreEstudio" required 
+                       placeholder="Ej: Encuesta Verano 2025" pattern="[a-zA-Z0-9 _-]+"
+                       title="Solo letras, números, espacios y guiones.">
+            </div>
+            
+            <div style="text-align: right;">
+                <button type="button" onclick="cerrarModal()" class="btn btn-secondary">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Crear e Inicializar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function abrirModal() {
+        document.getElementById('modalCrear').style.display = 'block';
+    }
+    function cerrarModal() {
+        document.getElementById('modalCrear').style.display = 'none';
+    }
+    // Cerrar si clic fuera del modal
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('modalCrear')) {
+            cerrarModal();
+        }
+    }
+</script>
+
+</body>
+</html>

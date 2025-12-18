@@ -250,7 +250,7 @@ public class AdminController {
     @GetMapping("/estudios")
     public String verEstudios(Model model) {
         model.addAttribute("listaEstudios", gestorEstudiosService.listarEstudios());
-        return "admin/lista_estudios"; // Debes crear este HTML
+        return "menuUsers/lista_estudios"; // Debes crear este HTML
     }
 
     /*
