@@ -119,7 +119,7 @@ public class SecurityConfig {
                                 "/exportar/**"
 
 
-                        ).hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
+                        ).hasAnyRole("ADMINISTRADOR", "ANALISTA")
                         //rutas compartidas admin y analista
 
                         .anyRequest().authenticated()
