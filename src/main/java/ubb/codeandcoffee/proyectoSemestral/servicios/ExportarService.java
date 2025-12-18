@@ -3,6 +3,8 @@ package ubb.codeandcoffee.proyectoSemestral.servicios;
 import jakarta.transaction.Transactional;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ubb.codeandcoffee.proyectoSemestral.modelo.*;
@@ -14,6 +16,7 @@ import java.util.*;
 
 @Service
 public class ExportarService {
+    private static final Logger log = LoggerFactory.getLogger(ExportarService.class);
     @Autowired
     SujetoEstudioService sujEstService;
     @Autowired
@@ -117,6 +120,11 @@ public class ExportarService {
                 }
             }
 
+            //obtener promedios/medianas/modas con datos validos
+            HashMap<DatoSolicitado, Integer> promedios = new HashMap<>();
+            HashMap<DatoSolicitado, Integer> medianas = new HashMap<>();
+            HashMap<DatoSolicitado, Integer> modas = new HashMap<>();
+            getPMM(promedios, medianas, modas, preguntas);
 
             /*
             Obtener los datos y añadirlos por sujeto
@@ -134,7 +142,8 @@ public class ExportarService {
                 for (Antecedente res : respuestasSujeto) {
                     respuestasMapa.put(res.getDatoSolicitado(), res);
                     columnNum = map.indexOf(res.getDatoSolicitado().getNombreStata());
-                    if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
+                    System.out.println("antecedente: "+res.getDatoSolicitado().getNombreStata());
+                    if (res.getValorNum() != null && columnNum != -1) r.createCell(columnNum).setCellValue(res.getValorNum());
                 }
 
                 for (Criterio criterio: criteriosObj){
@@ -147,10 +156,10 @@ public class ExportarService {
                     int valor = 0;
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     String[] argumentos = criterio.getExpresion().split(" ");
-                    String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r);
+                    String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
 
                     //guardar el dato en la columna del criterio
-                    r.createCell(indexCriterio).setCellValue(resultado);
+                    if (resultado != null) r.createCell(indexCriterio).setCellValue(resultado);
                 }
 
 
@@ -258,6 +267,12 @@ public class ExportarService {
             }
 
 
+            //obtener promedios/medianas/modas con datos validos
+            HashMap<DatoSolicitado, Integer> promedios = new HashMap<>();
+            HashMap<DatoSolicitado, Integer> medianas = new HashMap<>();
+            HashMap<DatoSolicitado, Integer> modas = new HashMap<>();
+            getPMM(promedios, medianas, modas, preguntas);
+
             /*
             Obtener los datos y añadirlos por sujeto
              */
@@ -305,7 +320,7 @@ public class ExportarService {
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     int valor = 0;
                     String[] argumentos = criterio.getExpresion().split(" ");
-                    String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r);
+                    String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
 
                     //guardar el dato en la columna del criterio
                     r.createCell(indexCriterio).setCellValue(resultado);
@@ -352,15 +367,77 @@ public class ExportarService {
         return columnNum;
     }
 
-    private String lidiarConCriterio(String[] argumento, HashMap<DatoSolicitado, Antecedente> columnasDatos, Set<DatoSolicitado> datos, Row r) {
+    private String lidiarConCriterio(String[] argumento, HashMap<DatoSolicitado, Antecedente> columnasDatos,
+                                       Set<DatoSolicitado> datos, Row r, HashMap<DatoSolicitado, Integer> avg,
+                                       HashMap<DatoSolicitado, Integer> med, HashMap<DatoSolicitado, Integer> mod) {
         if (argumento.length <= 3) {
             //si es un argumento estilo VALOR1 ACCION VALOR2
             //realizar accion acuerdo a lo indicado
-            //todo: obtener el valor de la celda dependiendo del tipo de criterio (promedio, media, algo específico, etc)
+
+            System.out.print("argumentos: ");
+            for (String arg : argumento) System.out.print("[] = ["+ arg + "], ");
+            System.out.println();
+
+            DatoSolicitado datoValor1 = null;
+            for (DatoSolicitado d : datos) if (d.getNombreStata().equals(argumento[0])) datoValor1 = d;
+            if (datoValor1 == null) {
+                System.out.println("Argumento[0] " + argumento[0] + " no esta relacionado con un criterio procesado");
+                return null;
+            }
+            System.out.println("Found: "+argumento[0]+" = "+datoValor1.getNombreStata());
+            Antecedente valor1 = columnasDatos.get(datoValor1);
+            if (valor1 == null) return null; //si no hay respuesta del usuario, retorna null
+
+            int valor2;
+            if (!argumento[2].equals("AVG") &&
+                    !argumento[2].equals("MOD") &&
+                    !argumento[2].equals("MED"))
+                valor2 = Integer.parseInt(argumento[2]);
+            else if (avg.get(datoValor1) != null &&
+                    mod.get(datoValor1) != null &&
+                    med.get(datoValor1) != null){
+                switch (argumento[2]) {
+                    case "AVG" -> valor2 = avg.get(datoValor1);
+                    case "MOD" -> valor2 = mod.get(datoValor1);
+                    case "MED" -> valor2 = med.get(datoValor1);
+                    default -> {
+                        System.out.println("Error?; unreachable statement?");
+                        return null;
+                    }
+                }
+            }else return null;
 
             switch (argumento[1]) {
-                case "":
-
+                case "<=" -> {
+                    if (valor1.getValorNum() <= valor2) return "1";
+                    else return "0";
+                }
+                case ">=" -> {
+                    if (valor1.getValorNum() >= valor2) return "1";
+                    else return "0";
+                }
+                case ">" -> {
+                    if (valor1.getValorNum() > valor2) return "1";
+                    else return "0";
+                }
+                case "<" -> {
+                    if (valor1.getValorNum() < valor2) return "1";
+                    else return "0";
+                }
+                case "==" -> {
+                    if (valor1.getValorNum() == valor2) return "1";
+                    else if (valor1.getValorString().equals(argumento[2])) return "1";
+                    else return "0";
+                }
+                case "!=" -> {
+                    if (valor1.getValorNum() != valor2) return "1";
+                    else if (!valor1.getValorString().equals(argumento[2])) return "1";
+                    else return "0";
+                }
+                default -> {
+                    //print en consola spring para debug
+                    System.out.println("Argumento[1] (acción) ("+argumento[1]+") no reconocido?");
+                }
             }
 
         }else{
@@ -374,8 +451,8 @@ public class ExportarService {
             argumento1[2] = argumento[2];
             System.arraycopy(argumento, 4, argumento2, 0, argumento.length - 4);
 
-            String resultado1 = lidiarConCriterio(argumento1, columnasDatos, datos, r);
-            String resultado2 = lidiarConCriterio(argumento2, columnasDatos, datos, r);
+            String resultado1 = lidiarConCriterio(argumento1, columnasDatos, datos, r, avg, med, mod);
+            String resultado2 = lidiarConCriterio(argumento2, columnasDatos, datos, r, avg, med, mod);
             if (separador.equals("Y")){
                 if (resultado1 == null || resultado2 == null) return null;
 
@@ -389,5 +466,14 @@ public class ExportarService {
             }else throw new RuntimeException("Expresión inesperada, separador no es \"Y\" ni \"O\"");
         }
         return null;
+    }
+
+    private void getPMM(HashMap<DatoSolicitado, Integer> avg, HashMap<DatoSolicitado, Integer> med,
+                        HashMap<DatoSolicitado, Integer> mod, ArrayList<DatoSolicitado> preguntas){
+        for (DatoSolicitado d : preguntas) {
+            if (d.getTipoRespuesta().equals(TipoRespuesta.NUMERO)) {
+                //TODO
+            }
+        }
     }
 }
