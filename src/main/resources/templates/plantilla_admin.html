@@ -36,6 +36,7 @@
             width: 1.5rem;
             text-align: center;
             display: inline-block;
+            overflow: hidden;
         }
 
         #wrapper {
@@ -46,7 +47,7 @@
 
         #accordionSidebar {
             height: 100vh;
-            overflow-y: auto;
+            overflow-y: hidden;
             overflow-x: hidden;
             z-index: 1000;
         }
@@ -202,10 +203,6 @@
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
 
     </ul>
     <!-- End of Sidebar -->
