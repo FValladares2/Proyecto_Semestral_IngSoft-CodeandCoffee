@@ -4,73 +4,132 @@
   <meta charset="UTF-8">
   <title>Ingreso de Sujeto</title>
   <style>
-    body {
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background-color: #f5f7fb;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+    * {
       margin: 0;
-      padding: 40px 20px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      padding: 24px 24px 24px 280px;
+      line-height: 1.5;
     }
 
     .card {
       background-color: white;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      padding: 30px 40px;
-      max-width: 500px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 32px;
+      max-width: 600px;
       width: 100%;
+      margin: 0 auto;
     }
 
-    h2, h3 {
+    h2 {
       text-align: center;
-      color: #333;
-      margin-bottom: 20px;
+      color: #2757F5;
+      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    h3 {
+      color: #2757F5;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 small {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9ca3af;
     }
 
     hr {
       border: none;
-      border-top: 1px solid #ddd;
-      margin: 25px 0;
+      border-top: 1px solid #e8eef5;
+      margin: 24px 0;
     }
 
     label {
-      font-weight: 600;
-      margin-bottom: 6px;
+      font-weight: 500;
+      margin-bottom: 8px;
       display: block;
-      color: #444;
+      color: #2c3e50;
+      font-size: 13.5px;
     }
 
     input[type="text"],
     input[type="email"],
     input[type="tel"] {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
+      padding: 9px 12px;
+      border: 1.5px solid #d9e2ef;
       border-radius: 6px;
-      font-size: 14px;
+      font-size: 13.5px;
       box-sizing: border-box;
-      transition: border-color 0.2s;
+      transition: all 0.2s ease;
+      background: #fafbfc;
+      color: #2c3e50;
+      font-family: inherit;
     }
 
     input:focus {
       outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+      border-color: #2757F5;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.1);
+    }
+
+    input::placeholder {
+      color: #9ca3af;
     }
 
     .radio-group {
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin-top: 5px;
+      gap: 20px;
+      margin-top: 8px;
+      flex-wrap: wrap;
     }
 
     .radio-group label {
-      font-weight: normal;
+      font-weight: 400;
       margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 17px;
+      height: 17px;
+      border: 2px solid #2757F5;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: white;
+      flex-shrink: 0;
+    }
+
+    input[type="radio"]:hover {
+      border-color: #1e44c9;
+      box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.12);
+    }
+
+    input[type="radio"]:checked {
+      background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
+      border-color: #1e44c9;
+      box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.2);
     }
 
     .form-group {
@@ -80,96 +139,160 @@
     .error {
       color: #b30000;
       background-color: #ffe6e6;
-      border: 1px solid #ffb3b3;
-      padding: 10px;
+      border: 1.5px solid #ffb3b3;
+      padding: 12px 14px;
       border-radius: 6px;
       margin-bottom: 20px;
       text-align: center;
+      font-size: 13.5px;
+      font-weight: 500;
     }
 
     button {
       width: 100%;
-      padding: 12px;
-      background-color: #007bff;
+      padding: 11px 16px;
+      background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(39, 87, 245, 0.25);
+      margin-top: 8px;
     }
 
     button:hover {
-      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(39, 87, 245, 0.35);
+      background: linear-gradient(135deg, #1e44c9 0%, #2757F5 100%);
     }
 
     button:active {
-      transform: scale(0.98);
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(39, 87, 245, 0.3);
     }
 
     small {
-      color: #666;
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    @media (max-width: 1024px) {
+      body {
+        padding-left: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 24px 20px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      h3 {
+        font-size: 15px;
+      }
+
+      .radio-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .radio-group label {
+        gap: 8px;
+      }
+
+      hr {
+        margin: 20px 0;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h2>Ingresar Datos del Sujeto</h2>
+<div class="card">
+  <h2>Ingresar Datos del Sujeto</h2>
 
-    <div th:if="${error_nombre}" class="error">
-      <p th:text="${error_nombre}"></p>
+  <div th:if="${error_nombre}" class="error">
+    <p th:text="${error_nombre}"></p>
+  </div>
+
+  <form id="formSujeto" th:action="@{/ingreso}" method="post" onsubmit="return confirmarSujetoInicial(event)">
+    <div class="form-group">
+      <label for="nombre">Nombre Completo del Paciente</label>
+      <input type="text" id="nombre" name="nombre" required placeholder="Ingrese nombre completo">
     </div>
 
-    <form th:action="@{/ingreso}" method="post">
-      <div class="form-group">
-        <label for="nombre">Nombre Completo del Paciente:</label>
-        <input type="text" id="nombre" name="nombre" required>
-      </div>
-
-      <div class="form-group">
-        <label>Tipo de Sujeto:</label>
-        <div class="radio-group">
+    <div class="form-group">
+      <label>Tipo de Sujeto</label>
+      <div class="radio-group">
+        <label>
           <input type="radio" id="tipo_caso" name="tipo" value="CASO" required>
-          <label for="tipo_caso">Caso</label>
+          Caso
+        </label>
+        <label>
           <input type="radio" id="tipo_control" name="tipo" value="CONTROL">
-          <label for="tipo_control">Control</label>
-        </div>
+          Control
+        </label>
       </div>
+    </div>
 
-      <hr>
+    <hr>
 
-      <h3>Datos Adicionales <small>(Opcional)</small></h3>
+    <h3>Datos Adicionales <small>(Opcional)</small></h3>
 
-      <div class="form-group">
-        <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" name="direccion">
-      </div>
+    <div class="form-group">
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" name="direccion" placeholder="Calle, número, ciudad">
+    </div>
 
-      <div class="form-group">
-        <label for="ocupacion">Ocupación:</label>
-        <input type="text" id="ocupacion" name="ocupacion">
-      </div>
+    <div class="form-group">
+      <label for="ocupacion">Ocupación</label>
+      <input type="text" id="ocupacion" name="ocupacion" placeholder="Ej: Ingeniero, Docente">
+    </div>
 
-      <div class="form-group">
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono">
-      </div>
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input type="tel" id="telefono" name="telefono" placeholder="Ej: +56 9 1234 5678">
+    </div>
 
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
-      </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="correo@ejemplo.com">
+    </div>
 
-      <div class="form-group">
-        <label for="nacionalidad">Nacionalidad:</label>
-        <input type="text" id="nacionalidad" name="nacionalidad">
-      </div>
+    <div class="form-group">
+      <label for="nacionalidad">Nacionalidad</label>
+      <input type="text" id="nacionalidad" name="nacionalidad" placeholder="País de origen">
+    </div>
 
-      <button type="submit">Guardar y Continuar al Formulario</button>
-    </form>
-  </div>
+    <button type="button" onclick="validarYEnviarSujeto()" class="submit-btn">Guardar y Continuar al Formulario</button>
+  </form>
+  <script>
+    function validarYEnviarSujeto() {
+      const form = document.getElementById('formSujeto');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const mensaje = "⚠️ ¡Atención!\n\nAl confirmar al sujeto se generará el formulario de preguntas.\n\nSi decide volver a esta pantalla más tarde para editar los datos del sujeto, todo lo que escriba en las preguntas se borrará.\n\n¿Desea continuar?";
+
+      if (confirm(mensaje)) {
+        form.submit();
+      }
+    }
+  </script>
+</div>
 
 </body>
 </html>
