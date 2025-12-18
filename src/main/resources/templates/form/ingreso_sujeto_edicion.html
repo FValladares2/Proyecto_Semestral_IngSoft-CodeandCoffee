@@ -81,7 +81,7 @@
           text-align: center;
         }
 
-        .submit {
+        #guardar {
           width: 100%;
           padding: 12px;
           background-color: #007bff;
@@ -159,7 +159,7 @@
                     <input type="text" id="nacionalidad" th:field="*{nacionalidad}">
                 </div>
 
-                <button type="submit" th:text="${editar} ? 'Actualizar Datos' : 'Guardar y Continuar'"></button>
+                <button id="guardar" type="submit" th:text="${editar} ? 'Actualizar Datos' : 'Guardar y Continuar'"></button>
             </form>
             </form>
         </div>
