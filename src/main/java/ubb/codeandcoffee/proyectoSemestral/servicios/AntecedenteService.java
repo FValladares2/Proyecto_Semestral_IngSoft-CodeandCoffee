@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ubb.codeandcoffee.proyectoSemestral.modelo.Antecedente;
+import ubb.codeandcoffee.proyectoSemestral.modelo.*;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 
 @Service //Marca esta clase como un servicio de Spring
@@ -18,6 +18,10 @@ public class AntecedenteService {
     //obtener antecedentes
     public ArrayList<Antecedente> getAntecedentes(){
         return(ArrayList<Antecedente>) antecedenteRepository.findAll();
+    }
+
+    public ArrayList<Antecedente> getAntecedentesBySujeto(SujetoEstudio sujeto){
+        return antecedenteRepository.getAllBySujeto(sujeto);
     }
 
     //guardar nuevo antecedente
@@ -53,6 +57,10 @@ public class AntecedenteService {
     //Buscar por ID
     public Optional<Antecedente> getById(Integer id_antecedente){
         return antecedenteRepository.findById(id_antecedente);
+    }
+
+    public List<Antecedente> getAllByDatoSolicitado(DatoSolicitado d){
+        return antecedenteRepository.findAllByDatoSolicitado(d);
     }
 
     //Actualizar por ID
