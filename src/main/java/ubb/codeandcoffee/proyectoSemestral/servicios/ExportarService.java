@@ -121,9 +121,9 @@ public class ExportarService {
             }
 
             //obtener promedios/medianas/modas con datos validos
-            HashMap<DatoSolicitado, Integer> promedios = new HashMap<>();
-            HashMap<DatoSolicitado, Integer> medianas = new HashMap<>();
-            HashMap<DatoSolicitado, Integer> modas = new HashMap<>();
+            HashMap<DatoSolicitado, Float> promedios = new HashMap<>();
+            HashMap<DatoSolicitado, Float> medianas = new HashMap<>();
+            HashMap<DatoSolicitado, Float> modas = new HashMap<>();
             getPMM(promedios, medianas, modas, preguntas);
 
             /*
@@ -157,7 +157,7 @@ public class ExportarService {
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
-
+                    System.out.println("resultado: " + resultado);
                     //guardar el dato en la columna del criterio
                     if (resultado != null) r.createCell(indexCriterio).setCellValue(resultado);
                 }
@@ -268,9 +268,9 @@ public class ExportarService {
 
 
             //obtener promedios/medianas/modas con datos validos
-            HashMap<DatoSolicitado, Integer> promedios = new HashMap<>();
-            HashMap<DatoSolicitado, Integer> medianas = new HashMap<>();
-            HashMap<DatoSolicitado, Integer> modas = new HashMap<>();
+            HashMap<DatoSolicitado, Float> promedios = new HashMap<>();
+            HashMap<DatoSolicitado, Float> medianas = new HashMap<>();
+            HashMap<DatoSolicitado, Float> modas = new HashMap<>();
             getPMM(promedios, medianas, modas, preguntas);
 
             /*
@@ -321,7 +321,7 @@ public class ExportarService {
                     int valor = 0;
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
-
+                    System.out.println("resultado: " + resultado);
                     //guardar el dato en la columna del criterio
                     r.createCell(indexCriterio).setCellValue(resultado);
                 }
@@ -368,8 +368,8 @@ public class ExportarService {
     }
 
     private String lidiarConCriterio(String[] argumento, HashMap<DatoSolicitado, Antecedente> columnasDatos,
-                                       Set<DatoSolicitado> datos, Row r, HashMap<DatoSolicitado, Integer> avg,
-                                       HashMap<DatoSolicitado, Integer> med, HashMap<DatoSolicitado, Integer> mod) {
+                                       Set<DatoSolicitado> datos, Row r, HashMap<DatoSolicitado, Float> avg,
+                                       HashMap<DatoSolicitado, Float> med, HashMap<DatoSolicitado, Float> mod) {
         if (argumento.length <= 3) {
             //si es un argumento estilo VALOR1 ACCION VALOR2
             //realizar accion acuerdo a lo indicado
@@ -388,14 +388,15 @@ public class ExportarService {
             Antecedente valor1 = columnasDatos.get(datoValor1);
             if (valor1 == null) return null; //si no hay respuesta del usuario, retorna null
 
-            int valor2;
+            float valor2;
             if (!argumento[2].equals("AVG") &&
                     !argumento[2].equals("MOD") &&
                     !argumento[2].equals("MED"))
-                valor2 = Integer.parseInt(argumento[2]);
+                valor2 = Float.parseFloat(argumento[2]);
             else if (avg.get(datoValor1) != null &&
-                    mod.get(datoValor1) != null &&
+                    //mod.get(datoValor1) != null &&
                     med.get(datoValor1) != null){
+                System.out.println("Realizando Accion "+argumento[2]);
                 switch (argumento[2]) {
                     case "AVG" -> valor2 = avg.get(datoValor1);
                     case "MOD" -> valor2 = mod.get(datoValor1);
@@ -405,6 +406,7 @@ public class ExportarService {
                         return null;
                     }
                 }
+                System.out.println("valor2: "+valor2 + " valor1: " + valor1);
             }else return null;
 
             switch (argumento[1]) {
@@ -468,11 +470,31 @@ public class ExportarService {
         return null;
     }
 
-    private void getPMM(HashMap<DatoSolicitado, Integer> avg, HashMap<DatoSolicitado, Integer> med,
-                        HashMap<DatoSolicitado, Integer> mod, ArrayList<DatoSolicitado> preguntas){
+    private void getPMM(HashMap<DatoSolicitado, Float> avg, HashMap<DatoSolicitado, Float> med,
+                        HashMap<DatoSolicitado, Float> mod, ArrayList<DatoSolicitado> preguntas){
         for (DatoSolicitado d : preguntas) {
             if (d.getTipoRespuesta().equals(TipoRespuesta.NUMERO)) {
-                //TODO
+                List<Antecedente> respuestas = antService.getAllByDatoSolicitado(d);
+                ArrayList<Float> valores = new ArrayList<>();
+                float suma = 0;
+                int cantidad = 0;
+                for (Antecedente a : respuestas) {
+                    if (a.getValorNum() != null) {
+                        float v = a.getValorNum();
+                        suma += v;
+                        valores.add(v);
+                        cantidad++;
+                    }
+                }
+                if (cantidad > 0) {
+                    avg.put(d, (suma / cantidad));
+                    float media;
+                    int len = valores.size();
+                    if (len % 2 == 0) media = ((valores.get(len / 2) + valores.get(len / 2 - 1)) / 2);
+                    else media = valores.get(len / 2);
+                    med.put(d, media);
+                    //todo: calcular moda
+                }
             }
         }
     }

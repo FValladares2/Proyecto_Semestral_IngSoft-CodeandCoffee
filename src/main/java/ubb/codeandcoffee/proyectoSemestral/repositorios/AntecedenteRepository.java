@@ -4,7 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Antecedente;
+import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
+import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,4 +16,5 @@ public interface AntecedenteRepository extends JpaRepository<Antecedente, Intege
     List<Antecedente> findAllBySujetoEstudio(SujetoEstudio s);
     @Query("select a from Antecedente a where a.sujetoEstudio = ?1")
     ArrayList<Antecedente> getAllBySujeto(SujetoEstudio sujeto);
+    List<Antecedente> findAllByDatoSolicitado(DatoSolicitado d);
 }
