@@ -30,7 +30,7 @@ class CriterioServiceTest {
     private Criterio criterioPrueba;
 
 
-    private final Tipo_Calculo tipoCalculoPrueba = Tipo_Calculo.GENERAL;// Ejemplo si es Enum
+    private final Tipo_Calculo tipoCalculoPrueba = Tipo_Calculo.PROMEDIO;// Ejemplo si es Enum
 
     @BeforeEach
     void setUp() {

@@ -1,9 +1,13 @@
 package ubb.codeandcoffee.proyectoSemestral.servicios;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Criterio;
+import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.CriterioRepository;
 
 @Service//Marca esta clase como un servicio de Spring
@@ -34,6 +38,10 @@ public class CriterioService {
     //Buscar por ID
     public Optional<Criterio> getById(Integer id_criterio){
         return criterioRepository.findById(id_criterio);
+    }
+
+    public Set<Criterio> getByDatoSolicitado(DatoSolicitado d) {
+        return criterioRepository.getAllByDatosSolicitados(d);
     }
 
     //Actualizar por ID

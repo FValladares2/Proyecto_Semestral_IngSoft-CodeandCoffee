@@ -3,8 +3,6 @@ package ubb.codeandcoffee.proyectoSemestral.servicios;
 import jakarta.transaction.Transactional;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ubb.codeandcoffee.proyectoSemestral.modelo.*;
@@ -16,7 +14,6 @@ import java.util.*;
 
 @Service
 public class ExportarService {
-    private static final Logger log = LoggerFactory.getLogger(ExportarService.class);
     @Autowired
     SujetoEstudioService sujEstService;
     @Autowired
@@ -111,7 +108,7 @@ public class ExportarService {
                         columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
                     }else{
                         //si no va la pregunta, solo añadir el criterio
-                        Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
+                        Set<Criterio> criteriosEnPregunta = critService.getByDatoSolicitado(pregunta);
                         for (Criterio criterio : criteriosEnPregunta) {
                             int indexCriterio = map.indexOf(criterio.getNombreStata());
                             columnNum = setupCriterios(workbook, sheet, r, map, columnNum, criterio, indexCriterio);
@@ -344,18 +341,22 @@ public class ExportarService {
         map.add(pregunta.getNombreStata());
         columnNum++;
 
-        Set<Criterio> criteriosEnPregunta = pregunta.getCriterios();
+        System.out.println("Is here");
+        Set<Criterio> criteriosEnPregunta = critService.getByDatoSolicitado(pregunta);
         for (Criterio criterio : criteriosEnPregunta) {
             //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
             //  segun entiendo, eso implica las columnas por las que obtiene valores sus
             int indexCriterio = map.indexOf(criterio.getNombreStata());
+            System.out.println("Is here 2");
             columnNum = setupCriterios(w, s, r, map, columnNum, criterio, indexCriterio);
         }
         return columnNum;
     }
 
     private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, Criterio criterio, int indexCriterio) {
+        System.out.println("criterios ~~~");
         if (indexCriterio == -1) {
+            System.out.println("Nuevo Criterio: "+ criterio.getNombreStata());
             //si no está el criterio en el mapa, se añade su columna en mapa
             Cell c = r.createCell(columnNum);
             c.setCellValue(criterio.getNombreStata());
