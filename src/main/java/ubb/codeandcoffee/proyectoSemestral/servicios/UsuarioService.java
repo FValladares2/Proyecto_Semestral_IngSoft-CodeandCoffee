@@ -125,5 +125,9 @@ public class UsuarioService {
         usuario.setEstado(nuevoEstado);
         usuarioRepository.save(usuario);
     }
-    
+
+    // usamos este metodo para que AdminController encuentre el usuario loogeado
+    public Optional<Usuario> buscarPorCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo);
+    }
 }

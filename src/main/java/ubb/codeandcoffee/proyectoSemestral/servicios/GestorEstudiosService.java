@@ -82,7 +82,7 @@ public class GestorEstudiosService {
         String tablasDatos = "sujetoestudio antecedentes usuario_sujeto";
 
         // mysqldump -h mysqldb ... | mysql -h mysqldb ...
-        // Es vital agregar el -h DB_HOST en ambos lados
+        // es vital agregar el -h DB_HOST en ambos lados
         String hostFlag = " -h " + DB_HOST + " ";
 
         String cmdConfig = String.format(

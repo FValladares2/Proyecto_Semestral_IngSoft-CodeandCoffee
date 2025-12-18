@@ -13,7 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
@@ -26,7 +25,12 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 import java.util.ArrayList;
 import java.util.List;
 
-import ubb.codeandcoffee.proyectoSemestral.modelo.Estado; 
+import ubb.codeandcoffee.proyectoSemestral.modelo.Estado;
+
+// --- NUEVAS IMPORTACIONES PARA GESTIÓN DE ESTUDIOS ---
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import ubb.codeandcoffee.proyectoSemestral.servicios.GestorEstudiosService;
 
 
 @Controller
@@ -50,6 +54,10 @@ public class AdminController {
     private UsuarioService usuarioService;
     @Autowired
     private EmailService emailService;
+
+    // --- NUEVA INYECCIÓN PARA GESTOR DE ESTUDIOS ---
+    @Autowired
+    private GestorEstudiosService gestorEstudiosService;
 
     @GetMapping("/crear-usuario")
     public String mostrarCrearUsuario() {
@@ -236,5 +244,67 @@ public class AdminController {
 
         // Redirigimos a la misma página para ver los cambios
         return "redirect:/admin/gestionar-usuarios";
+    }
+
+    //mMÉTODOS PARA GESTION DE ESTUDIOS (MULTI-TENANCY)
+    @GetMapping("/estudios")
+    public String verEstudios(Model model) {
+        model.addAttribute("listaEstudios", gestorEstudiosService.listarEstudios());
+        return "admin/lista_estudios"; // Debes crear este HTML
+    }
+
+    /*
+      procesa la creación de un nuevo estudio (Clonación de BD).
+     */
+    @PostMapping("/estudios/crear")
+    public String crearEstudio(@RequestParam("nombreEstudio") String nombreVisible,
+                               @AuthenticationPrincipal UserDetails userDetails,
+                               RedirectAttributes redirectAttrs) {
+        try {
+            // buscamos al Admin que está logueado para registrarlo como creador
+            Usuario admin = usuarioService.buscarPorCorreo(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Usuario administrador no encontrado en BD"));
+
+            String resultado = gestorEstudiosService.crearNuevoEstudio(nombreVisible, admin);
+
+            redirectAttrs.addFlashAttribute("exito", resultado);
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("error", "Error al crear estudio: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "redirect:/admin/estudios";
+    }
+
+    /*
+     CAMBIO DE CONTEXTO:
+     Cuando el admin hace clic en "Entrar" en un estudio.
+     Guarda el nombre de la BD en la sesión para que el Interceptor lo capture.
+     */
+    @GetMapping("/estudios/acceder/{nombreBd}")
+    public String accederEstudio(@PathVariable("nombreBd") String nombreBd,
+                                 HttpSession session,
+                                 RedirectAttributes redirectAttrs) {
+
+        // guardamos la "Cookie Lógica" en el servidor 
+        session.setAttribute("CURRENT_STUDY_DB", nombreBd);
+
+        redirectAttrs.addFlashAttribute("mensaje", "Cambiado al entorno de trabajo: " + nombreBd);
+
+        // redirigimos al dashboard del estudio (ahora Spring usará la otra DB)
+        // redirige al menú admin, que ahora es del estudio seleccionado
+        return "redirect:/admin/menu";
+    }
+
+    /**
+     * SALIR DEL CONTEXTO:
+     * Vuelve a la base de datos principal (bdd_formulario).
+     */
+    @GetMapping("/estudios/salir")
+    public String salirEstudio(HttpSession session, RedirectAttributes redirectAttrs) {
+        // borramos el atributo, así el Interceptor usará la BD por defecto
+        session.removeAttribute("CURRENT_STUDY_DB");
+
+        redirectAttrs.addFlashAttribute("mensaje", "Has vuelto a la administración global.");
+        return "redirect:/admin/estudios";
     }
 }
