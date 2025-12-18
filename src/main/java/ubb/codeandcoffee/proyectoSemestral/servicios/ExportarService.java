@@ -2,6 +2,8 @@ package ubb.codeandcoffee.proyectoSemestral.servicios;
 
 import jakarta.transaction.Transactional;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,6 +119,7 @@ public class ExportarService {
                 }
             }
 
+            int totalColumns = columnNum;
             //obtener promedios/medianas/modas con datos validos
             HashMap<DatoSolicitado, Float> promedios = new HashMap<>();
             HashMap<DatoSolicitado, Float> medianas = new HashMap<>();
@@ -150,7 +153,6 @@ public class ExportarService {
                         System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas en excel");
                         continue;
                     }
-                    int valor = 0;
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
@@ -162,6 +164,8 @@ public class ExportarService {
 
                 rowNum++;
             }
+            rowNum++;
+            calcSumasAlFinal(rowNum, totalColumns, sheet);
 
             workbook.write(fos);
             workbook.close();
@@ -253,17 +257,15 @@ public class ExportarService {
                 datosAgrupados.computeIfAbsent(pregunta.getSeccion().getNumero(),
                         k -> new ArrayList<>()).add(pregunta);
             }
-
             for (var entry : datosAgrupados.entrySet()) {
                 int seccion = entry.getKey();
-                System.out.println("seccion: " + seccion);
                 for (DatoSolicitado pregunta : entry.getValue()) {
                     //añade toda pregunta, dicotomizada o no
                     columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
                 }
             }
 
-
+            int totalColumns = columnNum;
             //obtener promedios/medianas/modas con datos validos
             HashMap<DatoSolicitado, Float> promedios = new HashMap<>();
             HashMap<DatoSolicitado, Float> medianas = new HashMap<>();
@@ -313,9 +315,7 @@ public class ExportarService {
                         System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas en excel");
                         continue;
                     }
-
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
-                    int valor = 0;
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
                     System.out.println("resultado: " + resultado);
@@ -325,6 +325,9 @@ public class ExportarService {
 
                 rowNum++;
             }
+
+            rowNum++;
+            calcSumasAlFinal(rowNum, totalColumns, sheet);
 
             workbook.write(fos);
             workbook.close();
@@ -341,7 +344,7 @@ public class ExportarService {
         map.add(pregunta.getNombreStata());
         columnNum++;
 
-        System.out.println("Is here");
+        System.out.println("Columnnum pre-criterios: " + columnNum);
         Set<Criterio> criteriosEnPregunta = critService.getByDatoSolicitado(pregunta);
         for (Criterio criterio : criteriosEnPregunta) {
             //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
@@ -497,6 +500,46 @@ public class ExportarService {
                     //todo: calcular moda
                 }
             }
+        }
+    }
+
+
+    private void calcSumasAlFinal(int rownum, int columns, Sheet sheet){
+        System.out.println("\nCalculando sumas de datos dicotomizados");
+        System.out.println("columns: " + columns);
+        HashMap<String, Integer> datosAEsquivar = new HashMap<>();
+        datosAEsquivar.put("Nombre_sujeto", 1);
+        datosAEsquivar.put("Direccion_sujeto", 1);
+        datosAEsquivar.put("Email_sujeto", 1);
+        datosAEsquivar.put("Telefono_sujeto", 1);
+        datosAEsquivar.put("Nacionalidad_sujeto", 1);
+        datosAEsquivar.put("Ocupacion_sujeto", 1);
+
+        Row r;
+        Cell c;
+
+
+        r = CellUtil.getRow(rownum, sheet);
+        CellUtil.getCell(r, 0).setCellValue("Cantidad de 0s =");
+        r = CellUtil.getRow(rownum+1, sheet);
+        CellUtil.getCell(r, 0).setCellValue("Cantidad de 1s =");
+
+        for (int i = 2; i < columns; i++) {
+            System.out.println("i="+i);
+            r = CellUtil.getRow(0, sheet);
+            c = CellUtil.getCell(r, i);
+            String nombreColumna = c.getStringCellValue();
+
+            if (datosAEsquivar.get(nombreColumna) != null) continue;
+
+            String colLetter = CellReference.convertNumToColString(i);
+            String range = colLetter + "1:" + colLetter + (rownum-1); // e.g., A2:A100
+
+            r = CellUtil.getRow(rownum, sheet);
+            CellUtil.getCell(r, i).setCellFormula("COUNTIF(" + range + ",1)");
+
+            r = CellUtil.getRow(rownum+1, sheet);
+            CellUtil.getCell(r, i).setCellFormula("COUNTIF(" + range + ",0)");
         }
     }
 }

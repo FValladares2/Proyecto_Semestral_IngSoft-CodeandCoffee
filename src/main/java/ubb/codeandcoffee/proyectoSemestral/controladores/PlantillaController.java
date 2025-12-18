@@ -11,50 +11,50 @@ public class PlantillaController {
     public String definirPlantillaBase(Authentication authentication) {
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "/login";
+            return "login";
         }
 
         var autoridades = authentication.getAuthorities();
 
         if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR")
                 || a.getAuthority().equals("ADMINISTRADOR"))) {
-            return "/plantilla_admin";
+            return "plantilla_admin";
         }
 
         if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_RECOLECTOR_DE_DATOS")
                 || a.getAuthority().equals("RECOLECTOR_DE_DATOS"))) {
-            return "/plantilla_recolector";
+            return "plantilla_recolector";
         }
 
         if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ANALISTA")
                 || a.getAuthority().equals("ANALISTA"))) {
-            return "/plantilla_analista";
+            return "plantilla_analista";
         }
 
-        return "/plantilla_admin";
+        return "plantilla_admin";
     }
 
     @ModelAttribute("inicio")
     public String definirInicio(Authentication authentication) {
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "/login";
+            return "login";
         }
 
         var autoridades = authentication.getAuthorities();
 
         if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"))) {
-            return "/menu/admin";
+            return "menu/admin";
         }
 
         if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_RECOLECTOR_DE_DATOS"))) {
-            return "/menu/recolector";
+            return "menu/recolector";
         }
 
         if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ANALISTA"))) {
-            return "/menu/analista";
+            return "menu/analista";
         }
 
-        return "/login";
+        return "login";
     }
 }
