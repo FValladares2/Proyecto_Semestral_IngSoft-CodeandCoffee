@@ -11,9 +11,7 @@ public class PlantillaController {
     public String definirPlantillaBase(Authentication authentication) {
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "/plantilla_admin"; //aqui deberia redirigir al login, pero como el security aun no lo implementamos
-            //lo dejare asi
-            //TODO CAMBIAR MAS TARDE POR LOGIN
+            return "/login";
         }
 
         var autoridades = authentication.getAuthorities();
@@ -34,5 +32,29 @@ public class PlantillaController {
         }
 
         return "/plantilla_admin";
+    }
+
+    @ModelAttribute("inicio")
+    public String definirInicio(Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "/login";
+        }
+
+        var autoridades = authentication.getAuthorities();
+
+        if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"))) {
+            return "/menu/admin";
+        }
+
+        if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_RECOLECTOR_DE_DATOS"))) {
+            return "/menu/recolector";
+        }
+
+        if (autoridades.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ANALISTA"))) {
+            return "/menu/analista";
+        }
+
+        return "/login";
     }
 }

@@ -56,7 +56,8 @@ public class SecurityConfig {
                                 "/login",
                                 "/login-post",
                                 "/completar_registro",
-                                "/static/**"
+                                "/static/**",
+                                "/error/**"
 
                         ).permitAll()
                         //rutas que pueden acceder todos
