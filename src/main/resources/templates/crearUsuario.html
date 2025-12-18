@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{plantilla_admin :: layout_base(~{::section}, ~{})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<html th:replace="~{plantilla_admin :: layout_base(~{::section}, ~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <body>
 
@@ -85,6 +85,20 @@
         <!-- linea de inicio-->
         <div class="create-container">
             <h1>Crear Nuevo Usuario</h1>
+            <div th:if="${exito}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle mr-2"></i> <span th:text="${exito}">Mensaje de éxito</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <span th:text="${error}">Error</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
             <form th:action="@{/admin/crear-usuario}" method="post">
 
@@ -111,6 +125,5 @@
     </div>
 
 </section>
-
 </body>
 </html>
