@@ -4,13 +4,71 @@
 <body>
 
 <section>
+    <style>
+
+        .icon-container-fixed {
+            width: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        p{
+            font-size: 1rem !important;
+            padding-top: 1.2rem !important;
+            padding-bottom: 1.2rem !important;
+        }
+
+        .col-md-6.mb-3 {
+            margin-top: 1rem !important;
+
+        }
+
+
+
+    </style>
 
     <div class="container-fluid">
         <!-- linea de inicio-->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">¡Bienvenido al Sistema!</h1>
-            <!-- aqui tenemos que añadir más cosas, pero de momento no se me ocurre qué -->
         </div>
+
+        <hr class="sidebar-divider mb-4">
+        <div class="row mb-4">
+
+            <div class="col-md-6 mb-3">
+                <div class="d-flex align-items-center">
+                    <div class="mr-3 text-primary icon-container-fixed">
+                        <i class="fas fa-clipboard-list fa-2x"></i>
+                    </div>
+                    <div>
+                        <span class="font-weight-bold text-gray-800">Gestión de Sujetos</span>
+                        <p class="small text-gray-600 mb-0">
+                            Dirígete a la barra lateral izquierda para comenzar. Usa <b>"Ingreso Sujeto"</b> para registrar nuevos sujetos
+                            de estudio o selecciona <b>"Lista de Sujetos"</b> para buscar, revisar y actualizar la información de registros existentes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="d-flex align-items-center">
+                    <div class="mr-3 text-danger icon-container-fixed">
+                        <i class="fas fa-sign-out-alt fa-2x"></i>
+                    </div>
+                    <div>
+                        <span class="font-weight-bold text-gray-800">Cerrar Sesión</span>
+                        <p class="small text-gray-600 mb-0">
+                            Cuando finalices de recolectar datos, haz clic sobre el recuadro en la
+                            esquina superior derecha y selecciona la opción <b>"Cerrar Sesión"</b> para terminar
+                            la sesión actual.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <hr class="sidebar-divider mb-4">
         <!-- linea de fin-->
     </div>
 

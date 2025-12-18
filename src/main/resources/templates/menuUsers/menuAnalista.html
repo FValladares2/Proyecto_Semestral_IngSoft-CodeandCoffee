@@ -4,6 +4,21 @@
 <body>
 
 <section>
+    <style>
+
+        .icon-container-fixed {
+            width: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        p{
+            font-size: 1rem !important;
+            padding-top: 1.2rem !important;
+
+        }
+
+    </style>
 
     <div class="container-fluid">
         <!-- linea de inicio-->
@@ -11,6 +26,39 @@
             <h1 class="h3 mb-0 text-gray-800">¡Bienvenido al Sistema!</h1>
             <!-- aqui tenemos que añadir más cosas, pero de momento no se me ocurre qué -->
         </div>
+
+        <hr class="sidebar-divider mb-4">
+        <div class="row mb-4">
+
+
+            <div class="col-md-6 col-sm-6 mb-3"> <div class="d-flex align-items-center">
+                <div class="mr-3 text-warning">
+                    <i class="fas fa-file-download fa-2x"></i>
+                </div>
+                <div>
+                    <span class="font-weight-bold text-gray-800">Exportar</span>
+                    <p class="small text-gray-600 mb-0">Para generar un Excel con los
+                        datos registrados en el sistema y descargarlo
+                        , ve a la opción <b>"Exportar"</b> en el menú de la barra lateral izquierda.</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 mb-3"> <div class="d-flex align-items-center">
+                <div class="mr-3 text-danger">
+                    <i class="fas fa-sign-out-alt fa-2x"></i>
+                </div>
+                <div>
+                    <span class="font-weight-bold text-gray-800">Salir</span>
+                    <p class="small text-gray-600 mb-0">Haz clic en el recuadro en la esquina superior derecha y selecciona
+                        <b>"Cerrar Sesión"</b>
+                        para terminar la sesión actual.</p>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        <hr class="sidebar-divider mb-4">
         <!-- linea de fin-->
     </div>
 
