@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
+    <style>
+
+        .container {padding: 20px; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: 95%; padding: 8px; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; cursor: pointer;}
+        .btn-cancel { background-color: #6c757d; text-decoration: none; display: inline-block; text-align: center;}
+    </style>
+    <div class="container-fluid">
+        <!-- linea de inicio-->
+        <div class="container">
+            <h2>Agregando opción a: <span th:text="${nombrePregunta}" style="color: #007bff;"></span></h2>
+
+            <div th:if="${error}" class="alert alert-danger"
+                 style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
+                <strong>¡No se pudo guardar!</strong>
+                <span th:text="${error}">Mensaje de error aquí</span>
+            </div>
+
+            <form th:action="@{/admin/formulario/opcion/guardar}" th:object="${opcion}" method="post">
+
+                <input type="hidden" th:field="*{datoSolicitado}" />
+
+                <div class="form-group">
+                    <label>Texto de la Opción (Ej: "Si", "No", "Rojo"):</label>
+                    <input type="text" th:field="*{nombre}" required placeholder="Escriba el texto que verá el usuario"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Valor Interno (Numérico):</label>
+
+                    <input type="number" th:field="*{valor}" required placeholder="Ej: 10"/>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: normal;">
+                        <input type="checkbox" th:field="*{requiereTexto}" />
+                        ¿Al seleccionar esta opción, se debe pedir una justificación de texto?
+                    </label>
+                </div>
+
+                <hr>
+                <button type="submit">Guardar Opción</button>
+                <a th:href="@{/admin/formulario/crear-formulario}" class="btn btn-cancel" style="padding: 10px 15px; color: white;">Cancelar</a>
+            </form>
+        </div>
+        <!-- linea de fin-->
+    </div>
+
+</section>
+
+
+</body>
+</html>

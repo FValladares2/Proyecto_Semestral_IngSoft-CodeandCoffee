@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Pregunta</title>
+<html th:replace="~{/plantilla_admin :: layout_base(~{::section}, ~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
-        body { font-family: sans-serif; max-width: 700px; margin: 20px auto; }
-        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+
+        .container {padding: 20px; border-radius: 8px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
         input[type="text"], select { width: 95%; padding: 8px; }
         button { padding: 10px 15px; background-color: #007bff; color: white; border: none; }
-        
+
         /* Contenedor de opciones, oculto por defecto */
         #opciones-container {
             display: none;
@@ -22,49 +23,52 @@
         .opcion-fila { margin-bottom: 5px; }
         .opcion-fila input { margin-right: 5px; }
     </style>
-</head>
-<body>
+    <div class="container-fluid">
+        <!-- linea de inicio-->
+        <div class="container">
+            <h1>Crear Nueva Pregunta (Dato Solicitado)</h1>
 
-<div class="container">
-    <h1>Crear Nueva Pregunta (Dato Solicitado)</h1>
+            <form th:action="@{/admin/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
 
-    <form th:action="@{/admin/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
-        
-        <div class="form-group">
-            <label for="leyenda">Texto de la Pregunta (Leyenda)</label>
-            <input type="text" id="leyenda" th:field="*{leyenda}" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="seccion">Asignar a Sección:</label>
-            <select id="seccion" th:field="*{seccion}" required>
-                <option value="" disabled selected>-- Elija una sección --</option>
-                <th:block th:each="sec : ${secciones}">
-                    <option th:value="${sec.id_seccion}" th:text="${sec.nombre}"></option>
-                </th:block>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="tipoRespuesta">Tipo de Respuesta</label>
-            <select id="tipoRespuesta">
-                <option value="texto">Respuesta de Texto / Numérica</option>
-                <option value="seleccion">Respuesta de Selección Múltiple</option>
-            </select>
-        </div>
-
-        <div id="opciones-container">
-            <h4>Opciones de Respuesta</h4>
-            <div id="lista-opciones">
+                <div class="form-group">
+                    <label for="leyenda">Texto de la Pregunta (Leyenda)</label>
+                    <input type="text" id="leyenda" th:field="*{leyenda}" required>
                 </div>
-            <button type="button" id="btn-add-opcion">+ Añadir Opción</button>
+
+                <div class="form-group">
+                    <label for="seccion">Asignar a Sección:</label>
+                    <select id="seccion" th:field="*{seccion}" required>
+                        <option value="" disabled selected>-- Elija una sección --</option>
+                        <th:block th:each="sec : ${secciones}">
+                            <option th:value="${sec.id_seccion}" th:text="${sec.nombre}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoRespuesta">Tipo de Respuesta</label>
+                    <select id="tipoRespuesta">
+                        <option value="texto">Respuesta de Texto / Numérica</option>
+                        <option value="seleccion">Respuesta de Selección Múltiple</option>
+                    </select>
+                </div>
+
+                <div id="opciones-container">
+                    <h4>Opciones de Respuesta</h4>
+                    <div id="lista-opciones">
+                    </div>
+                    <button type="button" id="btn-add-opcion">+ Añadir Opción</button>
+                </div>
+
+                <hr style="margin-top: 20px;">
+                <button type="submit">Guardar Pregunta Completa</button>
+                <a th:href="@{/admin/formulario/dashboard}">Cancelar</a>
+            </form>
         </div>
-        
-        <hr style="margin-top: 20px;">
-        <button type="submit">Guardar Pregunta Completa</button>
-        <a th:href="@{/admin/formulario/dashboard}">Cancelar</a>
-    </form>
-</div>
+        <!-- linea de fin-->
+    </div>
+
+</section>
 
 <script>
     // Referencias a los elementos del DOM
@@ -116,10 +120,9 @@
         fila.appendChild(inputValor);
         fila.appendChild(btnEliminar);
         listaOpcionesDiv.appendChild(fila);
-        
+
         indiceOpcion++; // Incrementar el índice
     });
 </script>
-
 </body>
 </html>

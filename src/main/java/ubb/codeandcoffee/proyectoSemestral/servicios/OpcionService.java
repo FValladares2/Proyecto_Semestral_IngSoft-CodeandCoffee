@@ -16,6 +16,11 @@ public class OpcionService {
     @Autowired
     OpcionRepository opcionRepository;
     DatoSolicitadoRepository datoSolicitadoRepository;
+    @Autowired
+    public OpcionService(OpcionRepository opcionRepository, DatoSolicitadoRepository datoSolicitadoRepository) {
+        this.opcionRepository = opcionRepository;
+        this.datoSolicitadoRepository = datoSolicitadoRepository; // <--- Inyección aquí
+    }
 
     //Método para obtener las opciones de la base de datos
     public ArrayList<Opcion> getOpciones(){

@@ -3,6 +3,7 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -10,7 +11,7 @@ import java.util.Set;
 public class Criterio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_criterio;
+    private Integer id_criterio;
 
     @Column(nullable = false, unique = true)
     private String nombre;
@@ -26,7 +27,12 @@ public class Criterio {
     @Column(nullable = false)
     private String expresion;
 
-    @ManyToMany(mappedBy = "criterios", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "criterio_datosolicitado",
+            joinColumns = @JoinColumn(name = "id_criterio"),
+            inverseJoinColumns = @JoinColumn(name = "id_dato")
+    )
     private Set<DatoSolicitado> datosSolicitados = new HashSet<>();
 
     public Criterio() {
@@ -40,7 +46,7 @@ public class Criterio {
         this.expresion = expresion;
     }
 
-    public int getId_criterio() {
+    public Integer getId_criterio() {
         return id_criterio;
     }
 
@@ -91,5 +97,19 @@ public class Criterio {
 
     public void setDatosSolicitados(Set<DatoSolicitado> datosSolicitados) {
         this.datosSolicitados = datosSolicitados;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Criterio criterio = (Criterio) o;
+        return id_criterio != null && id_criterio.equals(criterio.id_criterio);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
