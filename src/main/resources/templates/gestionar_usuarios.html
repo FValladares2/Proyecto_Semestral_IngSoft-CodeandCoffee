@@ -15,41 +15,6 @@
             margin-bottom: 2rem;
         }
 
-        th {
-
-            color: #040202;
-
-        }
-
-        td {
-
-            color: #040202;
-
-        }
-
-        /* Estilo de la tabla */
-        .user-table {
-            width: 100%;
-            border-collapse: collapse; /* Bordes limpios */
-        }
-
-        .user-table th,
-        .user-table td {
-            padding: 12px 15px; /* Más espaciado */
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-
-        .user-table th {
-            background-color: #f4f4f4; /* Encabezado gris */
-            font-weight: 600;
-        }
-
-        /* Estilo para la fila de datos */
-        .user-table tr:hover {
-            background-color: #f9f9f9;
-        }
-
         /* Estilos para el formulario de cambio de estado */
         .form-estado {
             display: none; /* Oculto por defecto */
@@ -97,8 +62,8 @@
     <div class="container-fluid">
         <h1>Gestionar Usuarios del Sistema</h1>
 
-        <table class="user-table">
-            <thead>
+        <table class="table table-hover table-bordered">
+            <thead class="thead-light">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
@@ -151,20 +116,20 @@
     </div>
 
 </section>
-    <script>
-        // Script para manejar la lógica de "Cambiar permisos"
-        document.querySelectorAll('.btn-cambiar').forEach(button => {
-            button.addEventListener('click', function() {
-                // Busca el formulario que está justo antes del botón
-                const form = this.previousElementSibling;
+<script>
+    // Script para manejar la lógica de "Cambiar permisos"
+    document.querySelectorAll('.btn-cambiar').forEach(button => {
+        button.addEventListener('click', function() {
+            // Busca el formulario que está justo antes del botón
+            const form = this.previousElementSibling;
 
-                // Muestra el formulario
-                form.style.display = 'flex';
+            // Muestra el formulario
+            form.style.display = 'flex';
 
-                // Oculta este botón (el de "Cambiar permisos")
-                this.style.display = 'none';
-            });
+            // Oculta este botón (el de "Cambiar permisos")
+            this.style.display = 'none';
         });
-    </script>
+    });
+</script>
 </body>
 </html>
