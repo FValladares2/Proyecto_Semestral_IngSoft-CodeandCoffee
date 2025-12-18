@@ -21,6 +21,67 @@
   <!-- Custom styles for this template-->
   <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
 
+  <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+
+
+    #wrapper {
+        height: 100vh;
+        display: flex;
+        overflow: hidden;
+    }
+
+    #accordionSidebar {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 1000;
+    }
+
+    #content-wrapper {
+        height: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    #content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    #content > nav.topbar {
+        flex-shrink: 0;
+        width: 100%;
+        z-index: 900;
+    }
+
+    #content > div,
+    #content > section {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 2rem;
+        padding-top: 2rem;
+    }
+
+    #content > div::-webkit-scrollbar {
+        width: 8px;
+    }
+    #content > div::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 4px;
+    }
+  </style>
+
 </head>
 
 <body id="page-top">
@@ -89,7 +150,7 @@
     <div id="content">
 
       <!-- Topbar -->
-      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+      <nav class="navbar navbar-expand navbar-light bg-white topbar">
 
         <!-- Sidebar Toggle (Topbar) -->
         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
