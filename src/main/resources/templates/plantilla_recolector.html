@@ -10,6 +10,10 @@
   <meta name="author" content="">
 
   <title>Sistema</title>
+  <link rel="icon" type="image/png" href="https://th.bing.com/th/id/R.d373314529d9187dffba010b205119d6?rik=b0xNDyJtH4aMXQ&riu=http%3a%2f%2fi1.wp.com%2fpreubb.ubiobio.cl%2fwp-content%2fuploads%2f2018%2f04%2finsignia_UBB.png%3fw%3d300&ehk=M7BqbA8hKZIx0tDgGOD2GlbJIo6ZJIRcRg2QumTu3jU%3d&risl=&pid=ImgRaw&r=0">
+  <link rel="preload"
+        th:href="@{/vendor/fontawesome-free/webfonts/fa-solid-900.woff2}"
+        as="font" type="font/woff2" crossorigin>
 
   <!-- Custom fonts for this template-->
   <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
@@ -28,6 +32,11 @@
         overflow: hidden;
     }
 
+    .sidebar .nav-link i {
+            width: 1.5rem;
+            text-align: center;
+            display: inline-block;
+     }
 
     #wrapper {
         height: 100vh;
