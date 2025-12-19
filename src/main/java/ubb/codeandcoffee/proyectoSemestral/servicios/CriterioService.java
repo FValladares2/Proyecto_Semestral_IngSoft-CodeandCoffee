@@ -40,6 +40,7 @@ public class CriterioService {
         return criterioRepository.findById(id_criterio);
     }
 
+    //Buscar por DatoSolicitado
     public Set<Criterio> getByDatoSolicitado(DatoSolicitado d) {
         return criterioRepository.getAllByDatosSolicitados(d);
     }
