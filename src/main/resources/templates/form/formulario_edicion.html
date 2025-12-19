@@ -112,10 +112,10 @@
                    th:name="|antecedentes[${status.index}].datoSolicitado.id_dato|"
                    th:value="${antecedente.datoSolicitado.id_dato}" />
 
-            <h2 th:text="${status.count} + '. ' + ${antecedente.datoSolicitado.leyenda}" class="section-title"></h2>
+            <h2 th:text="${status.count} + '. ' + ${antecedente.datoSolicitado.nombre}" class="section-title"></h2>
 
             <div class="field-group"
-                 th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'OPCION_MULTIPLE'}">
+                 th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'OPCIONES'}">
 
               <div class="radio-group" th:with="datosolicitado=${antecedente.datoSolicitado}">
                 <div class="radio-option" th:each="opcion : ${datosolicitado.opciones}">
