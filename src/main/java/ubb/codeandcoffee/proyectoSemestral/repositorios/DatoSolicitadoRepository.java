@@ -8,7 +8,6 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface DatoSolicitadoRepository extends JpaRepository<DatoSolicitado, Integer>{
@@ -18,8 +17,4 @@ public interface DatoSolicitadoRepository extends JpaRepository<DatoSolicitado, 
             @Param("tipoAmbos") Aplicable_a tipoAmbos
     );
     List<DatoSolicitado> findAllById(Iterable<Integer> ids);
-
-    boolean existsByNombreStataIgnoreCase(String nombreStata);
-
-    Optional<DatoSolicitado> findByNombreStataIgnoreCase(String nombreStata);
 }

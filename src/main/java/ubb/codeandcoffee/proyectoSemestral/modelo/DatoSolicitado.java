@@ -23,9 +23,6 @@ public class DatoSolicitado {
     private Integer valorMin;
     private Integer valorMax;
 
-    @Column(name = "activo", nullable = false)
-    private Boolean activo;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Aplicable_a aplicable_a;
@@ -39,7 +36,7 @@ public class DatoSolicitado {
     private Seccion seccion;
 
 
-    @OneToMany(mappedBy = "dato", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dato")
     @JsonIgnore
     private List<Opcion> opciones;
 
@@ -51,48 +48,13 @@ public class DatoSolicitado {
     )
     @JsonIgnore
     private Set<Criterio> criterios = new HashSet<>();*/
-
-
-
-
-    @ManyToMany(mappedBy = "datosSolicitados", fetch = FetchType.LAZY)
-    private Set<Criterio> criteriosAsociados = new HashSet<>();
-
-    public Set<Criterio> getCriteriosAsociados() {
-        return criteriosAsociados;
-    }
-
-    public void setCriteriosAsociados(Set<Criterio> criteriosAsociados) {
-        this.criteriosAsociados = criteriosAsociados;
-    }
-
-    public String getNombresCriteriosParaMostrar() {
-        if (this.criteriosAsociados == null || this.criteriosAsociados.isEmpty()) {
-            return "";
-        }
-
-        return this.criteriosAsociados.stream()
-                .map(c -> c.getNombre())
-                .collect(java.util.stream.Collectors.joining(", "));
-    }
-
-
-    public void addOpcion(Opcion opcion) {
-        opciones.add(opcion);
-        opcion.setDatoSolicitado(this);
-    }
-
-    public void removeOpcion(Opcion opcion) {
-        opciones.remove(opcion);
-        opcion.setDatoSolicitado(null);
-    }
+    
 
     public DatoSolicitado(){
         this.opciones = new ArrayList<>();
         this.aplicable_a = Aplicable_a.AMBOS;
         this.estudio = true;
-        this.tipoRespuesta=TipoRespuesta.OPCIONES;
-        this.activo = true;
+        this.tipoRespuesta=TipoRespuesta.OPCION_MULTIPLE;
     }
     public DatoSolicitado(String nombre, String nombreStata, String leyenda, Boolean estudio,
                           Aplicable_a aplicable_a, Seccion seccion, TipoRespuesta tipoRespuesta,
@@ -107,7 +69,6 @@ public class DatoSolicitado {
         this.opciones = new ArrayList<>();
         this.valorMin=valorMin;
         this.valorMax=valorMax;
-        this.activo = true;
     }
     public List<Opcion> getOpciones() {
         return opciones;
@@ -125,13 +86,6 @@ public class DatoSolicitado {
         this.id_dato = id_dato;
     }
 
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
 
     public String getNombre() {
         return nombre;

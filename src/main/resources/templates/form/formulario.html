@@ -12,20 +12,24 @@
             box-sizing: border-box;
         }
 
+        body {
+
+        }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(25, 118, 210, 0.15);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
             color: white;
-            padding: 32px 32px 24px;
+            padding: 48px 40px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -35,9 +39,9 @@
             position: absolute;
             top: -50%;
             right: -10%;
-            width: 250px;
-            height: 250px;
-            background: rgba(255, 255, 255, 0.08);
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
         }
 
@@ -46,36 +50,36 @@
             position: absolute;
             bottom: -30%;
             left: -5%;
-            width: 180px;
-            height: 180px;
-            background: rgba(255, 255, 255, 0.06);
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
         }
 
         .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            letter-spacing: -0.3px;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
             position: relative;
             z-index: 1;
         }
 
         .header p {
-            font-size: 13px;
-            opacity: 0.92;
+            font-size: 14px;
+            opacity: 0.95;
             position: relative;
             z-index: 1;
             font-weight: 400;
         }
 
         .progress-bar {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
+            height: 5px;
+            background: rgba(255, 255, 255, 0.25);
             position: relative;
             overflow: hidden;
-            margin-top: 20px;
-            border-radius: 4px;
+            margin-top: 24px;
+            border-radius: 10px;
         }
 
         .progress-fill {
@@ -83,18 +87,18 @@
             background: white;
             width: 0%;
             transition: width 0.4s ease;
-            border-radius: 4px;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .form-content {
-            padding: 32px;
+            padding: 48px 40px;
         }
 
         .section {
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             padding-bottom: 24px;
-            border-bottom: 1px solid #e8eef5;
+            border-bottom: 2px solid #e3f2fd;
         }
 
         .section:last-of-type {
@@ -102,27 +106,27 @@
         }
 
         .section-title {
-            color: #2757F5;
-            font-size: 16px;
+            color: #1565c0;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .section-number {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
             color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 13px;
-            box-shadow: 0 2px 6px rgba(39, 87, 245, 0.2);
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.25);
             flex-shrink: 0;
         }
 
@@ -132,17 +136,16 @@
 
         .field-label {
             display: block;
-            color: #2c3e50;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 13.5px;
-            line-height: 1.4;
+            color: #37474f;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
 
         .radio-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px 16px;
+            gap: 10px;
             margin-left: 0;
         }
 
@@ -150,91 +153,90 @@
             position: relative;
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
         }
 
         .radio-option input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
-            width: 17px;
-            height: 17px;
-            border: 2px solid #2757F5;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #42a5f5;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             background: white;
             flex-shrink: 0;
         }
 
         .radio-option input[type="radio"]:hover {
-            border-color: #1e44c9;
-            box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.12);
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.15);
         }
 
         .radio-option input[type="radio"]:checked {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
-            border-color: #1e44c9;
-            box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.2);
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.25);
         }
 
         .radio-label {
             display: inline-block;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 13.5px;
-            color: #4a5568;
-            font-weight: 400;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            color: #546e7a;
+            font-weight: 500;
             user-select: none;
         }
 
         .radio-option input[type="radio"]:checked + .radio-label {
-            color: #2757F5;
-            font-weight: 500;
+            color: #1565c0;
+            font-weight: 600;
         }
 
         .radio-label:hover {
-            color: #2757F5;
+            color: #1976d2;
         }
 
         .text-input {
             width: 100%;
-            padding: 9px 12px;
-            border: 1.5px solid #d9e2ef;
-            border-radius: 6px;
-            font-size: 13.5px;
+            padding: 10px 14px;
+            border: 2px solid #e1f0fa;
+            border-radius: 8px;
+            font-size: 13px;
             font-family: inherit;
-            transition: all 0.2s ease;
-            background: #fafbfc;
-            color: #2c3e50;
+            transition: all 0.3s ease;
+            background: #f5f9fc;
+            color: #37474f;
         }
 
         .text-input:focus {
             outline: none;
-            border-color: #2757F5;
+            border-color: #42a5f5;
             background: white;
-            box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.1);
+            box-shadow: 0 0 0 4px rgba(66, 165, 245, 0.12);
         }
 
         .text-input::placeholder {
-            color: #9ca3af;
+            color: #90a4ae;
         }
 
         textarea.text-input {
             resize: vertical;
-            min-height: 70px;
-            max-height: 150px;
+            min-height: 100px;
         }
 
         .sub-input {
-            margin-top: 12px;
-            padding-left: 20px;
+            margin-top: 16px;
+            padding-left: 24px;
             animation: slideDown 0.3s ease;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-8px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -243,30 +245,25 @@
         }
 
         .submit-container {
-            margin-top: 32px;
+            margin-top: 48px;
             text-align: center;
-            padding-top: 24px;
-            border-top: 1px solid #e8eef5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
+            padding-top: 48px;
+            border-top: 2px solid #e3f2fd;
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
             color: white;
             border: none;
-            padding: 11px 32px;
-            font-size: 14px;
+            padding: 14px 48px;
+            font-size: 16px;
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(39, 87, 245, 0.25);
-            letter-spacing: 0.2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
+            letter-spacing: 0.3px;
         }
-
         .confirmation-buttons {
             display: flex;
             justify-content: center;
@@ -276,7 +273,6 @@
             border-top: 1px solid #e0e0e0;
             flex-wrap: wrap;
         }
-
         .confirm-btn, .cancel-btn {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 16px;
@@ -292,102 +288,78 @@
             gap: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-
         .confirm-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3);
         }
-
         .cancel-btn {
             background: white;
-            color: #2757F5;
-            border: 2px solid #2757F5;
-            padding: 10px 28px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            color: #0288d1;
+            border: 2px solid #0288d1;
         }
 
         .cancel-btn:hover {
-            background: #f0f4ff;
+            background: #e3f2fd;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(39, 87, 245, 0.2);
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.2);
         }
 
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(39, 87, 245, 0.35);
-            background: linear-gradient(135deg, #1e44c9 0%, #2757F5 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(25, 118, 210, 0.4);
+            background: linear-gradient(135deg, #42a5f5 0%, #1565c0 100%);
         }
 
         .submit-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(39, 87, 245, 0.3);
-        }
-
-        @media (max-width: 1024px) {
-            body {
-                padding-left: 24px;
-            }
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.35);
         }
 
         @media (max-width: 768px) {
             body {
-                padding: 16px;
+                padding: 20px 10px;
             }
 
             .header {
-                padding: 24px 20px;
+                padding: 28px 20px;
             }
 
             .header h1 {
-                font-size: 20px;
+                font-size: 24px;
             }
 
             .header p {
-                font-size: 12px;
+                font-size: 13px;
             }
 
             .form-content {
-                padding: 24px 20px;
+                padding: 24px 16px;
             }
 
             .section {
-                margin-bottom: 22px;
-                padding-bottom: 20px;
+                margin-bottom: 18px;
+                padding-bottom: 18px;
             }
 
             .section-title {
-                font-size: 15px;
-                gap: 8px;
+                font-size: 16px;
+                gap: 10px;
             }
 
             .section-number {
-                width: 26px;
-                height: 26px;
+                width: 28px;
+                height: 28px;
                 font-size: 12px;
             }
 
             .radio-group {
                 flex-direction: column;
-                gap: 10px;
             }
 
-            .submit-container {
-                flex-direction: column-reverse;
-                gap: 10px;
-            }
-
-            .submit-btn, .cancel-btn {
+            .submit-btn {
                 width: 100%;
-                justify-content: center;
+                padding: 12px 24px;
             }
-
             .confirmation-buttons {
                 flex-direction: column;
                 padding: 24px 20px;
@@ -411,94 +383,111 @@
 
         input[type="date"]::-webkit-calendar-picker-indicator {
             cursor: pointer;
-            filter: invert(30%) sepia(100%) saturate(2000%) hue-rotate(220deg) brightness(100%) contrast(95%);
+            filter: invert(54%) sepia(8%) saturate(1297%) hue-rotate(167deg) brightness(92%) contrast(87%);
         }
 
         input[type="date"]:focus::-webkit-calendar-picker-indicator {
-            filter: invert(25%) sepia(100%) saturate(3000%) hue-rotate(220deg) brightness(100%) contrast(95%);
+            filter: invert(54%) sepia(98%) saturate(1780%) hue-rotate(183deg) brightness(97%) contrast(92%);
         }
     </style>
-    <div class="container">
-        <div class="header">
-            <h1>Formulario Cáncer Gástrico</h1>
-            <p>Complete la información solicitada en cada sección</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar"></div>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="header">
+                <h1>Formulario Cáncer Gástrico</h1>
+                <p>Complete la información solicitada en cada sección</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-content">
-            <form id="gastricForm" th:object="${formWrapper}" th:action="@{/formulario}" method="post">
+            <div class="form-content">
+                <form id="gastricForm" th:object="${formWrapper}" th:action="@{/formulario}" method="post">
 
-                <div th:each="seccion : ${secciones}" class="section">
-                    <div class="section-title">
-                        <span class="section-number" th:text="${seccion.numero}">1</span>
-                        <span th:text="${seccion.nombre}">Nombre de la Sección</span>
-                    </div>
 
-                    <th:block th:each="antecedente, status : *{antecedentes}">
-                        <div th:if="${antecedente.datoSolicitado.seccion.id_seccion == seccion.id_seccion}"
-                             class="field-group">
+                    <div th:each="antecedente, status : *{antecedentes}" class="section">
 
-                            <label class="field-label" th:text="${antecedente.datoSolicitado.nombre}"></label>
+                        <h2 th:text="${status.count} + '. ' + ${antecedente.datoSolicitado.leyenda}" class="section-title"></h2>
 
-                            <p class="field-hint" th:if="${antecedente.datoSolicitado.leyenda}"
-                               th:text="${antecedente.datoSolicitado.leyenda}"
-                               style="font-size: 0.85em; color: #666; margin-bottom: 8px;"></p>
+                        <input type="hidden" th:field="*{antecedentes[__${status.index}__].datoSolicitado}" />
 
-                            <input type="hidden" th:field="*{antecedentes[__${status.index}__].datoSolicitado}" />
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'OPCION_MULTIPLE'}">
 
-                            <div th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'OPCIONES'}">
-                                <div class="radio-group">
-                                    <div class="radio-option" th:each="opcion : ${antecedente.datoSolicitado.opciones}">
-                                        <input type="radio"
-                                               th:id="${'opc_' + status.index + '_' + opcion.id_opcion}"
-                                               th:field="*{antecedentes[__${status.index}__].id_opcion}"
-                                               th:value="${opcion.id_opcion}"
-                                               th:data-requiere-texto="${opcion.requiereTexto}"
-                                               class="radio-opcion-input" />
-                                        <label class="radio-label"
-                                               th:for="${'opc_' + status.index + '_' + opcion.id_opcion}"
-                                               th:text="${opcion.nombre}"></label>
-                                    </div>
-                                </div>
+                            <div class="radio-group"
+                                 th:with="datosolicitado=${antecedente.datoSolicitado}">
 
-                                <div class="sub-input" th:id="${'texto-adicional-' + status.index}" style="display:none; margin-top: 10px;">
-                                    <input type="text"
-                                           th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                                           class="text-input"
-                                           placeholder="Especifique el detalle..." />
+                                <div class="radio-option" th:each="opcion : ${datosolicitado.opciones}">
+                                    <input
+                                            type="radio"
+                                            th:id="${'opc' + opcion.id_opcion}"
+
+                                            th:field="*{antecedentes[__${status.index}__].id_opcion}"
+
+                                            th:value="${opcion.id_opcion}"
+
+                                            th:data-requiere-texto="${opcion.requiereTexto}"
+                                            class="radio-opcion-input"
+                                    />
+                                    <label class="radio-label" th:for="${'opc' + opcion.id_opcion}" th:text="${opcion.nombre}"></label>
                                 </div>
                             </div>
 
-                            <div th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'NUMERO'}">
-                                <input type="number" th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                                       class="text-input" th:min="${antecedente.datoSolicitado.valorMin}"
-                                       th:max="${antecedente.datoSolicitado.valorMax}" step="any"/>
-                            </div>
-
-                            <div th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'FECHA'}">
-                                <input type="date" th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                                       class="text-input" />
-                            </div>
-
-                            <div th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'TEXTO'}">
-                            <textarea th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
-                                      class="text-input" rows="3" placeholder="Escriba su respuesta aquí..."></textarea>
+                            <div class="sub-input" th:id="${'texto-adicional-' + status.index}" style="display:none;">
+                                <input
+                                        type="text"
+                                        th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                                        class="text-input"
+                                        placeholder="Especifique el detalle"
+                                />
                             </div>
                         </div>
-                    </th:block>
-                </div>
 
-                <div class="submit-container">
-                    <a href="javascript:void(0)" onclick="confirmarRegreso(event)" class="cancel-btn">
-                        <span>←</span> Volver a Datos Personales
-                    </a>
-                    <button type="submit" class="submit-btn">
-                        Guardar Formulario
-                    </button>
-                </div>
-            </form>
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'NUMERO'}">
+                            <input
+                                    type="number"
+                                    th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                                    class="text-input"
+                                    placeholder="Ingrese valor numérico"
+                                    step="any"
+
+                                    th:min="${antecedente.datoSolicitado.valorMin}"
+                                    th:max="${antecedente.datoSolicitado.valorMax}"
+                            />
+                        </div>
+
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'FECHA'}">
+                            <input
+                                    type="date"
+                                    th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                                    class="text-input"
+                            />
+                        </div>
+
+                        <div class="field-group"
+                             th:if="${antecedente.datoSolicitado.tipoRespuesta.name() == 'TEXTO'}">
+                    <textarea
+                            th:field="*{antecedentes[__${status.index}__].respuestaIngresada}"
+                            class="text-input"
+                            rows="3"
+                            placeholder="Escriba su respuesta aquí..."
+                    ></textarea>
+                        </div>
+
+                    </div>
+
+            <div class="submit-container">
+                <a href="#" onclick="history.back()" class="cancel-btn">
+                    <span>←</span> Volver y Editar Sujeto
+                </a>
+                <button type="submit" class="submit-btn">
+                    Guardar Formulario
+                </button>
+            </div>
+
+                </form>
+            </div>
         </div>
     </div>
 
@@ -538,47 +527,6 @@
             }
         });
     });
-
-    function confirmarRegreso(event) {
-
-        if (event) event.preventDefault();
-
-        let tieneDatos = false;
-        const inputs = document.querySelectorAll('#gastricForm input:not([type="hidden"]), #gastricForm textarea');
-
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].type === 'radio' || inputs[i].type === 'checkbox') {
-                if (inputs[i].checked) { tieneDatos = true; break; }
-            } else {
-                if (inputs[i].value.trim() !== "") { tieneDatos = true; break; }
-            }
-        }
-
-        if (tieneDatos) {
-            if (confirm("⚠️ ADVERTENCIA: Se perderán todos los datos ingresados en el formulario si vuelve atrás. ¿Desea continuar?")) {
-                window.location.href = '/ingreso';
-            }
-        } else {
-            window.location.href = '/ingreso';
-        }
-    }
-    function updateProgress() {
-        const groups = document.querySelectorAll('.field-group');
-        const total = groups.length;
-        let filled = 0;
-
-        groups.forEach(group => {
-            const hasRadio = group.querySelector('input[type="radio"]:checked');
-            const hasText = group.querySelector('input[type="text"], input[type="number"], input[type="date"], textarea');
-
-            if (hasRadio || (hasText && hasText.value.trim() !== '')) {
-                filled++;
-            }
-        });
-
-        const percent = (total === 0) ? 0 : (filled / total) * 100;
-        progressBar.style.width = `${percent}%`;
-    }
 
 </script>
 </body>
