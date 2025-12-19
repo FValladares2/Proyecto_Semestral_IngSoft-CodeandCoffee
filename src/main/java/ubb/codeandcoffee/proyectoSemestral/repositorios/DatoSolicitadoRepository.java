@@ -8,6 +8,8 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 
 import java.util.List;
+import java.util.Optional;
+
 // Repositorio para la entidad DatoSolicitado
 @Repository
 public interface DatoSolicitadoRepository extends JpaRepository<DatoSolicitado, Integer>{

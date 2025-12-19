@@ -3,11 +3,13 @@ package ubb.codeandcoffee.proyectoSemestral.servicios;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
-import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
-import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
-import ubb.codeandcoffee.proyectoSemestral.modelo.TipoRespuesta;
+import ubb.codeandcoffee.proyectoSemestral.modelo.*;
+import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
+import ubb.codeandcoffee.proyectoSemestral.repositorios.CriterioRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SeccionRepository;
 

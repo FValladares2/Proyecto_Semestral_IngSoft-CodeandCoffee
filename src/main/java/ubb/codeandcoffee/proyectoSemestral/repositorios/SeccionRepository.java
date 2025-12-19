@@ -1,8 +1,13 @@
 package ubb.codeandcoffee.proyectoSemestral.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Seccion;
+
+import java.util.List;
 
 // Repositorio para la entidad Seccion
 @Repository
