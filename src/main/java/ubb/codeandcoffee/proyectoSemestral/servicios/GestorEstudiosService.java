@@ -60,14 +60,16 @@ public class GestorEstudiosService {
             return "Estudio creado: " + nombreDbFisica;
         } catch (Exception e) {
             e.printStackTrace();
+            // Importante: RuntimeException para que @Transactional haga rollback si falla
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 
     private void crearBaseDatosFisica(String nombreDb) throws IOException, InterruptedException {
-        // mysql -h mysqldb -u root -proot -e "CREATE DATABASE ..."
+        // CORREGIDO: Se agrega --skip-ssl para compatibilidad con MariaDB client
         String[] comando = {
                 "mysql",
+                "--skip-ssl",
                 "-h", DB_HOST, 
                 "-u" + dbUser,
                 "-p" + dbPass,
@@ -81,9 +83,8 @@ public class GestorEstudiosService {
         String tablasConfig = "seccion datosolicitado opcion criterio criterio_datosolicitado dato_criterio usuario";
         String tablasDatos = "sujetoestudio antecedentes usuario_sujeto";
 
-        // mysqldump -h mysqldb ... | mysql -h mysqldb ...
-        // es vital agregar el -h DB_HOST en ambos lados
-        String hostFlag = " -h " + DB_HOST + " ";
+        // CORREGIDO: Se agrega --skip-ssl
+        String hostFlag = " -h " + DB_HOST + " --skip-ssl ";
 
         String cmdConfig = String.format(
                 "mysqldump %s -u%s -p%s %s %s | mysql %s -u%s -p%s %s",
@@ -112,13 +113,15 @@ public class GestorEstudiosService {
         ProcessBuilder pb = new ProcessBuilder(comando);
         pb.redirectErrorStream(true);
         Process p = pb.start();
-        leerSalida(p); // ! Importante para no bloquear el buffer
+        leerSalida(p); 
         int exitCode = p.waitFor();
         if (exitCode != 0) throw new RuntimeException("Error comando SQL. Exit: " + exitCode);
     }
 
     private void ejecutarComandoBash(String comandoCompleto) throws IOException, InterruptedException {
-        String[] comando = {"/bin/bash", "-c", comandoCompleto};
+        // CORRECCIÓN CRÍTICA: Cambiado de "/bin/bash" a "/bin/sh" para Alpine Linux
+        String[] comando = {"/bin/sh", "-c", comandoCompleto};
+        
         ProcessBuilder pb = new ProcessBuilder(comando);
         pb.redirectErrorStream(true);
         Process p = pb.start();

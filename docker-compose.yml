@@ -3,27 +3,35 @@ services:
   mysqldb:
     image: mysql:8.0
     container_name: mi_mysql_docker
+    # Mantenemos el comando de compatibilidad que agregamos antes
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: bdd_formulario
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "3307:3306" # acceso externo por el puerto 3307
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-      # si la base de datos no existe, se crea a partir del script SQL
       - ./bdd:/docker-entrypoint-initdb.d 
+    # NUEVO: Verificación de salud. Docker preguntará cada 5s si MySQL ya responde.
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     restart: always
 
-  #SERVICIO 2: APP SPRING BOOT 
+  # SERVICIO 2: APP SPRING BOOT 
   app:
     build: .
     container_name: mi_backend
     ports:
-      - "8085:8085" # la  aplicación web
+      - "8085:8085"
     depends_on:
-      - mysqldb
+      mysqldb:
+        # NUEVO: Esperar a que el healthcheck de arriba de OK antes de iniciar
+        condition: service_healthy
     environment:
-      # conexión interna usando el nombre del servicio 'mysqldb'
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/bdd_formulario?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
@@ -34,13 +42,14 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: mi_phpmyadmin
     environment:
-      PMA_HOST: mysqldb      # se conecta al servicio de BD de arriba
+      PMA_HOST: mysqldb
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "8081:80"            # accederemos por el puerto 8081
+      - "8081:80"
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
     restart: always
 
 volumes:
