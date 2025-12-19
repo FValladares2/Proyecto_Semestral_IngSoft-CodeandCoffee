@@ -13,6 +13,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.ExportarService;
 
 import java.io.File;
 
+// Controlador para manejar la exportación de reportes
+
 @Controller
 @RequestMapping("/exportar")
 public class ExportarController {
@@ -25,6 +27,8 @@ public class ExportarController {
         return "exportar";
     }
 
+
+    /// Endpoint POST para generar reportes
     @PostMapping("/generar")
     public String generarReporte(@RequestParam("tipo") String tipo, RedirectAttributes redirectAttributes) {
         String fileName = "";
@@ -43,6 +47,7 @@ public class ExportarController {
             redirectAttributes.addFlashAttribute("archivoGenerado", fileName);
 
         } catch (Exception e) {
+            // manejamos todos los errores posibles
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Error al generar el reporte: " + e.getMessage());
         }
@@ -50,6 +55,8 @@ public class ExportarController {
         return "redirect:/exportar";
     }
 
+
+    //se encarga de descargar el archivo generado
     @GetMapping("/descargar/{fileName}")
     public ResponseEntity<Resource> descargarReporte(@PathVariable String fileName) {
         if (!fileName.equals("reporte_dicotomico.xlsx") && !fileName.equals("reporte_completo.xlsx")) {
@@ -63,6 +70,8 @@ public class ExportarController {
 
         Resource resource = new FileSystemResource(file);
 
+
+        //configuramos la respuesta HTTP para descargar el archivo
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
