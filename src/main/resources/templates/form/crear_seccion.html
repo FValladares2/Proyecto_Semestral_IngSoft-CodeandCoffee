@@ -269,41 +269,39 @@
 </div>
 
 <script th:inline="javascript">
-    var seccionesOriginales = [
-        { id: [[${s.id_seccion}]], nombre: [[${s.nombre}]], numero: [[${s.numero}]] },
-    ];
+
+    var seccionesOriginales = [[${secciones}]] || [];
 
     function actualizarVistaPrevia() {
-        var inputNumero = document.getElementById('numero');
-        var inputNombre = document.getElementById('nombre');
+        var inputNum = document.getElementById('numero');
+        var inputNom = document.getElementById('nombre');
 
-        var nuevoNumero = parseInt(inputNumero.value) || 1;
-        var nuevoNombre = inputNombre.value || "NUEVA SECCIÓN";
-
+        var nuevoNumero = parseInt(inputNum.value) || 1;
+        var nuevoNombre = inputNom.value || "NUEVA SECCIÓN";
         var contenedor = document.getElementById('lista-simulada');
+
+        if (!contenedor) return;
         contenedor.innerHTML = "";
 
         var listaSimulada = [];
-        var insertado = false;
 
-        seccionesOriginales.forEach(function(seccion) {
-            var itemSimulado = { ...seccion };
+        seccionesOriginales.forEach(function(s) {
+            var item = { nombre: s.nombre, numeroOriginal: s.numero };
 
-            if (seccion.numero >= nuevoNumero) {
-                itemSimulado.numeroNuevo = seccion.numero + 1;
-                itemSimulado.desplazado = true;
+            if (s.numero >= nuevoNumero) {
+                item.numeroNuevo = s.numero + 1;
+                item.estado = 'desplazado';
             } else {
-                itemSimulado.numeroNuevo = seccion.numero;
-                itemSimulado.desplazado = false;
+                item.numeroNuevo = s.numero;
+                item.estado = 'fijo';
             }
-            listaSimulada.push(itemSimulado);
+            listaSimulada.push(item);
         });
 
         listaSimulada.push({
-            id: 'NEW',
             nombre: nuevoNombre,
             numeroNuevo: nuevoNumero,
-            esNueva: true
+            estado: 'nuevo'
         });
 
         listaSimulada.sort((a, b) => a.numeroNuevo - b.numeroNuevo);
@@ -312,24 +310,28 @@
             var div = document.createElement('div');
             div.className = 'preview-item';
 
-            var texto = "<strong>" + item.numeroNuevo + ". " + item.nombre + "</strong>";
+            if (item.estado === 'nuevo') div.classList.add('item-nuevo');
+            if (item.estado === 'desplazado') div.classList.add('item-desplazado');
 
-            if (item.esNueva) {
-                div.classList.add('item-nuevo');
-                texto += " (SE INSERTARÁ AQUÍ)";
-            } else if (item.desplazado) {
-                div.classList.add('item-desplazado');
-                texto += " <span class='flecha-cambio'>(Antes era " + item.numero + " → Ahora será " + item.numeroNuevo + ")</span>";
-            } else {
-                texto += " <span class='item-sin-cambios'>(Sin cambios)</span>";
+            var contenido = "<strong>" + item.numeroNuevo + ". " + item.nombre + "</strong>";
+
+            if (item.estado === 'nuevo') {
+                contenido += " <span style='color: #28a745; font-size: 0.8em;'>[SE INSERTARÁ AQUÍ]</span>";
+            } else if (item.estado === 'desplazado') {
+                contenido += " <span style='color: #856404; font-size: 0.8em;'>(Se desplaza: era la " + item.numeroOriginal + ")</span>";
             }
 
-            div.innerHTML = texto;
+            div.innerHTML = contenido;
             contenedor.appendChild(div);
         });
     }
 
-    document.addEventListener("DOMContentLoaded", actualizarVistaPrevia);
+    document.addEventListener("DOMContentLoaded", function() {
+        actualizarVistaPrevia();
+        document.getElementById('numero').addEventListener('input', actualizarVistaPrevia);
+        document.getElementById('nombre').addEventListener('input', actualizarVistaPrevia);
+    });
+
 </script>
 
 </body>
