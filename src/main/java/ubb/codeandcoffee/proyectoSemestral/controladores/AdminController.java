@@ -67,6 +67,11 @@ public class AdminController {
         
         return "gestionar_usuarios";
     }
+
+    /*
+     la siguiente sección de código está comentada para evitar conflictos por que se cambio 
+      la ui de creación de usuarios a una vista independiente. Pero se conseva en caso de volver a la anterior
+    */
 /*
     @GetMapping("/crear-formulario")
     public String mostrarCrearFormulario(Model modelo) {
@@ -135,6 +140,8 @@ public class AdminController {
 
         return "redirect:/admin/crear-usuario";
     }
+
+    /* se usa para actualizar el estado de un usuario  */
     
     @PostMapping("/actualizar-estado")
     public String cambiarEstadoUsuario(
