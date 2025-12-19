@@ -17,8 +17,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.DatoSolicitadoService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
-@RestController //Indica que esta clase es un controlador REST y sus métodos devuelven JSON
-@RequestMapping("/DatoSolicitado")//Define la ruta base para todos los endpoints de esta clase
+@RestController //se usa para indicar que esta clase es un controlador REST y sus métodos devuelven JSON
+@RequestMapping("/DatoSolicitado")//define la ruta base para todos los endpoints de esta clase
 public class DatoSolicitadoController {
     @Autowired
     private DatoSolicitadoService datoService;//instancia del servicio de datos solicitados

@@ -17,8 +17,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.CriterioService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
-@RestController //Indica que esta clase es un controlador REST y sus métodos devuelven JSON
-@RequestMapping("/Criterio")//Define la ruta base para todos los endpoints de esta clase
+@RestController //se usa para indicar que esta clase es un controlador REST y sus métodos devuelven JSON
+@RequestMapping("/Criterio")//define la ruta base para todos los endpoints de esta clase
 public class CriterioController {
     @Autowired
     private CriterioService criterioService;//instancia del servicio de criterio
