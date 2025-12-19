@@ -16,7 +16,7 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 
 import java.util.List;
 
-
+// Controlador para manejar la confirmación del formulario antes de guardar los datos
 @Controller
 public class ConfirmacionFormController {
     private final SujetoEstudioRepository sujetoEstudioRepository;
@@ -33,7 +33,11 @@ public class ConfirmacionFormController {
     @Autowired
     private AntecedenteService antecedenteService;
 
-    @GetMapping("/confirmacion")
+
+    /*
+        muestra la página de confirmación antes de guardar los datos en la base de datos
+    */
+    @GetMapping("/confirmacion") 
     public String mostrarConfirmacion(HttpSession session, Model model) {
 
         SujetoEstudio sujeto = (SujetoEstudio) session.getAttribute("SUJETO_PENDIENTE");
@@ -55,6 +59,10 @@ public class ConfirmacionFormController {
         return "form/confirmacion_form";
     }
 
+
+    /*
+        manejamos  la confirmación para guardar los datos en la base de datos
+    */
     @PostMapping("/confirmar-guardado")
     public String confirmarGuardado(HttpSession session, RedirectAttributes redirectAttributes) {
 
@@ -91,7 +99,7 @@ public class ConfirmacionFormController {
             return "redirect:/ingreso";
 
         } catch (Exception e) {
-            // Manejo de errores de guardado
+            // hacemos un catch de posibles errores en el  guardado
             System.err.println("Error al guardar en la base de datos: " + e.getMessage());
             redirectAttributes.addFlashAttribute("error", "Ocurrió un error al intentar guardar los datos. Intente de nuevo.");
             return "redirect:/confirmacion";
