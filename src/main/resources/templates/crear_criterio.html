@@ -151,7 +151,7 @@
 
 <script th:inline="javascript">
     /* Obtenemos lista segura para evitar error si es null */
-    var listaVariablesJS = [[${listaVariables}]] || [];
+    var listaVariablesJS = /*[[${listaVariables}]]*/ || [];
     var contador = 0;
 
     document.addEventListener("DOMContentLoaded", function() {

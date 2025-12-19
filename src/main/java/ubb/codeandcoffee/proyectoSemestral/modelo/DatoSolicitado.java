@@ -44,6 +44,7 @@ public class DatoSolicitado {
     @JsonIgnore
     private List<Opcion> opciones;
 
+    @JsonIgnore
      @ManyToMany(mappedBy = "datosSolicitados", fetch = FetchType.LAZY)
     private Set<Criterio> criteriosAsociados = new HashSet<>();
 
