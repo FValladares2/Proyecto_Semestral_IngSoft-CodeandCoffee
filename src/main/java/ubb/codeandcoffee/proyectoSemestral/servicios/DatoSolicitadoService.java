@@ -112,7 +112,7 @@ public class DatoSolicitadoService {
         if(request.getTipoRespuesta()== TipoRespuesta.NUMERO){
             if(request.getValorMin()==null||request.getValorMax()==null){
                 throw new IllegalArgumentException("para el tipo de respuesta: Numero, " +
-                        "los campos valorMin y ValorMax son obigatorios");
+                        "los campos valorMin y ValorMax son obligatorios");
             }
             if(request.getValorMin()>request.getValorMax()){
                 throw new IllegalArgumentException("valorMin no puede ser Mayor a valorMax");

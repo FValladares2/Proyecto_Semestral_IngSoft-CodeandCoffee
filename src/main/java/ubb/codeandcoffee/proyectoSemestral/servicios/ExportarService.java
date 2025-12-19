@@ -105,7 +105,7 @@ public class ExportarService {
             for (var entry : datosAgrupados.entrySet()) {
                 int seccion = entry.getKey();
                 for (DatoSolicitado pregunta : entry.getValue()) {
-                    if (pregunta.getEstudio() ){//TODO:&& pregunta.getActivo()) {
+                    if (pregunta.getEstudio() && pregunta.getActivo()) {
                         //solo van las preguntas que van a STATA (ya dicotomizados)
                         columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
                     }else {
@@ -259,9 +259,9 @@ public class ExportarService {
                 int seccion = entry.getKey();
                 for (DatoSolicitado pregunta : entry.getValue()) {
                     //añade toda pregunta, dicotomizada o no, mientras esté activa
-                    //TODO:if (pregunta.getActivo()) {
+                    if (pregunta.getActivo()) {
                         columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
-                    //}
+                    }
                 }
             }
 
@@ -355,8 +355,7 @@ public class ExportarService {
     }
 
     private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, Criterio criterio, int indexCriterio) {
-        Set<DatoSolicitado> dset= criterio.getDatosSolicitados();
-        //TODO:for (DatoSolicitado d : dset) if (!d.getActivo()) return columnNum;
+        if (!criterio.getActivo()) return columnNum;
         if (indexCriterio == -1) {
             //si no está el criterio en el mapa, se añade su columna en mapa
             Cell c = r.createCell(columnNum);
@@ -388,16 +387,17 @@ public class ExportarService {
 
             float valor2;
             if (!argumento[2].equals("AVG") &&
+                    !argumento[2].equals("PROMEDIO") &&
                     !argumento[2].equals("MOD") &&
-                    !argumento[2].equals("MED"))
+                    !argumento[2].equals("MEDIAN"))
                 valor2 = Float.parseFloat(argumento[2]);
             else if (avg.get(datoValor1) != null &&
                     //mod.get(datoValor1) != null &&
                     med.get(datoValor1) != null){
                 switch (argumento[2]) {
-                    case "AVG" -> valor2 = avg.get(datoValor1);
+                    case "AVG", "PROMEDIO" -> valor2 = avg.get(datoValor1);
                     case "MOD" -> valor2 = mod.get(datoValor1);
-                    case "MED" -> valor2 = med.get(datoValor1);
+                    case "MEDIAN" -> valor2 = med.get(datoValor1);
                     default -> {
                         System.out.println("Error?; unreachable statement?");
                         return null;
@@ -453,7 +453,6 @@ public class ExportarService {
 
             String resultado1 = lidiarConCriterio(argumento1, columnasDatos, datos, r, avg, med, mod);
             String resultado2 = lidiarConCriterio(argumento2, columnasDatos, datos, r, avg, med, mod);
-            System.out.println(resultado1 + " -resultados- " + resultado2);
             if (separador.equals("AND")){
                 if (resultado1 == null || resultado2 == null) return null;
 
@@ -475,6 +474,7 @@ public class ExportarService {
             if (d.getTipoRespuesta().equals(TipoRespuesta.NUMERO)) {
                 List<Antecedente> respuestas = antService.getAllByDatoSolicitado(d);
                 ArrayList<Float> valores = new ArrayList<>();
+                HashMap<Float, Integer> cantidades = new HashMap<>();
                 float suma = 0;
                 int cantidad = 0;
                 for (Antecedente a : respuestas) {
@@ -483,6 +483,8 @@ public class ExportarService {
                         suma += v;
                         valores.add(v);
                         cantidad++;
+                        if (cantidades.containsKey(a.getValorNum())) cantidades.put(a.getValorNum(), cantidades.get(a.getValorNum()) + 1);
+                        else  cantidades.put(a.getValorNum(), 1);
                     }
                 }
                 if (cantidad > 0) {
@@ -492,7 +494,15 @@ public class ExportarService {
                     if (len % 2 == 0) media = ((valores.get(len / 2) + valores.get(len / 2 - 1)) / 2);
                     else media = valores.get(len / 2);
                     med.put(d, media);
-                    //todo: calcular moda
+                    int max = Integer.MIN_VALUE;
+                    float maxSeccion = 0f;
+                    for (var entry : cantidades.entrySet()) {
+                        if (max < entry.getValue()) {
+                            maxSeccion = entry.getKey();
+                            max = entry.getValue();
+                        }
+                    }
+                    mod.put(d, maxSeccion);
                 }
             }
         }
