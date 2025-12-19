@@ -11,7 +11,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.TipoRespuesta;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SeccionRepository;
 
-@Service //Marca esta clase como un servicio de Spring
+@Service //establece esta clase como un servicio de Spring
 public class DatoSolicitadoService {
     private final DatoSolicitadoRepository datoRepository; //instancia del repositorio de DatoSolicitado
     private final SeccionRepository seccionRepository;
@@ -87,9 +87,9 @@ public class DatoSolicitadoService {
             dato.setValorMax(request.getValorMax());
         }
 
-        return datoRepository.save(dato);
+        return datoRepository.save(dato); //se retornan los cambios guardados
     }
-
+    //validacion para el tipo de respuesta numero
     private void tipoRespuestaNumero(DatoSolicitado request) {
         if(request.getTipoRespuesta()== TipoRespuesta.NUMERO){
             if(request.getValorMin()==null||request.getValorMax()==null){
@@ -111,6 +111,7 @@ public class DatoSolicitadoService {
         }
     }
 
+    //buscar todos los datos solicitados segun el tipo de sujeto
     public List<DatoSolicitado> buscarTodosLosDatos(String tipoSujeto) {
         Aplicable_a tipo;
         if(tipoSujeto.equalsIgnoreCase("CASO")){
