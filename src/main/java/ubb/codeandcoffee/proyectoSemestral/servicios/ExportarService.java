@@ -304,8 +304,10 @@ public class ExportarService {
                 for (Antecedente res : respuestasSujeto) {
                     respuestasMapa.put(res.getDatoSolicitado(), res);
                     columnNum = map.indexOf(res.getDatoSolicitado().getNombreStata());
-                    if (res.getValorString() != null) r.createCell(columnNum).setCellValue(res.getValorString());
-                    else if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
+                    if (columnNum != -1) {
+                        if (res.getValorString() != null) r.createCell(columnNum).setCellValue(res.getValorString());
+                        else if (res.getValorNum() != null) r.createCell(columnNum).setCellValue(res.getValorNum());
+                    }
                 }
 
                 for (Criterio criterio: criteriosObj){
