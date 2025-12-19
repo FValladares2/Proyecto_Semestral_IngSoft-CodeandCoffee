@@ -184,7 +184,7 @@ public class EdicionController {
 
                 dto.setRespuestaIngresada(ant.getValorString());
 
-                if (pregunta.getTipoRespuesta() == TipoRespuesta.OPCION_MULTIPLE) {
+                if (pregunta.getTipoRespuesta() == TipoRespuesta.OPCIONES) {
 
                     if (ant.getValorNum() != null) {
 
@@ -272,7 +272,7 @@ public class EdicionController {
                 antecedente.setValorString(null);
                 antecedente.setTextoOpcion(null);
 
-                if (dato.getTipoRespuesta() == TipoRespuesta.OPCION_MULTIPLE) {
+                if (dato.getTipoRespuesta() == TipoRespuesta.OPCIONES) {
                     int idOpcion = dto.getId_opcion();
 
                     Opcion opcion = (idOpcion > 0) ? opcionService.getById(idOpcion).orElse(null) : null;
