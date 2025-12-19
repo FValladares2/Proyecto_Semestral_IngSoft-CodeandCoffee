@@ -81,7 +81,7 @@ CREATE TABLE `criterio` (
   `expresion` varchar(255) NOT NULL,
   `leyenda` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
-  `nombre_stata` varchar(255) DEFAULT NULL,
+  `nombre_stata` varchar(255) NOT NULL,
   `tipo_calculo` enum('MEDIANA','PARTICULAR','PROMEDIO') NOT NULL,
   `activo` bit(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -109,7 +109,7 @@ CREATE TABLE `datosolicitado` (
   `estudio` bit(1) DEFAULT NULL,
   `leyenda` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
-  `nombre_stata` varchar(255) DEFAULT NULL,
+  `nombre_stata` varchar(255) NOT NULL,
   `id_seccion` int(11) NOT NULL,
   `tipo_respuesta` enum('FECHA','NUMERO','OPCIONES','TEXTO') NOT NULL,
   `valor_max` int(11) DEFAULT NULL,
