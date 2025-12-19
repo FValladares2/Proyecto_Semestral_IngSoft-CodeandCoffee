@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+// Entidad que representa una Seccion en la base de datos
 @Entity
 @Table(name = "seccion")
 public class Seccion {
@@ -24,7 +26,7 @@ public class Seccion {
         this.numero = numero;
         this.datosSolicitados = new ArrayList<>();
     }
-
+    // Getters y Setters
     @OneToMany(mappedBy = "seccion")
     @JsonIgnore
     private List<DatoSolicitado> datosSolicitados;

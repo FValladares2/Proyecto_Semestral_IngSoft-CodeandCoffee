@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+// Entidad que representa un Criterio en la base de datos
 @Entity
 @Table(name = "criterio")
 public class Criterio {
@@ -51,6 +52,7 @@ public class Criterio {
         this.activo=true;
     }
 
+    // Getters y Setters
     public Integer getId_criterio() {
         return id_criterio;
     }

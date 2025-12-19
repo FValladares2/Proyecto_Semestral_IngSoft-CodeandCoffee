@@ -1,145 +1,103 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administrador</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5; /* mismo fondo gris claro del login */
-            margin: 0;
-            padding: 0;
-        }
+<html th:replace="~{plantilla_admin :: layout_base(~{::section}, ~{})}" xmlns:th="http://www.w3.org/1999/xhtml">
 
-        /* Barra superior para info de usuario */
-        .header-bar {
-            background-color: #ffffff;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-        }
-
-        .header-bar .user-role {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* Contenedor  para las tarjetas */
-        .menu-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* grilla para las 3 columnas */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* tres columnas de igual tamaño */
-            gap: 2rem; /* Espacio entre las cajas */
-        }
-
-        
-        .menu-card {
-            background-color: #ffffff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .menu-card h2 {
-            font-size: 20px;
-            color: #1F618D; /* Color del proyecto */
-            border-bottom: 2px solid #f0f2f5;
-            padding-bottom: 0.75rem;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-        }
-
-        /* estilo de los botones dentro de las cajas */
-        .btn {
-            display: block; 
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            box-sizing: border-box; 
-            
-            text-decoration: none;
-            color: white;
-            background-color: #1F618D;
-            border: none;
-            border-radius: 4px;
-            text-align: center; 
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .btn:hover {
-            background-color: #154360;
-        }
-
-        
-        .btn:last-child {
-            margin-bottom: 0;
-        }
-
-        /* estilo para botones bloqueados*/
-        .btn-disabled {
-            background-color: #adb5bd; /* fondo gris */
-            color: #6c757d; /* texto gris oscuro */
-            cursor: not-allowed;
-        }
-        
-        .btn-disabled:hover {
-            background-color: #adb5bd; 
-        }
-
-        
-        @media (max-width: 900px) {
-            .menu-grid {
-                grid-template-columns: 1fr; /* Apila las 3 columnas */
-            }
-        }
-
-    </style>
-</head>
 <body>
 
-    <div class="header-bar">
-        <span class="user-role">Nivel de usuario: Administrador</span>
-    </div>
+<section>
 
-    <div class="menu-container">
-        <div class="menu-grid">
+    <style>
 
-            <div class="menu-card">
-                <h2>Gestión de Usuarios</h2>
-                <a th:href="@{/admin/crear-usuario}" class="btn">Crear nuevo usuario</a>
-                
-                <a th:href="@{/admin/gestionar-usuarios}" class="btn btn-primary">
-                    Gestionar Usuarios
-                </a>
-            </div>
 
-            <div class="menu-card">
-                <h2>Ingreso de datos</h2>
-                <a th:href="@{/ingreso}" class="btn">Rellenar un nuevo formulario</a>
-                <a th:href="@{/edicion/sujetos}" class="btn">Actualizar datos sujeto de estudio</a>
-            </div>
+        .icon-container-fixed {
+            width: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
 
-            <div class="menu-card">
-                <h2>Gestión de formulario y datos</h2>
-                <a th:href="@{/admin/crear-formulario}" class="btn">Actualizar formulario</a>
-                <a href="#" class="btn btn-disabled">Visualizar respuestas</a>
-                <a href="#" class="btn btn-disabled">Exportar Respuestas</a>
-            </div>
-            <a th:href="@{/logout}" class="btn-logout">Cerrar Sesión</a>
+        p{
+            font-size: 1rem !important;
+            padding-top: 1.2rem !important;
+            padding-bottom: 1.2rem !important;
+        }
+
+
+        .row.mb-4 {
+            margin-top: 4rem !important;
+            margin-bottom: 3rem !important;
+        }
+
+
+    </style>
+
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bienvenido al Sistema</h1>
         </div>
 
+        <hr class="sidebar-divider mb-4">
+        <div class="row mb-4">
+
+            <div class="col-md-6 col-sm-6 mb-3"> <div class="d-flex align-items-center">
+                <div class="mr-3 text-primary">
+                    <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                    <span class="font-weight-bold text-gray-800">Gestión de Usuarios</span>
+                    <p class="small text-gray-600 mb-0">Para invitar nuevos miembros al equipo o actualizar
+                        el estado de los miembros existentes, dirigete a la barra lateral izquierda y
+                        ve las opciones disponibles debajo de <b>"Gestión de Usuarios"</b>
+                    </p>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 mb-3"> <div class="d-flex align-items-center">
+                <div class="mr-3 text-info">
+                    <i class="fas fa-file-invoice fa-2x"></i>
+                </div>
+                <div>
+                    <span class="font-weight-bold text-gray-800">Formularios</span>
+                    <p class="small text-gray-600 mb-0">
+                        Encontraras una lista desplegable, con opciones para crear secciones y preguntas para el estudio, asi como
+                        para ingresar los datos / respuestas de un nuevo sujeto de estudio o
+                        modificar los datos / respuestas de uno existente,
+                        en el menú <b>"Formularios"</b> en la barra lateral izquierda.</b>
+                    </p>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 mb-3"> <div class="d-flex align-items-center">
+                <div class="mr-3 text-warning">
+                    <i class="fas fa-file-download fa-2x"></i>
+                </div>
+                <div>
+                    <span class="font-weight-bold text-gray-800">Exportar</span>
+                    <p class="small text-gray-600 mb-0">Para generar un Excel con los
+                        datos registrados en el sistema y descargarlo,
+                        ve a la opción <b>"Exportar"</b> en el menú de la barra lateral izquierda.</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 mb-3"> <div class="d-flex align-items-center">
+                <div class="mr-3 text-danger">
+                    <i class="fas fa-sign-out-alt fa-2x"></i>
+                </div>
+                <div>
+                    <span class="font-weight-bold text-gray-800">Salir</span>
+                    <p class="small text-gray-600 mb-0">Haz clic en el recuadro en la esquina superior derecha y selecciona
+                        <b>"Cerrar Sesión"</b>
+                        para terminar la sesión actual.</p>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        <hr class="sidebar-divider mb-4">
     </div>
+
+</section>
 
 </body>
 </html>

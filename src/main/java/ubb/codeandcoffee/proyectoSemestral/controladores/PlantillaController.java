@@ -4,6 +4,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+
+// Controlador de asesoramiento para definir plantillas y páginas de inicio según el rol del usuario
 @ControllerAdvice
 public class PlantillaController {
 
@@ -34,6 +36,7 @@ public class PlantillaController {
         return "plantilla_admin";
     }
 
+    // define la página de inicio según el rol del usuario
     @ModelAttribute("inicio")
     public String definirInicio(Authentication authentication) {
 

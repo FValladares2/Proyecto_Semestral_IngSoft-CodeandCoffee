@@ -115,7 +115,7 @@ public class SecurityConfig {
 
                         //rutas compartidas admin y analista
                         .requestMatchers(
-                                //esto todavia no existe, pero supongo que lo haraa
+
                                 "/exportar/**"
 
 

@@ -3,16 +3,21 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 import java.io.Serializable;
 import java.util.Objects;
 
+
+// Clase que representa el código único de un sujeto, compuesto por id_sujeto y tipo
 public class codigo_sujeto implements Serializable {
     private String id_sujeto;
     private String tipo;
 
+    // Constructor con parámetros
     public codigo_sujeto(String id_sujeto, String tipo) {
         this.id_sujeto = id_sujeto;
         this.tipo = tipo;
     }
+
     public codigo_sujeto() {}
 
+    // Método para obtener el código completo
     public String getCodigo(){return ""+tipo+id_sujeto;}
 
     public String getId_sujeto() {
@@ -31,6 +36,7 @@ public class codigo_sujeto implements Serializable {
         this.tipo = tipo;
     }
 
+    // Método para comparar dos objetos codigo_sujeto
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -17,8 +17,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.AntecedenteService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
-@RestController //Indica que esta clase es un controlador REST y sus métodos devuelven JSON
-@RequestMapping("/Antecedente")//Define la ruta base para todos los endpoints de esta clase
+@RestController //indica que esta clase es un controlador REST y sus métodos devuelven JSON
+@RequestMapping("/Antecedente")//define la ruta base para todos los endpoints de esta clase
 public class AntecedenteController {
     @Autowired
     private AntecedenteService antecedenteService;//instancia del servicio de antecedente
@@ -26,10 +26,10 @@ public class AntecedenteController {
 
     @GetMapping //endpoint GET: obtiene todos los antecedentes
     public ArrayList<Antecedente> getAntecedentes(){
-        return this.antecedenteService.getAntecedentes(); //Llama al servicio get
+        return this.antecedenteService.getAntecedentes(); //llamamos al servicio getAntecedentes
     }
 
-    @PostMapping //Endpoint POST: crea un nuevo antecedente
+    @PostMapping //Endpoint POST: para crea un nuevo antecedente
     public Antecedente guardarAntecedente(@RequestBody Antecedente antecedente){
         // @RequestBody: JSON de la solicitud se convierte a Antecedente
         return this.antecedenteService.guardarAntecedente(antecedente);

@@ -67,6 +67,11 @@ public class AdminController {
         
         return "gestionar_usuarios";
     }
+
+    /*
+     la siguiente sección de código está comentada para evitar conflictos por que se cambio 
+      la ui de creación de usuarios a una vista independiente. Pero se conseva en caso de volver a la anterior
+    */
 /*
     @GetMapping("/crear-formulario")
     public String mostrarCrearFormulario(Model modelo) {
@@ -117,7 +122,7 @@ public class AdminController {
             // se crea la invitación, en donde se guarda en BD con token y estado INICIADO
             Usuario usuarioInvitado = usuarioService.crearInvitacion(correo, rol);
             
-            // envia el correo con el token
+            // se usa para enviar el correo con el token
             emailService.enviarEmailInvitacion(correo, usuarioInvitado.getTokenRegistro());
 
             redirectAttributes.addFlashAttribute("exito", "¡Invitación enviada correctamente a " + correo + "!");
@@ -135,6 +140,8 @@ public class AdminController {
 
         return "redirect:/admin/crear-usuario";
     }
+
+    /* se usa para actualizar el estado de un usuario  */
     
     @PostMapping("/actualizar-estado")
     public String cambiarEstadoUsuario(

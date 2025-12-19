@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController //Indica que esta clase es un controlador REST y sus métodos devuelven JSON
 @RequestMapping("/Seccion")//Define la ruta base para todos los endpoints de esta clase
+
+// Controlador para manejar las operaciones CRUD de Seccion
 public class SeccionController {
     @Autowired
     private SeccionService seccionService;//instancia del servicio de seccion

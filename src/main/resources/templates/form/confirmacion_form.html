@@ -12,46 +12,50 @@
             box-sizing: border-box;
         }
 
+        body {
+
+        }
+
         .preview-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.15);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
+            background: linear-gradient(135deg, #0288d1 0%, #03a9f4 100%);
             color: white;
-            padding: 32px 32px 24px;
+            padding: 40px 30px;
             text-align: center;
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 6px;
-            letter-spacing: -0.3px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
         }
 
         .header p {
-            font-size: 13px;
-            opacity: 0.92;
-            font-weight: 400;
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 300;
         }
 
         .content {
-            padding: 32px;
+            padding: 40px 30px;
         }
 
         .section-title {
-            color: #2757F5;
-            font-size: 16px;
+            color: #0288d1;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #e8eef5;
+            border-bottom: 3px solid #b3e5fc;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -59,134 +63,123 @@
 
         .section-title::before {
             content: '';
-            width: 3px;
-            height: 20px;
-            background: linear-gradient(180deg, #2757F5 0%, #1e44c9 100%);
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, #0288d1 0%, #03a9f4 100%);
             border-radius: 2px;
-            flex-shrink: 0;
         }
 
         .data-group {
-            background: #fafbfc;
-            border: 1px solid #e8eef5;
-            border-radius: 8px;
-            padding: 14px 16px;
+            background: #f8fcff;
+            border: 1px solid #e1f5fe;
+            border-radius: 12px;
+            padding: 16px;
             margin-bottom: 12px;
-            transition: all 0.2s ease;
-            display: grid;
-            grid-template-columns: 140px 1fr;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
             gap: 20px;
-            align-items: start;
         }
 
         .data-group:hover {
-            box-shadow: 0 2px 8px rgba(39, 87, 245, 0.1);
-            border-color: #d9e2ef;
+            box-shadow: 0 4px 16px rgba(33, 150, 243, 0.1);
+            border-color: #b3e5fc;
         }
 
         .data-label {
             font-weight: 600;
-            color: #2757F5;
-            font-size: 12px;
+            color: #01579b;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+
+        .data-content {
+            flex: 1;
         }
 
         .data-value {
-            color: #2c3e50;
-            font-size: 14px;
+            color: #37474f;
+            font-size: 15px;
             line-height: 1.5;
         }
 
         .no-answer {
             color: #b0bec5;
             font-style: italic;
-            font-size: 13px;
         }
 
         .empty-message {
             text-align: center;
-            padding: 32px;
+            padding: 40px;
             color: #78909c;
-            font-size: 14px;
+            font-size: 15px;
             background: #f5f5f5;
-            border-radius: 8px;
+            border-radius: 12px;
             margin: 20px 0;
         }
 
         .confirmation-buttons {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            padding: 32px;
-            background: #fafbfc;
-            border-top: 1px solid #e8eef5;
+            gap: 16px;
+            padding: 40px 30px 30px;
+            background: #fafafa;
+            border-top: 1px solid #e0e0e0;
             flex-wrap: wrap;
         }
 
         .confirm-btn, .cancel-btn {
-            font-family: inherit;
-            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
             font-weight: 600;
-            padding: 11px 28px;
+            padding: 14px 32px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .confirm-btn {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
+            background: linear-gradient(135deg, #0288d1 0%, #03a9f4 100%);
             color: white;
         }
 
         .confirm-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(39, 87, 245, 0.25);
-        }
-
-        .confirm-btn:active {
-            transform: translateY(0);
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3);
         }
 
         .cancel-btn {
             background: white;
-            color: #2757F5;
-            border: 2px solid #2757F5;
+            color: #0288d1;
+            border: 2px solid #0288d1;
         }
 
         .cancel-btn:hover {
-            background: #f0f4ff;
+            background: #e3f2fd;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(39, 87, 245, 0.2);
-        }
-
-        @media (max-width: 1024px) {
-            body {
-                padding-left: 24px;
-            }
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.2);
         }
 
         @media (max-width: 768px) {
             body {
-                padding: 16px;
+                padding: 10px;
             }
 
             .header {
-                padding: 24px 20px;
+                padding: 30px 20px;
             }
 
             .header h1 {
-                font-size: 20px;
-            }
-
-            .header p {
-                font-size: 12px;
+                font-size: 24px;
             }
 
             .content {
@@ -194,19 +187,18 @@
             }
 
             .data-group {
-                grid-template-columns: 1fr;
+                flex-direction: column;
                 gap: 8px;
-                padding: 12px 14px;
+                padding: 14px;
             }
 
             .data-label {
-                font-size: 11px;
+                min-width: auto;
             }
 
             .confirmation-buttons {
-                flex-direction: column-reverse;
+                flex-direction: column;
                 padding: 24px 20px;
-                gap: 10px;
             }
 
             .confirm-btn, .cancel-btn {
@@ -215,101 +207,122 @@
             }
         }
     </style>
-    <div class="preview-container">
-        <div class="header">
-            <h1>Resumen de Datos Ingresados</h1>
-            <p>Por favor, revise la información antes de confirmar el guardado final</p>
-        </div>
-
-        <div class="content">
-            <h2 class="section-title">Información del Sujeto</h2>
-            <div th:object="${sujeto}">
-
-                <div class="data-group">
-                    <span class="data-label">Nombre</span>
-                    <span class="data-value" th:text="*{nombre}">May</span>
-                </div>
-
-                <div class="data-group">
-                    <span class="data-label">Tipo</span>
-                    <span class="data-value"
-                          th:text="*{tipo} == 'CA' ? 'Caso (CA)' : 'Control (CO)'">Tipo de Sujeto</span>
-                </div>
-
-                <div class="data-group">
-                    <span class="data-label">Dirección</span>
-                    <span th:class="${#strings.isEmpty(sujeto.direccion)} ? 'no-answer' : 'data-value'"
-                          th:text="${#strings.isEmpty(sujeto.direccion)} ? 'Sin respuesta' : *{direccion}"></span>
-                </div>
-
-                <div class="data-group">
-                    <span class="data-label">Ocupación</span>
-                    <span th:class="${#strings.isEmpty(sujeto.ocupacion)} ? 'no-answer' : 'data-value'"
-                          th:text="${#strings.isEmpty(sujeto.ocupacion)} ? 'Sin respuesta' : *{ocupacion}"></span>
-                </div>
-
-                <div class="data-group">
-                    <span class="data-label">Teléfono</span>
-                    <span th:class="${#strings.isEmpty(sujeto.telefono)} ? 'no-answer' : 'data-value'"
-                          th:text="${#strings.isEmpty(sujeto.telefono)} ? 'Sin respuesta' : *{telefono}"></span>
-                </div>
-
-                <div class="data-group">
-                    <span class="data-label">Email</span>
-                    <span th:class="${#strings.isEmpty(sujeto.email)} ? 'no-answer' : 'data-value'"
-                          th:text="${#strings.isEmpty(sujeto.email)} ? 'Sin respuesta' : *{email}"></span>
-                </div>
-
-                <div class="data-group">
-                    <span class="data-label">Nacionalidad</span>
-                    <span th:class="${#strings.isEmpty(sujeto.nacionalidad)} ? 'no-answer' : 'data-value'"
-                          th:text="${#strings.isEmpty(sujeto.nacionalidad)} ? 'Sin respuesta' : *{nacionalidad}"></span>
-                </div>
-
+    <div class="container-fluid">
+        <div class="preview-container">
+            <div class="header">
+                <h1>Resumen de Datos Ingresados</h1>
+                <p>Por favor, revise la información antes de confirmar el guardado final</p>
             </div>
 
-            <h2 class="section-title">Respuestas del Formulario</h2>
+            <div class="content">
+                <h2 class="section-title">Información del Sujeto</h2>
+                <div th:object="${sujeto}">
 
-            <div th:if="${#lists.isEmpty(antecedentes)}">
-                <p class="empty-message">No se registraron respuestas válidas en el formulario.</p>
-            </div>
+                    <div class="data-group">
+                        <span class="data-label">Nombre:</span>
+                        <span class="data-value" th:text="*{nombre}">May</span>
+                    </div>
 
-            <div th:unless="${#lists.isEmpty(antecedentes)}">
-                <div th:each="antecedente : ${antecedentes}" class="data-group">
-                    <span class="data-label" th:text="${antecedente.datoSolicitado.nombre}">Pregunta</span>
-                    <div>
+                    <div class="data-group">
+                        <span class="data-label">Tipo:</span>
+                        <span class="data-value"
+                              th:text="*{tipo} == 'CA' ? 'Caso (CA)' : 'Control (CO)'">Tipo de Sujeto</span>
+                    </div>
+
+                    <div class="data-group" th:if="*{direccion}" != null>
+                        <span class="data-label">Dirección:</span>
+                        <span class="data-value" th:text="*{direccion}">Dirección del Sujeto</span>
+                    </div>
+
+                    <div class="data-group" th:unless="*{direccion}" != null>
+                        <span class="data-label">Dirección:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
+
+                    <div class="data-group" th:if="*{ocupacion}" != null>
+                        <span class="data-label">Ocupación:</span>
+                        <span class="data-value" th:text="*{ocupacion}">Ocupación del Sujeto</span>
+                    </div>
+
+                    <div class="data-group" th:unless="*{ocupacion}" != null>
+                        <span class="data-label">Ocupación:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
+
+                    <div class="data-group" th:if="*{telefono}" != null>
+                        <span class="data-label">Teléfono:</span>
+                        <span class="data-value" th:text="*{telefono}">123456789</span>
+                    </div>
+
+                    <div class="data-group" th:unless="*{telefono}" != null>
+                        <span class="data-label">Teléfono:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
+
+                    <div class="data-group" th:if="*{email}" != null>
+                        <span class="data-label">Email:</span>
+                        <span class="data-value" th:text="*{email}">correo@ejemplo.com</span>
+                    </div>
+
+                    <div class="data-group" th:unless="*{email}" != null>
+                        <span class="data-label">Email:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
+
+                    <div class="data-group" th:if="*{nacionalidad}" != null>
+                        <span class="data-label">Nacionalidad:</span>
+                        <span class="data-value" th:text="*{nacionalidad}">Nacionalidad</span>
+                    </div>
+
+                    <div class="data-group" th:unless="*{nacionalidad}" != null>
+                        <span class="data-label">Nacionalidad:</span>
+                        <span class="data-value no-answer">Sin respuesta</span>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Respuestas del Formulario</h2>
+
+                <div th:if="${#lists.isEmpty(antecedentes)}">
+                    <p class="empty-message">No se registraron respuestas válidas en el formulario.</p>
+                </div>
+
+                <div th:unless="${#lists.isEmpty(antecedentes)}">
+
+                    <div th:each="antecedente : ${antecedentes}" class="data-group">
+                        <span class="data-label" th:text="${antecedente.datoSolicitado.leyenda}">Pregunta</span>
+                        <div class="data-content">
                     <span th:if="${antecedente.textoOpcion != null}" class="data-value">
                         <span th:text="${antecedente.textoOpcion}">Etiqueta de la opción (Sí/No)</span>
                     </span>
 
-                        <span th:if="${antecedente.valorNum != null and antecedente.textoOpcion == null}" class="data-value">
+                            <span th:if="${antecedente.valorNum != null and antecedente.textoOpcion == null}" class="data-value">
                         <span th:text="${antecedente.valorNum}"></span>
                     </span>
 
-                        <span th:if="${antecedente.valorString != null}" class="data-value">
+                            <span th:if="${antecedente.valorString != null}" class="data-value">
                         <span th:text="${antecedente.valorString}"></span>
                     </span>
 
-                        <span th:if="${antecedente.textoOpcion == null and antecedente.valorNum == null and antecedente.valorString == null}" class="no-answer">
+                            <span th:if="${antecedente.textoOpcion == null and antecedente.valorNum == null and antecedente.valorString == null}" class="no-answer">
                         Sin respuesta
                     </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="confirmation-buttons">
-            <form th:action="@{/confirmar-guardado}" method="post" style="display:inline;">
-                <button type="submit" class="confirm-btn">
-                    <span>✓</span> Confirmar y Guardar
-                </button>
-            </form>
+            <div class="confirmation-buttons">
 
+                <form th:action="@{/confirmar-guardado}" method="post" style="display:inline;">
+                    <button type="submit" class="confirm-btn">
+                        <span>✓</span> Confirmar y Guardar
+                    </button>
+                </form>
             <a href="#" onclick="history.back()" class="cancel-btn">
                 <span>←</span> Volver y Editar
             </a>
+            </div>
         </div>
-
     </div>
 </section>
 </body>

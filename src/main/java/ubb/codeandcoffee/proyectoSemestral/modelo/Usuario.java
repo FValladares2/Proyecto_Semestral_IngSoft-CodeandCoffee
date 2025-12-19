@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.List;
 
-
+// Entidad que representa un usuario del sistema
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails{
@@ -56,8 +56,11 @@ public class Usuario implements UserDetails{
         this.rol = rol;
     }
 
+    //generated empty constructor
+
     public Usuario() {}
 
+    //getters and setters
     public int getId_usuario() {
         return id_usuario;
     }

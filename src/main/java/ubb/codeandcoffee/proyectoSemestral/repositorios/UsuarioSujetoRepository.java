@@ -8,7 +8,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario_Sujeto;
 
 import java.util.ArrayList;
-
+// Repositorio para la entidad UsuarioSujeto
 @Repository
 public interface UsuarioSujetoRepository extends JpaRepository<Usuario_Sujeto, Integer> {
     @Query("select u from Usuario_Sujeto u where u.usuario = ?1 and u.sujetoEstudio = ?2")

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 
+
+// DTO para transferir datos de Antecedente entre capas
 public class AntecedenteDTO {
     private Integer id_antecedente;
     private String respuestaIngresada;
@@ -14,6 +16,8 @@ public class AntecedenteDTO {
     public AntecedenteDTO() {
     }
 
+    
+    // Getters y Setters
     public Integer getId_antecedente() {
         return id_antecedente;
     }
