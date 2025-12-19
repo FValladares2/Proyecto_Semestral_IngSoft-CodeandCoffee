@@ -1,21 +1,15 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Ingreso de Sujeto</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{${plantilla} :: layout_base(~{::section}, ~{::script})}">>
+
+<body>
+
+<section>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background-color: #f8f9fa;
-      min-height: 100vh;
-      padding: 24px 24px 24px 280px;
-      line-height: 1.5;
     }
 
     .card {
@@ -216,83 +210,82 @@
       }
     }
   </style>
-</head>
-<body>
+  <div class="card">
+    <h2>Ingresar Datos del Sujeto</h2>
 
-<div class="card">
-  <h2>Ingresar Datos del Sujeto</h2>
+    <div th:if="${error_nombre}" class="error">
+      <p th:text="${error_nombre}"></p>
+    </div>
 
-  <div th:if="${error_nombre}" class="error">
-    <p th:text="${error_nombre}"></p>
+    <form id="formSujeto" th:action="@{/ingreso}" method="post" onsubmit="return confirmarSujetoInicial(event)">
+      <div class="form-group">
+        <label for="nombre">Nombre Completo del Paciente</label>
+        <input type="text" id="nombre" name="nombre" required placeholder="Ingrese nombre completo">
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Sujeto</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" id="tipo_caso" name="tipo" value="CASO" required>
+            Caso
+          </label>
+          <label>
+            <input type="radio" id="tipo_control" name="tipo" value="CONTROL">
+            Control
+          </label>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Datos Adicionales <small>(Opcional)</small></h3>
+
+      <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input type="text" id="direccion" name="direccion" placeholder="Calle, número, ciudad">
+      </div>
+
+      <div class="form-group">
+        <label for="ocupacion">Ocupación</label>
+        <input type="text" id="ocupacion" name="ocupacion" placeholder="Ej: Ingeniero, Docente">
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="Ej: +56 9 1234 5678">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="form-group">
+        <label for="nacionalidad">Nacionalidad</label>
+        <input type="text" id="nacionalidad" name="nacionalidad" placeholder="País de origen">
+      </div>
+
+      <button type="button" onclick="validarYEnviarSujeto()" class="submit-btn">Guardar y Continuar al Formulario</button>
+    </form>
+
   </div>
 
-  <form id="formSujeto" th:action="@{/ingreso}" method="post" onsubmit="return confirmarSujetoInicial(event)">
-    <div class="form-group">
-      <label for="nombre">Nombre Completo del Paciente</label>
-      <input type="text" id="nombre" name="nombre" required placeholder="Ingrese nombre completo">
-    </div>
-
-    <div class="form-group">
-      <label>Tipo de Sujeto</label>
-      <div class="radio-group">
-        <label>
-          <input type="radio" id="tipo_caso" name="tipo" value="CASO" required>
-          Caso
-        </label>
-        <label>
-          <input type="radio" id="tipo_control" name="tipo" value="CONTROL">
-          Control
-        </label>
-      </div>
-    </div>
-
-    <hr>
-
-    <h3>Datos Adicionales <small>(Opcional)</small></h3>
-
-    <div class="form-group">
-      <label for="direccion">Dirección</label>
-      <input type="text" id="direccion" name="direccion" placeholder="Calle, número, ciudad">
-    </div>
-
-    <div class="form-group">
-      <label for="ocupacion">Ocupación</label>
-      <input type="text" id="ocupacion" name="ocupacion" placeholder="Ej: Ingeniero, Docente">
-    </div>
-
-    <div class="form-group">
-      <label for="telefono">Teléfono</label>
-      <input type="tel" id="telefono" name="telefono" placeholder="Ej: +56 9 1234 5678">
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="correo@ejemplo.com">
-    </div>
-
-    <div class="form-group">
-      <label for="nacionalidad">Nacionalidad</label>
-      <input type="text" id="nacionalidad" name="nacionalidad" placeholder="País de origen">
-    </div>
-
-    <button type="button" onclick="validarYEnviarSujeto()" class="submit-btn">Guardar y Continuar al Formulario</button>
-  </form>
-  <script>
-    function validarYEnviarSujeto() {
-      const form = document.getElementById('formSujeto');
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      const mensaje = "⚠️ ¡Atención!\n\nAl confirmar al sujeto se generará el formulario de preguntas.\n\nSi decide volver a esta pantalla más tarde para editar los datos del sujeto, todo lo que escriba en las preguntas se borrará.\n\n¿Desea continuar?";
-
-      if (confirm(mensaje)) {
-        form.submit();
-      }
+</section>
+<script>
+  function validarYEnviarSujeto() {
+    const form = document.getElementById('formSujeto');
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
     }
-  </script>
-</div>
 
+    const mensaje = "⚠️ ¡Atención!\n\nAl confirmar al sujeto se generará el formulario de preguntas.\n\nSi decide volver a esta pantalla más tarde para editar los datos del sujeto, todo lo que escriba en las preguntas se borrará.\n\n¿Desea continuar?";
+
+    if (confirm(mensaje)) {
+      form.submit();
+    }
+  }
+</script>
 </body>
 </html>

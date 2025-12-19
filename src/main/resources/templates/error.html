@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{${plantilla} :: layout_base(~{::section}, ~{})}">
+
+<body>
+
+<section>
+
+    <div class="container-fluid">
+        <div class="text-center">
+            <div class="error mx-auto" data-text="ERROR">ERROR</div>
+            <p class="lead text-gray-800 mb-5">Ha ocurrido un error.</p>
+            <p class="text-gray-500 mb-0">No hay nada para mostrar por aqui...</p>
+            <a th:href="@{${inicio}}">&larr; Regresa al inicio</a>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

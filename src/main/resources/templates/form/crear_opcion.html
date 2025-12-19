@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Agregar Opción</title>
+<html th:replace="~{plantilla_admin :: layout_base(~{::section}, ~{})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
         * {
             margin: 0;
@@ -203,46 +204,46 @@
             }
         }
     </style>
-</head>
-<body>
+    <div class="container">
+        <h2>Agregando opción a: <span class="pregunta-nombre" th:text="${nombrePregunta}"></span></h2>
 
-<div class="container">
-    <h2>Agregando opción a: <span class="pregunta-nombre" th:text="${nombrePregunta}"></span></h2>
+        <div th:if="${error}" class="alert">
+            <strong>¡No se pudo guardar!</strong>
+            <span th:text="${error}">Mensaje de error aquí</span>
+        </div>
 
-    <div th:if="${error}" class="alert">
-        <strong>¡No se pudo guardar!</strong>
-        <span th:text="${error}">Mensaje de error aquí</span>
+        <form th:action="@{/admin/formulario/opcion/guardar}" th:object="${opcion}" method="post">
+
+            <input type="hidden" th:field="*{datoSolicitado}" />
+
+            <div class="form-group">
+                <label>Texto de la Opción</label>
+                <input type="text" th:field="*{nombre}" required placeholder="Ej: Sí, No, Rojo, etc."/>
+            </div>
+
+            <div class="form-group">
+                <label>Valor Interno (Numérico)</label>
+                <input type="number" th:field="*{valor}" required placeholder="Ej: 10"/>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="requiere" th:field="*{requiereTexto}" />
+                <label class="checkbox-label" for="requiere">
+                    ¿Al seleccionar esta opción, se debe pedir una justificación de texto?
+                </label>
+            </div>
+
+            <hr>
+
+            <div class="button-group">
+                <a th:href="@{/admin/formulario/crear-formulario}" class="btn-cancel">Cancelar</a>
+                <button type="submit">Guardar Opción</button>
+            </div>
+        </form>
     </div>
 
-    <form th:action="@{/admin/formulario/opcion/guardar}" th:object="${opcion}" method="post">
+</section>
 
-        <input type="hidden" th:field="*{datoSolicitado}" />
-
-        <div class="form-group">
-            <label>Texto de la Opción</label>
-            <input type="text" th:field="*{nombre}" required placeholder="Ej: Sí, No, Rojo, etc."/>
-        </div>
-
-        <div class="form-group">
-            <label>Valor Interno (Numérico)</label>
-            <input type="number" th:field="*{valor}" required placeholder="Ej: 10"/>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="requiere" th:field="*{requiereTexto}" />
-            <label class="checkbox-label" for="requiere">
-                ¿Al seleccionar esta opción, se debe pedir una justificación de texto?
-            </label>
-        </div>
-
-        <hr>
-
-        <div class="button-group">
-            <a th:href="@{/admin/formulario/crear-formulario}" class="btn-cancel">Cancelar</a>
-            <button type="submit">Guardar Opción</button>
-        </div>
-    </form>
-</div>
 
 </body>
 </html>

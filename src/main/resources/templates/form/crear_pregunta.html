@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Pregunta</title>
+<html th:replace="~{plantilla_admin :: layout_base(~{::section}, ~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<section>
     <style>
         * {
             margin: 0;
@@ -304,136 +305,135 @@
             }
         }
     </style>
-</head>
-<body>
+    <div class="container">
+        <h1 th:text="${datoSolicitado.id_dato == null ? 'Configurar Nueva Pregunta' : 'Editar Pregunta'}"></h1>
 
-<div class="container">
-    <h1 th:text="${datoSolicitado.id_dato == null ? 'Configurar Nueva Pregunta' : 'Editar Pregunta'}"></h1>
-
-    <div th:if="${error}" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-size: 14px;">
-        <strong>⚠️ No se pudo guardar:</strong> <span th:text="${error}">Mensaje de error</span>
-    </div>
-
-    <form th:action="@{/admin/formulario/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
-
-        <input type="hidden" th:field="*{id_dato}" />
-
-        <div class="form-group">
-            <label for="nombre">Título de la Pregunta</label>
-            <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Edad del paciente" required>
+        <div th:if="${error}" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-size: 14px;">
+            <strong>⚠️ No se pudo guardar:</strong> <span th:text="${error}">Mensaje de error</span>
         </div>
 
-        <div class="form-group">
-            <label for="leyenda">Detalle / Explicación</label>
-            <textarea id="leyenda" th:field="*{leyenda}" placeholder="Ej: Ingrese la edad cumplida en años..."></textarea>
-        </div>
+        <form th:action="@{/admin/formulario/pregunta/guardar}" method="post" th:object="${datoSolicitado}">
 
-        <div class="form-group">
-            <label for="seccion">Sección</label>
-            <select id="seccion" th:field="*{seccion}" required>
-                <option value="" disabled selected>-- Seleccione Sección --</option>
-                <th:block th:each="sec : ${secciones}">
-                    <option th:value="${sec.id_seccion}" th:text="${sec.nombre}"></option>
-                </th:block>
-            </select>
-        </div>
+            <input type="hidden" th:field="*{id_dato}" />
 
-        <div class="form-group">
-            <label>¿A quién aplica esta pregunta?</label>
-            <div class="radio-group">
-                <div class="radio-option">
-                    <input type="radio" id="aplicable-ambos" th:field="*{aplicable_a}" value="AMBOS" checked>
-                    <label for="aplicable-ambos">Ambos (Caso y Control)</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="aplicable-caso" th:field="*{aplicable_a}" value="CASO">
-                    <label for="aplicable-caso">Solo Casos</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="aplicable-control" th:field="*{aplicable_a}" value="CONTROL">
-                    <label for="aplicable-control">Solo Controles</label>
-                </div>
+            <div class="form-group">
+                <label for="nombre">Título de la Pregunta</label>
+                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Edad del paciente" required>
             </div>
-        </div>
 
-        <div class="checkbox-group">
-            <input type="checkbox" id="checkEstudio" th:field="*{estudio}">
-            <label class="checkbox-label" for="checkEstudio">Utilizar en el Estudio (Excel)</label>
-        </div>
+            <div class="form-group">
+                <label for="leyenda">Detalle / Explicación</label>
+                <textarea id="leyenda" th:field="*{leyenda}" placeholder="Ej: Ingrese la edad cumplida en años..."></textarea>
+            </div>
 
-        <div id="stata-container" class="caja-opcional">
-            <label for="nombreStata">Nombre variable Stata</label>
-            <input type="text" id="nombreStata" th:field="*{nombreStata}" placeholder="Ej: edad_paciente">
-            <p class="hint">Se eliminarán automáticamente los símbolos especiales.</p>
-        </div>
-
-        <hr>
-
-        <div class="form-group">
-            <label>Tipo de Respuesta Esperada</label>
-
-            <div th:if="${datoSolicitado.id_dato == null}">
-                <select id="tipoRespuesta" name="tipoRespuesta" required>
-                    <option value="TEXTO" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'TEXTO'}">Texto Libre</option>
-                    <option value="NUMERO" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'NUMERO'}">Numérico (Edad, Peso, etc)</option>
-                    <option value="FECHA" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'FECHA'}">Fecha</option>
-                    <option value="OPCIONES" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'OPCIONES'}">Selección (Opciones)</option>
+            <div class="form-group">
+                <label for="seccion">Sección</label>
+                <select id="seccion" th:field="*{seccion}" required>
+                    <option value="" disabled selected>-- Seleccione Sección --</option>
+                    <th:block th:each="sec : ${secciones}">
+                        <option th:value="${sec.id_seccion}" th:text="${sec.nombre}"></option>
+                    </th:block>
                 </select>
             </div>
 
-            <div th:unless="${datoSolicitado.id_dato == null}">
-                <div style="padding: 12px; background-color: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;">
+            <div class="form-group">
+                <label>¿A quién aplica esta pregunta?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="aplicable-ambos" th:field="*{aplicable_a}" value="AMBOS" checked>
+                        <label for="aplicable-ambos">Ambos (Caso y Control)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="aplicable-caso" th:field="*{aplicable_a}" value="CASO">
+                        <label for="aplicable-caso">Solo Casos</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="aplicable-control" th:field="*{aplicable_a}" value="CONTROL">
+                        <label for="aplicable-control">Solo Controles</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="checkEstudio" th:field="*{estudio}">
+                <label class="checkbox-label" for="checkEstudio">Utilizar en el Estudio (Excel)</label>
+            </div>
+
+            <div id="stata-container" class="caja-opcional">
+                <label for="nombreStata">Nombre variable Stata</label>
+                <input type="text" id="nombreStata" th:field="*{nombreStata}" placeholder="Ej: edad_paciente">
+                <p class="hint">Se eliminarán automáticamente los símbolos especiales.</p>
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label>Tipo de Respuesta Esperada</label>
+
+                <div th:if="${datoSolicitado.id_dato == null}">
+                    <select id="tipoRespuesta" name="tipoRespuesta" required>
+                        <option value="TEXTO" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'TEXTO'}">Texto Libre</option>
+                        <option value="NUMERO" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'NUMERO'}">Numérico (Edad, Peso, etc)</option>
+                        <option value="FECHA" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'FECHA'}">Fecha</option>
+                        <option value="OPCIONES" th:selected="${datoSolicitado.tipoRespuesta?.toString() == 'OPCIONES'}">Selección (Opciones)</option>
+                    </select>
+                </div>
+
+                <div th:unless="${datoSolicitado.id_dato == null}">
+                    <div style="padding: 12px; background-color: #f1f3f5; border: 1px solid #dee2e6; border-radius: 6px;">
             <span style="font-weight: bold; color: #495057;">
                 Tipo actual: <span th:text="${datoSolicitado.tipoRespuesta}"></span>
             </span>
-                    <p style="color: #6c757d; font-size: 12px; margin-top: 5px;">
-                        Nota: El tipo de respuesta no se puede modificar.
-                    </p>
-                    <input type="hidden" th:id="${datoSolicitado.id_dato != null ? 'tipoRespuesta' : 'tipoRespuestaHidden'}"
-                           name="tipoRespuesta"
-                           th:value="${datoSolicitado.tipoRespuesta}" />
-                </div>
-            </div>
-        </div>
-
-        <div id="panel-numero" class="caja-opcional"
-             th:classappend="${datoSolicitado.tipoRespuesta.toString() == 'NUMERO'} ? 'visible' : ''">
-            <h4>Restricciones Numéricas</h4>
-            <div class="panel-numerico">
-                <div class="form-group">
-                    <label for="valorMin">Valor Mínimo</label>
-                    <input type="number" id="valorMin" th:field="*{valorMin}" placeholder="Opcional">
-                </div>
-                <div class="form-group">
-                    <label for="valorMax">Valor Máximo</label>
-                    <input type="number" id="valorMax" th:field="*{valorMax}" placeholder="Opcional">
-                </div>
-            </div>
-        </div>
-
-        <div id="panel-opciones" class="caja-opcional"
-             th:classappend="${datoSolicitado.tipoRespuesta.toString() == 'OPCIONES'} ? 'visible' : ''">
-            <h4>Gestión de Opciones</h4>
-            <div id="lista-opciones" class="panel-opciones">
-                <th:block th:if="${datoSolicitado.id_dato != null}">
-                    <div th:each="op, iter : ${datoSolicitado.opciones}" class="opcion-fila">
-                        <input type="hidden" th:name="|opciones[${iter.index}].id_opcion|" th:value="${op.id_opcion}" />
-                        <input type="text" th:name="|opciones[${iter.index}].nombre|" th:value="${op.nombre}" required />
-                        <input type="number" th:name="|opciones[${iter.index}].valor|" th:value="${op.valor}" />
-                        <button type="button" class="btn-eliminar-opcion" onclick="this.parentElement.remove()">Eliminar</button>
+                        <p style="color: #6c757d; font-size: 12px; margin-top: 5px;">
+                            Nota: El tipo de respuesta no se puede modificar.
+                        </p>
+                        <input type="hidden" th:id="${datoSolicitado.id_dato != null ? 'tipoRespuesta' : 'tipoRespuestaHidden'}"
+                               name="tipoRespuesta"
+                               th:value="${datoSolicitado.tipoRespuesta}" />
                     </div>
-                </th:block>
+                </div>
             </div>
-            <button type="button" id="btn-add-opcion" class="btn-add-opcion">+ Agregar Opción</button>
-        </div>
 
-        <hr>
+            <div id="panel-numero" class="caja-opcional"
+                 th:classappend="${datoSolicitado.tipoRespuesta.toString() == 'NUMERO'} ? 'visible' : ''">
+                <h4>Restricciones Numéricas</h4>
+                <div class="panel-numerico">
+                    <div class="form-group">
+                        <label for="valorMin">Valor Mínimo</label>
+                        <input type="number" id="valorMin" th:field="*{valorMin}" placeholder="Opcional">
+                    </div>
+                    <div class="form-group">
+                        <label for="valorMax">Valor Máximo</label>
+                        <input type="number" id="valorMax" th:field="*{valorMax}" placeholder="Opcional">
+                    </div>
+                </div>
+            </div>
 
-        <div class="button-group">
-            <button type="submit" th:text="${datoSolicitado.id_dato == null ? 'Guardar Pregunta' : 'Actualizar Pregunta'}"></button>
-        </div>
-    </form>
-</div>
+            <div id="panel-opciones" class="caja-opcional"
+                 th:classappend="${datoSolicitado.tipoRespuesta.toString() == 'OPCIONES'} ? 'visible' : ''">
+                <h4>Gestión de Opciones</h4>
+                <div id="lista-opciones" class="panel-opciones">
+                    <th:block th:if="${datoSolicitado.id_dato != null}">
+                        <div th:each="op, iter : ${datoSolicitado.opciones}" class="opcion-fila">
+                            <input type="hidden" th:name="|opciones[${iter.index}].id_opcion|" th:value="${op.id_opcion}" />
+                            <input type="text" th:name="|opciones[${iter.index}].nombre|" th:value="${op.nombre}" required />
+                            <input type="number" th:name="|opciones[${iter.index}].valor|" th:value="${op.valor}" />
+                            <button type="button" class="btn-eliminar-opcion" onclick="this.parentElement.remove()">Eliminar</button>
+                        </div>
+                    </th:block>
+                </div>
+                <button type="button" id="btn-add-opcion" class="btn-add-opcion">+ Agregar Opción</button>
+            </div>
+
+            <hr>
+
+            <div class="button-group">
+                <button type="submit" th:text="${datoSolicitado.id_dato == null ? 'Guardar Pregunta' : 'Actualizar Pregunta'}"></button>
+            </div>
+        </form>
+    </div>
+
+</section>
 
 <script>
     const tipoSelect = document.getElementById('tipoRespuesta');
@@ -526,6 +526,5 @@
     actualizarPaneles();
     actualizarEstudio();
 </script>
-
 </body>
 </html>

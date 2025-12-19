@@ -6,6 +6,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ubb.codeandcoffee.proyectoSemestral.modelo.Criterio;
 import java.util.List;
+import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
+
+import java.util.Set;
 
 @Repository
 public interface CriterioRepository extends JpaRepository<Criterio, Integer> {
@@ -15,4 +18,5 @@ public interface CriterioRepository extends JpaRepository<Criterio, Integer> {
     @Query("SELECT c FROM Criterio c JOIN c.datosSolicitados d WHERE d.id_dato = :id")
     List<Criterio> buscarCriteriosPorDato(@Param("id") Integer id);
 
+    Set<Criterio> getAllByDatosSolicitados(DatoSolicitado d);
 }
