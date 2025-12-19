@@ -2,6 +2,7 @@ package ubb.codeandcoffee.proyectoSemestral.controladores;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -183,7 +184,7 @@ public class EdicionController {
 
                 dto.setRespuestaIngresada(ant.getValorString());
 
-                if (pregunta.getTipoRespuesta() == TipoRespuesta.OPCIONES) {
+                if (pregunta.getTipoRespuesta() == TipoRespuesta.OPCION_MULTIPLE) {
 
                     if (ant.getValorNum() != null) {
 
@@ -271,7 +272,7 @@ public class EdicionController {
                 antecedente.setValorString(null);
                 antecedente.setTextoOpcion(null);
 
-                if (dato.getTipoRespuesta() == TipoRespuesta.OPCIONES) {
+                if (dato.getTipoRespuesta() == TipoRespuesta.OPCION_MULTIPLE) {
                     int idOpcion = dto.getId_opcion();
 
                     Opcion opcion = (idOpcion > 0) ? opcionService.getById(idOpcion).orElse(null) : null;

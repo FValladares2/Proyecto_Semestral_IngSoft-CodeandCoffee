@@ -5,234 +5,53 @@
 
 <section>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            border: none;
-            padding: 32px;
-            border-radius: 12px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        h2 {
-            color: #2757F5;
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        .pregunta-nombre {
-            color: #2757F5;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #2c3e50;
-            font-size: 13.5px;
-        }
-
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1.5px solid #d9e2ef;
-            border-radius: 6px;
-            font-size: 13.5px;
-            font-family: inherit;
-            transition: all 0.2s ease;
-            background: #fafbfc;
-            color: #2c3e50;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #2757F5;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(39, 87, 245, 0.1);
-        }
-
-        input::placeholder {
-            color: #9ca3af;
-        }
-
-        .alert {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 14px 16px;
-            margin-bottom: 24px;
-            border: 1.5px solid #f5c6cb;
-            border-radius: 6px;
-            font-size: 13.5px;
-            font-weight: 500;
-        }
-
-        .alert strong {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #e8eef5;
-            margin: 24px 0;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f0f4ff;
-            border-radius: 6px;
-            border: 1px solid #d9e2ef;
-        }
-
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #2757F5;
-        }
-
-        .checkbox-label {
-            color: #2c3e50;
-            font-size: 13.5px;
-            cursor: pointer;
-            font-weight: 400;
-            margin: 0;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 28px;
-        }
-
-        button,
-        .btn-cancel {
-            flex: 1;
-            padding: 11px 16px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        button {
-            background: linear-gradient(135deg, #2757F5 0%, #1e44c9 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(39, 87, 245, 0.25);
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(39, 87, 245, 0.35);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(39, 87, 245, 0.3);
-        }
-
-        .btn-cancel {
-            background: white;
-            color: #2757F5;
-            border: 2px solid #2757F5;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        }
-
-        .btn-cancel:hover {
-            background: #f0f4ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(39, 87, 245, 0.2);
-        }
-
-        @media (max-width: 1024px) {
-            body {
-                padding-left: 24px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 16px;
-            }
-
-            .container {
-                padding: 24px 20px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            .button-group {
-                flex-direction: column-reverse;
-            }
-
-            button,
-            .btn-cancel {
-                width: 100%;
-            }
-        }
+        .container {padding: 20px; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: 95%; padding: 8px; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; cursor: pointer;}
+        .btn-cancel { background-color: #6c757d; text-decoration: none; display: inline-block; text-align: center;}
     </style>
-    <div class="container">
-        <h2>Agregando opción a: <span class="pregunta-nombre" th:text="${nombrePregunta}"></span></h2>
+    <div class="container-fluid">
+        <!-- linea de inicio-->
+        <div class="container">
+            <h2>Agregando opción a: <span th:text="${nombrePregunta}" style="color: #007bff;"></span></h2>
 
-        <div th:if="${error}" class="alert">
-            <strong>¡No se pudo guardar!</strong>
-            <span th:text="${error}">Mensaje de error aquí</span>
-        </div>
-
-        <form th:action="@{/admin/formulario/opcion/guardar}" th:object="${opcion}" method="post">
-
-            <input type="hidden" th:field="*{datoSolicitado}" />
-
-            <div class="form-group">
-                <label>Texto de la Opción</label>
-                <input type="text" th:field="*{nombre}" required placeholder="Ej: Sí, No, Rojo, etc."/>
+            <div th:if="${error}" class="alert alert-danger"
+                 style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
+                <strong>¡No se pudo guardar!</strong>
+                <span th:text="${error}">Mensaje de error aquí</span>
             </div>
 
-            <div class="form-group">
-                <label>Valor Interno (Numérico)</label>
-                <input type="number" th:field="*{valor}" required placeholder="Ej: 10"/>
-            </div>
+            <form th:action="@{/admin/formulario/opcion/guardar}" th:object="${opcion}" method="post">
 
-            <div class="checkbox-group">
-                <input type="checkbox" id="requiere" th:field="*{requiereTexto}" />
-                <label class="checkbox-label" for="requiere">
-                    ¿Al seleccionar esta opción, se debe pedir una justificación de texto?
-                </label>
-            </div>
+                <input type="hidden" th:field="*{datoSolicitado}" />
 
-            <hr>
+                <div class="form-group">
+                    <label>Texto de la Opción (Ej: "Si", "No", "Rojo"):</label>
+                    <input type="text" th:field="*{nombre}" required placeholder="Escriba el texto que verá el usuario"/>
+                </div>
 
-            <div class="button-group">
-                <a th:href="@{/admin/formulario/crear-formulario}" class="btn-cancel">Cancelar</a>
+                <div class="form-group">
+                    <label>Valor Interno (Numérico):</label>
+
+                    <input type="number" th:field="*{valor}" required placeholder="Ej: 10"/>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: normal;">
+                        <input type="checkbox" th:field="*{requiereTexto}" />
+                        ¿Al seleccionar esta opción, se debe pedir una justificación de texto?
+                    </label>
+                </div>
+
+                <hr>
                 <button type="submit">Guardar Opción</button>
-            </div>
-        </form>
+                <a th:href="@{/admin/formulario/crear-formulario}" class="btn btn-cancel" style="padding: 10px 15px; color: white;">Cancelar</a>
+            </form>
+        </div>
+        <!-- linea de fin-->
     </div>
 
 </section>

@@ -3,6 +3,7 @@ package ubb.codeandcoffee.proyectoSemestral.controladores;
 import jakarta.servlet.http.HttpSession; // <-- 1. Importa HttpSession
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.ui.Model;
@@ -13,6 +14,8 @@ import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
 import ubb.codeandcoffee.proyectoSemestral.servicios.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.*;
+
 import java.util.*;
 
 @Controller
@@ -98,7 +101,7 @@ public class FormularioController {
 
             //las respuestas a guardar para el antecedente seran diferentes segun el tipo de respuesta esperada
             //si el tipo de respuesta es con opciones:
-            if(dato.getTipoRespuesta() == TipoRespuesta.OPCIONES){
+            if(dato.getTipoRespuesta() == TipoRespuesta.OPCION_MULTIPLE){
                 //obtenemos el id de la opcion con el dto desde el HTML
                 int id_opcion = dto.getId_opcion();
                 Opcion opcion;
@@ -207,5 +210,35 @@ public class FormularioController {
         //redirigir a la vista de la confirmación
         return "redirect:/confirmacion";
 
+        /*
+
+        // Esta parte se traslado a la confirmacion del form XD
+
+        //obtener sujeto de la seccion (se guardo ahi en el ingreso)
+        SujetoEstudio sujetoPendiente = (SujetoEstudio) session.getAttribute("SUJETO_PENDIENTE");
+        if (sujetoPendiente == null) {
+            return "redirect:/ingreso";
+        }
+        //Guardar el sujeto en la base (se debe guardar para obtener el id que se crea en la base)
+        sujetoEstudioRepository.save(sujetoPendiente);
+        //obtener el sujeto completo buscando por el nombre
+        SujetoEstudio sujeto = sujetoEstudioRepository.findByNombre(sujetoPendiente.getNombre());
+
+        //despues de obtener el sujeto completo lo agregamos a cada antecedente
+        for (Antecedente antecedente : antecedentesParaGuardar) {
+            antecedente.setSujetoEstudio(sujeto);
+        }
+
+        //guardamos todos los antecedentes en la base
+        antecedenteRepository.saveAll(antecedentesParaGuardar);
+
+        //limpiar la seccion
+        session.removeAttribute("SUJETO_PENDIENTE");
+        session.removeAttribute("ANTECEDENTES_PENDIENTES");
+        session.removeAttribute("tipo_sujeto");
+
+        //redirigir, creo que deberia redirigir al menu pero ni idea como XD
+        return "redirect:/ingreso";
+*/
     }
 }
