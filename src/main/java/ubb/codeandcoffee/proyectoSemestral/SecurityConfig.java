@@ -37,6 +37,7 @@ public class SecurityConfig {
         return prov;
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -44,53 +45,98 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        /* si quieren usar postman, agreguen una linea asi : (cambiando el endpoint y metodo, segun
+                        requieran)
 
+                        .requestMatchers(HttpMethod.POST, "/Usuario").permitAll()*/
+
+                        //rutas que pueden acceder todos
                         .requestMatchers(
+
                                 "/login",
                                 "/login-post",
                                 "/completar_registro",
-                                "/css/**", "/js/**", "/images/**"
+                                "/static/**",
+                                "/error/**"
+
                         ).permitAll()
+                        //rutas que pueden acceder todos
 
-
-                        .requestMatchers(HttpMethod.POST, "/Usuario").permitAll()
-
+                        //rutas del admin
                         .requestMatchers(
+
                                 "/admin/**",
-                                "/Usuario/**"
+                                "/menu/admin",
+                                "/admin/formulario/**",
+                                "/criterios/**",
+                                "/crear-usuario",
+
+                                //rutas para postman, por si alguien las quiere usar
+                                "/Antecedente/**",
+                                "/Criterio",
+                                "/DatoSolicitado",
+                                "/Opcion",
+                                "/Seccion",
+                                "/SujetoEstudio",
+                                "/Usuario",
+                                "/UsuarioSujeto"
+
                         ).hasRole("ADMINISTRADOR")
+                        //rutas del admin
+
+                        //rutas del recolector
+                        .requestMatchers(
+
+                                "/menu/recolector"
+
+                        ).hasRole("RECOLECTOR_DE_DATOS")
+                        //rutas del recolector
+
+                        //rutas del analista
+                        .requestMatchers(
+
+                                "/menu/analista"
+
+                        ).hasRole("ANALISTA")
+                        //rutas del analista
+
+                        //rutas compartidas admin y recolector
+                        .requestMatchers(
+
+                                "/edicion/**",
+                                "/formulario/**",
+                                "/confirmacion",
+                                "/confirmar-guardado",
+                                "/ingreso"
+
+                        ).hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
+                        //rutas compartidas admin y recolector
 
 
-                        .requestMatchers("/formularios/**")
-                        .hasAnyRole("ADMINISTRADOR", "RECOLECTOR_DE_DATOS")
+                        //rutas compartidas admin y analista
+                        .requestMatchers(
+                                    //esto todavia no existe, pero supongo que lo haraa
+                                "/exportar/**"
 
 
-                        .requestMatchers("/exportar/**")
-                        .hasAnyRole("ADMINISTRADOR", "ANALISTA")
-
-
-
-                        // solo la persona indicada puede ver el menu segun su rol
-                        .requestMatchers("/menu/admin").hasRole("ADMINISTRADOR")
-                        .requestMatchers("/menu/analista").hasRole("ANALISTA")
-                        .requestMatchers("/menu/recolector").hasRole("RECOLECTOR_DE_DATOS")
+                        ).hasAnyRole("ADMINISTRADOR", "ANALISTA")
+                        //rutas compartidas admin y analista
 
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login-post")
                         .successHandler(exito)
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                 );
         return http.build();
     }
+    /*
 
     /*
     @Bean
