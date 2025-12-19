@@ -179,16 +179,17 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-solid fa-clipboard-list"></i>
-                <span>Formulario</span>
+                <span>Formulario y Datos</span>
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Estructura Formulario</h6>
                     <a class="collapse-item" th:href="@{/admin/formulario/crear-formulario}">Cambiar Formulario</a>
                     <div class="collapse-divider"></div>
-                    <h6 class="collapse-header">Llenado de Datos</h6>
+                    <h6 class="collapse-header">Datos</h6>
                     <a class="collapse-item" th:href="@{/ingreso}">Rellenar Formulario</a>
                     <a class="collapse-item" th:href="@{/edicion/sujetos}">Actualizar Datos</a>
+                    <a class="collapse-item" th:href="@{/criterios/nuevo}">Crear un criterio</a>
                 </div>
             </div>
         </li>
@@ -278,16 +279,6 @@
             <!-- contenido a remplazar -->
         </div>
         <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Sistema de Llenado de Formularios - Code & Coffee</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
