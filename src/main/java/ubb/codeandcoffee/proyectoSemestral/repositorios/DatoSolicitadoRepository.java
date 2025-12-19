@@ -17,4 +17,7 @@ public interface DatoSolicitadoRepository extends JpaRepository<DatoSolicitado, 
             @Param("tipoAmbos") Aplicable_a tipoAmbos
     );
     List<DatoSolicitado> findAllById(Iterable<Integer> ids);
+    boolean existsByNombreStataIgnoreCase(String nombreStata);
+
+    Optional<DatoSolicitado> findByNombreStataIgnoreCase(String nombreStata);
 }
