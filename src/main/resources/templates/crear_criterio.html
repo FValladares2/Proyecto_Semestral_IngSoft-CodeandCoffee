@@ -1,108 +1,161 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Nuevo Criterio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-4">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{${plantilla} :: layout_base(~{::section}, ~{::script})}">
 
-<div class="container" style="max-width: 800px;">
+<body>
 
-    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<section>
+    <style>
+        /* Estilos para que se vea limpio y ordenado */
+        body { background-color: #f0f2f5; }
 
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Crear Nuevo Criterio</h4>
+        .card-header {
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        /* Paneles de condiciones */
+        #panelSimple, #panelParticular {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+
+    <div class="container-fluid">
+
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle mr-2"></i><span th:text="${mensaje}"></span>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
-        <div class="card-body">
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+            <i class="fas fa-exclamation-triangle mr-2"></i><span th:text="${error}"></span>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
 
-            <form th:action="@{/criterios/guardar}" th:object="${criterioDTO}" method="post" id="formCriterio">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 bg-gradient-primary text-white">
+                <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-plus-circle mr-2"></i>Crear Nuevo Criterio</h6>
+            </div>
+            <div class="card-body">
 
-                <h5 class="text-secondary mb-3">Información General</h5>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Nombre (Humano)</label>
-                        <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Edad Alta" required>
+                <form th:action="@{/criterios/guardar}" th:object="${criterioDTO}" method="post" id="formCriterio">
+
+                    <h5 class="text-gray-800 mb-3 border-bottom pb-2">1. Información General</h5>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre del Criterio</label>
+                            <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Hipertensión Alta" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre Técnico (Stata)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light">var_</span>
+                                </div>
+                                <input type="text" th:field="*{nombreStata}" class="form-control" placeholder="hipertension" required>
+                            </div>
+                            <small class="text-muted">Usar guiones bajos, sin espacios.</small>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Nombre Stata (Técnico)</label>
-                        <input type="text" th:field="*{nombreStata}" class="form-control" placeholder="Ej: edad_alta" required>
+
+                    <div class="mb-4">
+                        <label class="form-label">Leyenda / Significado</label>
+                        <input type="text" th:field="*{leyenda}" class="form-control" placeholder="Ej: 0=Normal, 1=Riesgo Alto">
                     </div>
-                </div>
 
-                <div class="mb-4">
-                    <label class="form-label">Leyenda</label>
-                    <input type="text" th:field="*{leyenda}" class="form-control" placeholder="Ej: 0=Normal, 1=Alto Riesgo">
-                </div>
+                    <h5 class="text-gray-800 mb-3 border-bottom pb-2 mt-4">2. Regla de Negocio</h5>
 
-                <hr>
-
-                <h5 class="text-secondary mb-3">Regla de Negocio (¿Cuándo es 1?)</h5>
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Tipo de Cálculo:</label>
-                    <select th:field="*{tipoCalculo}" id="tipoSelect" class="form-select" onchange="cambiarVista()">
-                        <option value="PROMEDIO">Contra PROMEDIO</option>
-                        <option value="MEDIANA">Contra MEDIANA</option>
-                        <option value="PARTICULAR">Criterio PARTICULAR (Manual)</option>
-                    </select>
-                </div>
-
-                <div id="panelSimple" class="p-3 bg-primary bg-opacity-10 rounded border border-primary">
-                    <p class="small text-muted mb-2">
-                        Configura la condición. Si se cumple, el valor será <strong>1</strong>. Si no, será <strong>0</strong>.
-                    </p>
-                    <div class="input-group">
-                        <span class="input-group-text">Si la variable</span>
-
-                        <select th:field="*{idVariableSimple}" class="form-select">
-                            <option th:each="v : ${listaVariables}" th:value="${v.id_dato}" th:text="${v.nombre}"></option>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Cálculo:</label>
+                        <select th:field="*{tipoCalculo}" id="tipoSelect" class="form-control" onchange="cambiarVista()">
+                            <option value="PROMEDIO">Comparar contra PROMEDIO</option>
+                            <option value="MEDIANA">Comparar contra MEDIANA</option>
+                            <option value="GENERAL">Comparar contra VALOR GENERAL (Moda)</option>
+                            <option value="PARTICULAR">Criterio PARTICULAR (Manual)</option>
                         </select>
-
-                        <select th:field="*{operadorSimple}" class="form-select" style="max-width: 150px;">
-                            <option value=">">Es Mayor a (>)</option>
-                            <option value=">=">Mayor o Igual (>=)</option>
-                            <option value="<">Es Menor a (<)</option>
-                            <option value="<=">Menor o Igual (<=)</option>
-                            <option value="==">Es Igual a (==)</option>
-                        </select>
-
-                        <span class="input-group-text fw-bold" id="labelRef">EL PROMEDIO</span>
-                    </div>
-                    <div class="mt-2 text-end text-success fw-bold">entonces Resultado = 1</div>
-                </div>
-
-                <div id="panelParticular" style="display:none;" class="p-3 bg-warning bg-opacity-10 rounded border border-warning">
-                    <p class="small text-muted">Define las condiciones manuales. Puedes unir varias variables.</p>
-
-                    <div id="contenedorReglas">
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-outline-dark mt-2" onclick="agregarFila()">
-                        + Agregar Variable/Condición
-                    </button>
+                    <div id="panelSimple" class="p-4 bg-light rounded border border-left-primary">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-robot text-primary fa-2x mr-3"></i>
+                            <div>
+                                <h6 class="font-weight-bold text-primary mb-0">Regla Estadística Automática</h6>
+                                <small>El sistema calculará el valor de referencia automáticamente.</small>
+                            </div>
+                        </div>
 
-                    <div class="mt-3 text-end text-success fw-bold">entonces Resultado = 1</div>
-                </div>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">Si la variable</div>
+                            <div class="col-md-4">
+                                <select th:field="*{idVariableSimple}" class="form-control">
+                                    <option th:each="v : ${listaVariables}" th:value="${v.id_dato}" th:text="${v.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select th:field="*{operadorSimple}" class="form-control text-center font-weight-bold">
+                                    <option value=">">Es Mayor (>)</option>
+                                    <option value=">=">Mayor o Igual (>=)</option>
+                                    <option value="<">Es Menor (<)</option>
+                                    <option value="<=">Menor o Igual (<=)</option>
+                                    <option value="==">Es Igual (==)</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                a <span class="badge badge-primary px-2 py-1" style="font-size: 1em;" id="labelRef">EL PROMEDIO</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-right">
+                            <span class="text-success font-weight-bold">Entonces el resultado es 1 (Positivo)</span>
+                        </div>
+                    </div>
 
-                <div class="mt-4 d-grid">
-                    <button type="submit" class="btn btn-success btn-lg">Guardar Criterio</button>
-                </div>
+                    <div id="panelParticular" style="display:none;" class="p-4 bg-light rounded border border-left-warning">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-edit text-warning fa-2x mr-3"></i>
+                            <div>
+                                <h6 class="font-weight-bold text-warning mb-0">Reglas Manuales Personalizadas</h6>
+                                <small>Define valores fijos para comparar (Ej: Edad > 18).</small>
+                            </div>
+                        </div>
 
-            </form>
+                        <div id="contenedorReglas">
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="agregarFila()">
+                            <i class="fas fa-plus mr-1"></i> Agregar Condición
+                        </button>
+
+                        <div class="mt-3 text-right">
+                            <span class="text-success font-weight-bold">Entonces el resultado es 1 (Positivo)</span>
+                        </div>
+                    </div>
+
+                    <hr class="mt-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                            <i class="fas fa-save mr-2"></i>Guardar Criterio
+                        </button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>
+
+</section>
 
 <script th:inline="javascript">
-    /* Obtenemos las variables desde Java para usarlas en JS */
-    var listaVariablesJS = [[${listaVariables}]];
+    /* Obtenemos lista segura para evitar error si es null */
+    var listaVariablesJS = [[${listaVariables}]] || [];
     var contador = 0;
 
-    // Inicializar vista
     document.addEventListener("DOMContentLoaded", function() {
-        cambiarVista(); // Ajustar al cargar
+        cambiarVista(); // Ejecutar al inicio
     });
 
     function cambiarVista() {
@@ -114,54 +167,64 @@
         if (tipo === "PARTICULAR") {
             panelSimple.style.display = "none";
             panelPart.style.display = "block";
-            // Si no hay filas, agregamos la primera automáticamente
+            // Si no hay filas, agregamos la primera
             if(contador === 0) agregarFila();
         } else {
             panelSimple.style.display = "block";
             panelPart.style.display = "none";
-            labelRef.innerText = (tipo === "PROMEDIO") ? "EL PROMEDIO" : "LA MEDIANA";
+
+            // Actualizar etiqueta visualmente
+            if(tipo === "PROMEDIO") labelRef.innerText = "EL PROMEDIO";
+            else if(tipo === "MEDIANA") labelRef.innerText = "LA MEDIANA";
+            else labelRef.innerText = "VALOR GENERAL"; // Para la opción GENERAL
         }
     }
 
     function agregarFila() {
         var contenedor = document.getElementById("contenedorReglas");
         var div = document.createElement("div");
-        div.className = "row g-2 mb-2 align-items-center";
+        div.className = "row g-2 mb-2 align-items-center bg-white p-2 border rounded";
 
-        // Generar opciones del select de variables
+        // Generar opciones
         let opcionesVars = "";
-        listaVariablesJS.forEach(v => {
-            opcionesVars += `<option value="${v.id_dato}">${v.nombre}</option>`;
-        });
+        if(listaVariablesJS.length > 0){
+            listaVariablesJS.forEach(v => {
+                opcionesVars += `<option value="${v.id_dato}">${v.nombre}</option>`;
+            });
+        } else {
+            opcionesVars = `<option disabled>No hay variables disponibles</option>`;
+        }
 
-        // HTML DE LA FILA DINÁMICA
-        // Nota el uso de name="reglas[X].campo" -> Esto es lo que lee Spring
+        // HTML Fila
         div.innerHTML = `
             <div class="col-md-4">
-                <select name="reglas[${contador}].idVariable" class="form-select form-select-sm" required>
+                <select name="reglas[${contador}].idVariable" class="form-control form-control-sm" required>
                     ${opcionesVars}
                 </select>
             </div>
             <div class="col-md-2">
-                <select name="reglas[${contador}].operador" class="form-select form-select-sm">
-                    <option value="==">Igual</option>
-                    <option value=">">Mayor</option>
-                    <option value="<">Menor</option>
-                    <option value=">=">Mayor =</option>
+                <select name="reglas[${contador}].operador" class="form-control form-control-sm text-center font-weight-bold">
+                    <option value="==">=</option>
+                    <option value=">">></option>
+                    <option value="<"><</option>
+                    <option value=">=">≥</option>
+                    <option value="<=">≤</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <input type="text" name="reglas[${contador}].valor" class="form-control form-control-sm" placeholder="Valor (ej: 10)" required>
             </div>
             <div class="col-md-2">
-                <select name="reglas[${contador}].conector" class="form-select form-select-sm bg-light">
-                    <option value="">(Fin)</option>
+                <select name="reglas[${contador}].conector" class="form-control form-control-sm bg-light">
+                    <option value="">(FIN)</option>
                     <option value="AND">Y (AND)</option>
                     <option value="OR">O (OR)</option>
                 </select>
             </div>
             <div class="col-md-1 text-center">
-                 <button type="button" class="btn btn-sm btn-danger" onclick="this.parentNode.parentNode.remove()">X</button>
+                 <button type="button" class="btn btn-sm btn-danger btn-circle" onclick="this.parentNode.parentNode.remove()">
+                    <i class="fas fa-times"></i>
+                 </button>
             </div>
         `;
 

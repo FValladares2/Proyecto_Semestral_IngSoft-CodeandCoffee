@@ -32,20 +32,20 @@ public class CrearCriterioController {
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("listaVariables", datoSolicitadoService.getDatoSolicitados());
-        model.addAttribute("criterioDTO", new CriterioDTO()); 
+        model.addAttribute("criterioDTO", new CriterioDTO());
         return "crear_criterio";
     }
 
     @PostMapping("/guardar")
     public String procesarCriterio(@ModelAttribute("criterioDTO") CriterioDTO dto,
-                                   BindingResult result, 
+                                   BindingResult result,
                                    RedirectAttributes redirectAttrs) {
 
-        // verificar errores de datos 
+        // verificar errores de datos
         if (result.hasErrors()) {
             System.out.println("--- ERROR DE VALIDACIÓN ---");
             result.getAllErrors().forEach(e -> System.out.println(e.toString()));
-            return "menuUsers/crear_criterio"; // vuelve al form si hay error
+            return "crear_criterio"; // vuelve al form si hay error
         }
 
         try {
