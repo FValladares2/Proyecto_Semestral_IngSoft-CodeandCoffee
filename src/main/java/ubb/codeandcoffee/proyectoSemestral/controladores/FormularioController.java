@@ -102,7 +102,7 @@ public class FormularioController {
 
             //las respuestas a guardar para el antecedente seran diferentes segun el tipo de respuesta esperada
             //si el tipo de respuesta es con opciones:
-            if(dato.getTipoRespuesta() == TipoRespuesta.OPCION_MULTIPLE){
+            if(dato.getTipoRespuesta() == TipoRespuesta.OPCIONES){
                 //obtenemos el id de la opcion con el dto desde el HTML
                 int id_opcion = dto.getId_opcion();
                 Opcion opcion;
