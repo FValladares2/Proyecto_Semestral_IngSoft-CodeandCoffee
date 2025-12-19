@@ -14,7 +14,12 @@ import java.util.List;
 @Repository
 public interface AntecedenteRepository extends JpaRepository<Antecedente, Integer> {
     List<Antecedente> findAllBySujetoEstudio(SujetoEstudio s);
+    
     @Query("select a from Antecedente a where a.sujetoEstudio = ?1")
     ArrayList<Antecedente> getAllBySujeto(SujetoEstudio sujeto);
+    
     List<Antecedente> findAllByDatoSolicitado(DatoSolicitado d);
+    
+    @Query("SELECT COUNT(a) > 0 FROM Antecedente a WHERE a.datoSolicitado.id_dato = :id")
+    boolean verificarSiTieneAntecedentes(@Param("id") Integer id);
 }
