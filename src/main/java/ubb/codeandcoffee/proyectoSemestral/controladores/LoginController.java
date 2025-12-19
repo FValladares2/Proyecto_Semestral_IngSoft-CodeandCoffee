@@ -18,6 +18,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.UsuarioService;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
+// Controlador para manejar el login y registro de usuarios
 @Controller
 public class LoginController {
 
@@ -44,7 +46,7 @@ public class LoginController {
     
 
     
-    // --- MODIFICADO ---
+    // se encarga de mostrar el formulario para completar el registro
     @GetMapping("/completar-registro")
     public String verCompletarRegistro(
             @RequestParam(name = "token", required = false) String token,
@@ -78,7 +80,7 @@ public class LoginController {
         
         return "completar_registro";
     }
-    // --- NUEVO ---
+    // procesa el formulario para completar el registro
     @PostMapping("/completar-registro")
     public String procesarCompletarRegistro(
             @RequestParam("token") String token,
@@ -102,7 +104,7 @@ public class LoginController {
             return "redirect:/login";
 
         } catch (RuntimeException e) {
-            // 3. Error (token expirado o inválido)
+            //  error (token expirado o inválido)
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/login";
         }
