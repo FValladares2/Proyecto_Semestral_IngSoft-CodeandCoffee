@@ -8,7 +8,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Aplicable_a;
 import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 
 import java.util.List;
-
+// Repositorio para la entidad DatoSolicitado
 @Repository
 public interface DatoSolicitadoRepository extends JpaRepository<DatoSolicitado, Integer>{
     @Query("SELECT d FROM DatoSolicitado d WHERE d.aplicable_a = :tipoSujeto OR d.aplicable_a = :tipoAmbos")
