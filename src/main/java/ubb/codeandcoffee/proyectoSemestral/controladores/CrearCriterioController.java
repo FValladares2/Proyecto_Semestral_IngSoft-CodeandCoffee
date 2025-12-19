@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/* controlador para manejar la creación de criterios */
 @Controller
 @RequestMapping("/criterios")
 public class CrearCriterioController {
@@ -29,13 +30,14 @@ public class CrearCriterioController {
     @Autowired
     private DatoSolicitadoService datoSolicitadoService;
 
+    // muestra el formulario para crear un nuevo criterio
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("listaVariables", datoSolicitadoService.getDatoSolicitados());
         model.addAttribute("criterioDTO", new CriterioDTO()); 
         return "crear_criterio";
     }
-
+    // procesa el formulario de creación de criterio
     @PostMapping("/guardar")
     public String procesarCriterio(@ModelAttribute("criterioDTO") CriterioDTO dto,
                                    BindingResult result, 
@@ -98,7 +100,8 @@ public class CrearCriterioController {
                         .append(" ")
                         .append(func);
             }
-
+            
+            // asigna los datos al nuevo criterio
             nuevo.setDatosSolicitados(variablesInvolucradas);
             nuevo.setExpresion(expresionBuilder.toString());
 
@@ -108,6 +111,7 @@ public class CrearCriterioController {
             return "redirect:/criterios/nuevo";
 
         } catch (Exception e) {
+            //manejamos cualquier error inesperado
             e.printStackTrace();
             redirectAttrs.addFlashAttribute("error", "Error interno: " + e.getMessage());
             return "redirect:/criterios/nuevo";
