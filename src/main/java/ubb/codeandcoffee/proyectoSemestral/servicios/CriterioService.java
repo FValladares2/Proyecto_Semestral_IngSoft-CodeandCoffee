@@ -72,6 +72,45 @@ public class CriterioService {
         return criterioRepository.save(criterio);
     }
 
+    public Boolean desactivarCriterio(Integer id_criterio) {
+        try {
+            // buscamos el criterio
+            Criterio criterio = criterioRepository.findById(id_criterio).orElse(null);
+            if (criterio == null) {
+                return false;
+            }
+
+            // Lo 'apagamos'. No se borra nada de la tabla intermedia, el criterio queda invalido logicamente.
+            criterio.setActivo(false);
+            criterioRepository.save(criterio);
+
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Boolean activarCriterio(Integer id_criterio) {
+        try {
+            // buscamos el criterio en la base de datos
+            Criterio criterio = criterioRepository.findById(id_criterio).orElse(null);
+
+            // Si no existe
+            if (criterio == null) {
+                return false;
+            }
+
+            // cambiamos el interruptor a verdadero para que vuelva a estar disponible
+            criterio.setActivo(true);
+            criterioRepository.save(criterio);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     //Eliminar por ID
     public Boolean deleteCriterio(Integer id_criterio){
         try{
