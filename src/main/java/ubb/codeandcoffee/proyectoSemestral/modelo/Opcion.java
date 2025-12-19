@@ -2,6 +2,7 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 
 import jakarta.persistence.*;
 
+// Entidad que representa una Opcion en la base de datos
 @Entity
 @Table(name = "opcion")
 public class Opcion {
@@ -29,6 +30,8 @@ public class Opcion {
         this.requiereTexto=requiereTexto;
         this.dato=dato;
     }
+
+    // Getters y Setters
 
     public DatoSolicitado getDatoSolicitado(){
         return dato;
