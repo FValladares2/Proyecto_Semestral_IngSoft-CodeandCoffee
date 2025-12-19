@@ -1,6 +1,7 @@
 package ubb.codeandcoffee.proyectoSemestral.DTO;
 import java.util.*;
 
+// DTO para transferir datos de Criterio entre capas
 public class CriterioDTO {
     private String nombre;
     private String nombreStata;
@@ -31,6 +32,7 @@ public class CriterioDTO {
         public void setConector(String conector) { this.conector = conector; }
     }
 
+    //getters y setters
     public String getNombre() {
         return nombre;
     }

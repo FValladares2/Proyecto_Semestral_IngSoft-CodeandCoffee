@@ -17,7 +17,7 @@ public class AntecedenteDTO {
     }
 
     
-
+    // Getters y Setters
     public Integer getId_antecedente() {
         return id_antecedente;
     }
