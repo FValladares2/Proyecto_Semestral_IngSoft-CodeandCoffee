@@ -105,10 +105,10 @@ public class ExportarService {
             for (var entry : datosAgrupados.entrySet()) {
                 int seccion = entry.getKey();
                 for (DatoSolicitado pregunta : entry.getValue()) {
-                    if (pregunta.getEstudio()) {
+                    if (pregunta.getEstudio() ){//TODO:&& pregunta.getActivo()) {
                         //solo van las preguntas que van a STATA (ya dicotomizados)
                         columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
-                    }else{
+                    }else {
                         //si no va la pregunta, solo añadir el criterio
                         Set<Criterio> criteriosEnPregunta = critService.getByDatoSolicitado(pregunta);
                         for (Criterio criterio : criteriosEnPregunta) {
@@ -142,7 +142,6 @@ public class ExportarService {
                 for (Antecedente res : respuestasSujeto) {
                     respuestasMapa.put(res.getDatoSolicitado(), res);
                     columnNum = map.indexOf(res.getDatoSolicitado().getNombreStata());
-                    System.out.println("antecedente: "+res.getDatoSolicitado().getNombreStata());
                     if (res.getValorNum() != null && columnNum != -1) r.createCell(columnNum).setCellValue(res.getValorNum());
                 }
 
@@ -150,13 +149,12 @@ public class ExportarService {
                     //buscar la columna en la que está el criterio
                     int indexCriterio = map.indexOf(criterio.getNombreStata());
                     if (indexCriterio == -1){
-                        System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas en excel");
+                        System.out.println("Error? criterio no está en la tabla - puede ser por no tener preguntas validas/activadas en excel");
                         continue;
                     }
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
-                    System.out.println("resultado: " + resultado);
                     //guardar el dato en la columna del criterio
                     if (resultado != null) r.createCell(indexCriterio).setCellValue(resultado);
                 }
@@ -260,8 +258,10 @@ public class ExportarService {
             for (var entry : datosAgrupados.entrySet()) {
                 int seccion = entry.getKey();
                 for (DatoSolicitado pregunta : entry.getValue()) {
-                    //añade toda pregunta, dicotomizada o no
-                    columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
+                    //añade toda pregunta, dicotomizada o no, mientras esté activa
+                    //TODO:if (pregunta.getActivo()) {
+                        columnNum = setupPregunta(workbook, sheet, r, map, columnNum, pregunta);
+                    //}
                 }
             }
 
@@ -318,7 +318,6 @@ public class ExportarService {
                     Set<DatoSolicitado> datos = criterio.getDatosSolicitados();
                     String[] argumentos = criterio.getExpresion().split(" ");
                     String resultado = lidiarConCriterio(argumentos, respuestasMapa, datos, r, promedios, medianas, modas);
-                    System.out.println("resultado: " + resultado);
                     //guardar el dato en la columna del criterio
                     r.createCell(indexCriterio).setCellValue(resultado);
                 }
@@ -344,22 +343,21 @@ public class ExportarService {
         map.add(pregunta.getNombreStata());
         columnNum++;
 
-        System.out.println("Columnnum pre-criterios: " + columnNum);
         Set<Criterio> criteriosEnPregunta = critService.getByDatoSolicitado(pregunta);
         for (Criterio criterio : criteriosEnPregunta) {
             //cada criterio es único (sin repetir nombre stata), pero puede estar asociado a múltiples preguntas.
             //  segun entiendo, eso implica las columnas por las que obtiene valores sus
             int indexCriterio = map.indexOf(criterio.getNombreStata());
-            System.out.println("Is here 2");
+
             columnNum = setupCriterios(w, s, r, map, columnNum, criterio, indexCriterio);
         }
         return columnNum;
     }
 
     private int setupCriterios(Workbook w, Sheet s, Row r, ArrayList<String> map, int columnNum, Criterio criterio, int indexCriterio) {
-        System.out.println("criterios ~~~");
+        Set<DatoSolicitado> dset= criterio.getDatosSolicitados();
+        //TODO:for (DatoSolicitado d : dset) if (!d.getActivo()) return columnNum;
         if (indexCriterio == -1) {
-            System.out.println("Nuevo Criterio: "+ criterio.getNombreStata());
             //si no está el criterio en el mapa, se añade su columna en mapa
             Cell c = r.createCell(columnNum);
             c.setCellValue(criterio.getNombreStata());
@@ -378,9 +376,6 @@ public class ExportarService {
             //si es un argumento estilo VALOR1 ACCION VALOR2
             //realizar accion acuerdo a lo indicado
 
-            System.out.print("argumentos: ");
-            for (String arg : argumento) System.out.print("[] = ["+ arg + "], ");
-            System.out.println();
 
             DatoSolicitado datoValor1 = null;
             for (DatoSolicitado d : datos) if (d.getNombreStata().equals(argumento[0])) datoValor1 = d;
@@ -388,7 +383,6 @@ public class ExportarService {
                 System.out.println("Argumento[0] " + argumento[0] + " no esta relacionado con un criterio procesado");
                 return null;
             }
-            System.out.println("Found: "+argumento[0]+" = "+datoValor1.getNombreStata());
             Antecedente valor1 = columnasDatos.get(datoValor1);
             if (valor1 == null) return null; //si no hay respuesta del usuario, retorna null
 
@@ -400,7 +394,6 @@ public class ExportarService {
             else if (avg.get(datoValor1) != null &&
                     //mod.get(datoValor1) != null &&
                     med.get(datoValor1) != null){
-                System.out.println("Realizando Accion "+argumento[2]);
                 switch (argumento[2]) {
                     case "AVG" -> valor2 = avg.get(datoValor1);
                     case "MOD" -> valor2 = mod.get(datoValor1);
@@ -410,7 +403,6 @@ public class ExportarService {
                         return null;
                     }
                 }
-                System.out.println("valor2: "+valor2 + " valor1: " + valor1);
             }else return null;
 
             switch (argumento[1]) {
@@ -431,13 +423,15 @@ public class ExportarService {
                     else return "0";
                 }
                 case "==" -> {
-                    if (valor1.getValorNum() == valor2) return "1";
-                    else if (valor1.getValorString().equals(argumento[2])) return "1";
+                    if (Float.toString(valor1.getValorNum()).equals(argumento[2])) return "1";
+                    else if ((Math.round(valor1.getValorNum())+"").equals(argumento[2])) return "1";
+                    else if (valor1.getValorString() != null && valor1.getValorString().equals(argumento[2])) return "1";
                     else return "0";
                 }
                 case "!=" -> {
-                    if (valor1.getValorNum() != valor2) return "1";
-                    else if (!valor1.getValorString().equals(argumento[2])) return "1";
+                    if (!Float.toString(valor1.getValorNum()).equals(argumento[2])) return "1";
+                    else if (!(Math.round(valor1.getValorNum())+"").equals(argumento[2])) return "1";
+                    else if (valor1.getValorString() != null && !valor1.getValorString().equals(argumento[2])) return "1";
                     else return "0";
                 }
                 default -> {
@@ -459,17 +453,18 @@ public class ExportarService {
 
             String resultado1 = lidiarConCriterio(argumento1, columnasDatos, datos, r, avg, med, mod);
             String resultado2 = lidiarConCriterio(argumento2, columnasDatos, datos, r, avg, med, mod);
-            if (separador.equals("Y")){
+            System.out.println(resultado1 + " -resultados- " + resultado2);
+            if (separador.equals("AND")){
                 if (resultado1 == null || resultado2 == null) return null;
 
                 if (resultado1.equals("1") && resultado2.equals("1")) return "1";
                 else return "0";
-            }else if (separador.equals("O")){
+            }else if (separador.equals("OR")){
                 if (resultado1 == null || resultado2 == null) return null;
 
                 if (resultado1.equals("1") || resultado2.equals("1")) return "1";
                 else return "0";
-            }else throw new RuntimeException("Expresión inesperada, separador no es \"Y\" ni \"O\"");
+            }else throw new RuntimeException("Expresión inesperada, separador no es \"AND\" ni \"OR\"");
         }
         return null;
     }
@@ -505,8 +500,6 @@ public class ExportarService {
 
 
     private void calcSumasAlFinal(int rownum, int columns, Sheet sheet){
-        System.out.println("\nCalculando sumas de datos dicotomizados");
-        System.out.println("columns: " + columns);
         HashMap<String, Integer> datosAEsquivar = new HashMap<>();
         datosAEsquivar.put("Nombre_sujeto", 1);
         datosAEsquivar.put("Direccion_sujeto", 1);
@@ -525,7 +518,6 @@ public class ExportarService {
         CellUtil.getCell(r, 0).setCellValue("Cantidad de 1s =");
 
         for (int i = 2; i < columns; i++) {
-            System.out.println("i="+i);
             r = CellUtil.getRow(0, sheet);
             c = CellUtil.getCell(r, i);
             String nombreColumna = c.getStringCellValue();
