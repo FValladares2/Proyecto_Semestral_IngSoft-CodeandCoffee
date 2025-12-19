@@ -12,6 +12,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
+// Repositorio para la entidad Antecedente
 @Repository
 public interface AntecedenteRepository extends JpaRepository<Antecedente, Integer> {
     List<Antecedente> findAllBySujetoEstudio(SujetoEstudio s);

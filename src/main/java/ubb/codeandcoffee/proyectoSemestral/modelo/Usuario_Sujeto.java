@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
+
+// Entidad que representa los cambios realizados por un usuario sobre un sujeto de estudio
 @Entity
 @Table(name = "usuario_sujeto")
 public class Usuario_Sujeto {
@@ -44,6 +46,7 @@ public class Usuario_Sujeto {
 
     public Usuario_Sujeto() {}
 
+    // Getters y Setters
     public Integer getId(){
         return id_cambio;
     }

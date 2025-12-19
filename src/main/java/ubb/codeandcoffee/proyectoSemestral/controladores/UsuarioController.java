@@ -10,6 +10,7 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.UsuarioService;
 import java.util.ArrayList;
 import java.util.Optional;
 
+// Controlador para manejar las operaciones CRUD de Usuario
 @RestController
 @RequestMapping("/Usuario")
 public class UsuarioController {

@@ -6,6 +6,8 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+// Entidad que representa un DatoSolicitado en la base de datos
 @Entity
 @Table(name = "datosolicitado")
 public class DatoSolicitado {
@@ -49,7 +51,7 @@ public class DatoSolicitado {
     @JsonIgnore
     private Set<Criterio> criterios = new HashSet<>();*/
     
-
+    // Constructores
     public DatoSolicitado(){
         this.opciones = new ArrayList<>();
         this.aplicable_a = Aplicable_a.AMBOS;
@@ -70,6 +72,7 @@ public class DatoSolicitado {
         this.valorMin=valorMin;
         this.valorMax=valorMax;
     }
+    // Getters y Setters
     public List<Opcion> getOpciones() {
         return opciones;
     }

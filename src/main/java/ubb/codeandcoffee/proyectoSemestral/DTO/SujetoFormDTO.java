@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+// DTO para transferir datos de SujetoForm entre capas
 public class SujetoFormDTO {
     private String id_sujeto;
     private String tipo;

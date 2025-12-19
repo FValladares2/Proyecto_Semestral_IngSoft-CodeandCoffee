@@ -6,6 +6,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.Usuario;
 
 import java.util.Optional;
 
+// Repositorio para la entidad Usuario
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 

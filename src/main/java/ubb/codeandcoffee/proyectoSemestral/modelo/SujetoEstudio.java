@@ -9,12 +9,16 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+// Entidad que representa un Sujeto de Estudio en la base de datos
 @Entity
 @IdClass(codigo_sujeto.class)
 @Table(
         name = "sujetoestudio",
         uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"})
 )
+
+// Clase que representa un Sujeto de Estudio
 public class SujetoEstudio {
     @Id
     @Nonnull
@@ -35,6 +39,8 @@ public class SujetoEstudio {
     @OneToMany(mappedBy = "sujetoEstudio", orphanRemoval = true)
     Set<Usuario_Sujeto> usuj;
 
+
+    // Relacion con Antecedente
     @JsonIgnore
     @OneToMany(mappedBy = "sujetoEstudio")
     Set<Antecedente> antecedentes;
@@ -54,6 +60,8 @@ public class SujetoEstudio {
 
     public SujetoEstudio() {}
 
+
+    // Getters y Setters
     @Nonnull
     public codigo_sujeto getCodigo_sujeto() {
         return new codigo_sujeto(id_sujeto, tipo);

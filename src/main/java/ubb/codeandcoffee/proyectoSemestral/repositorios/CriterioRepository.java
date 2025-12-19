@@ -10,6 +10,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.DatoSolicitado;
 import java.util.List;
 import java.util.Set;
 
+// Repositorio para la entidad Criterio
 @Repository
 public interface CriterioRepository extends JpaRepository<Criterio, Integer> {
     Set<Criterio> getAllByDatosSolicitados(DatoSolicitado d);

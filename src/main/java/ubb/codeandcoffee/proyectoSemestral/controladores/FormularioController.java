@@ -18,6 +18,7 @@ import java.util.*;
 
 import java.util.*;
 
+// controlador para manejar el formulario de ingreso de datos por parte del usuario final
 @Controller
 @RequestMapping("/formulario")
 public class FormularioController {
@@ -63,7 +64,6 @@ public class FormularioController {
 
         //crea el DTO principal
         SujetoFormDTO formWrapper = new SujetoFormDTO();
-        //crear la colección de AntecedenteDTO
         List<AntecedenteDTO> antecedentesIniciales = new ArrayList<>();
         //recupera los datos solicitados de la base de datos
         List<DatoSolicitado> datosSolicitados = datoSolicitadoService.buscarTodosLosDatos(tipoSujeto);
@@ -86,6 +86,7 @@ public class FormularioController {
     }
 
 
+    // Endpoint POST para guardar el formulario completo
     @PostMapping
     public String guardarFormulario(@ModelAttribute SujetoFormDTO formWrapper, HttpSession session, RedirectAttributes redirectAttributes){
         //crear lista de Antecedentes, estos son los antecedentes que se guardan en la base
@@ -214,6 +215,7 @@ public class FormularioController {
 
         // Esta parte se traslado a la confirmacion del form XD
 
+        //pero lo conservamos en caso de nesesitar usarlo desde aqui
         //obtener sujeto de la seccion (se guardo ahi en el ingreso)
         SujetoEstudio sujetoPendiente = (SujetoEstudio) session.getAttribute("SUJETO_PENDIENTE");
         if (sujetoPendiente == null) {

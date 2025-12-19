@@ -3,6 +3,7 @@ package ubb.codeandcoffee.proyectoSemestral.modelo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+// Entidad que representa un Antecedente en la base de datos
 @Entity
 @Table(name = "antecedentes")
 public class Antecedente {
@@ -35,14 +36,14 @@ public class Antecedente {
     public Antecedente(DatoSolicitado dato) {
         this.datoSolicitado=dato;
     }
-
+    // Constructor con parámetros
     public Antecedente(String valorString, Float valorNum, SujetoEstudio sujetoEstudio, DatoSolicitado datoSolicitado) {
         this.valorString = valorString;
         this.valorNum = valorNum;
         this.sujetoEstudio = sujetoEstudio;
         this.datoSolicitado = datoSolicitado;
     }
-
+    // Getters y Setters
     public String getTextoOpcion() {
         return textoOpcion;
     }

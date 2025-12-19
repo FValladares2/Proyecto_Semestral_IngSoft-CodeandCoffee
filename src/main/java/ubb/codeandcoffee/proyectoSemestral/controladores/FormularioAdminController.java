@@ -13,6 +13,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.SeccionService;
 import java.util.List;
 import java.util.Optional;
 
+
+// Controlador para la administración del formulario (secciones, preguntas, opciones)
 @Controller
 @RequestMapping("/admin/formulario")
 public class FormularioAdminController {
@@ -28,19 +30,21 @@ public class FormularioAdminController {
         this.opcionService = opcionService;
     }
 
+    /// Endpoint GET para mostrar el dashboard de administración del formulario
     @GetMapping("/crear-formulario")
     public String mostrarCrearFormulario(Model modelo) {
         List<Seccion> listaDeSecciones = seccionService.getAllSecciones();
         modelo.addAttribute("secciones", listaDeSecciones);
         return "form/admin_formulario_dashboard";
     }
-
+    // Endpoint GET para mostrar el formulario de creación de una nueva sección
     @GetMapping("/crear-seccion")
     public String mostrarCrearSeccion(Model modelo) {
         modelo.addAttribute("seccion", new Seccion());
         return "form/crear_seccion";
     }
 
+    //Endpoint POST para guardar una nueva sección
     @PostMapping("/seccion/guardar")
     public String guardarSeccion(@ModelAttribute("seccion") Seccion seccion) {
         seccionService.guardarSeccion(seccion);
@@ -48,6 +52,7 @@ public class FormularioAdminController {
         return "redirect:/admin/formulario/crear-formulario";
     }
 
+    // Endpoint GET para mostrar el formulario de creación de una nueva pregunta
     @GetMapping("/crear-pregunta")
     public String mostrarCrearPregunta(Model modelo) {
         modelo.addAttribute("datoSolicitado", new DatoSolicitado());
@@ -55,12 +60,14 @@ public class FormularioAdminController {
         return "form/crear_pregunta";
     }
 
+    // Endpoint POST para guardar una nueva pregunta
     @PostMapping("/pregunta/guardar")
     public String guardarPregunta(@ModelAttribute("datoSolicitado") DatoSolicitado datoSolicitado) {
         datoSolicitadoService.guardarDatoSolicitado(datoSolicitado);
         return "redirect:/admin/formulario/crear-formulario";
     }
 
+    // Endpoint GET para mostrar el formulario de creación de una nueva opción vinculada a una pregunta
     @GetMapping("/opcion/nueva/{idDato}")
     public String mostrarCrearOpcion(@PathVariable("idDato") Integer idDato, Model modelo) {
 
@@ -82,6 +89,7 @@ public class FormularioAdminController {
         }
     }
 
+    // Endpoint POST para guardar una nueva opción
     @PostMapping("/opcion/guardar")
     public String guardarOpcion(@ModelAttribute("opcion") Opcion opcion, Model modelo) {
         try {
@@ -91,7 +99,7 @@ public class FormularioAdminController {
             return "redirect:/admin/formulario/crear-formulario";
 
         } catch (RuntimeException e) {
-            // ATRAPAMOS EL ERROR 
+            // manejamos los posibles errores
 
             // pasamos el mensaje de error a la vista 
             modelo.addAttribute("error", e.getMessage());
@@ -111,6 +119,8 @@ public class FormularioAdminController {
         }
     }
 
+
+    // Endpoint GET para mostrar el formulario de edición de una pregunta existente
     @GetMapping("/pregunta/editar/{id}")
     public String mostrarEditarPregunta(@PathVariable("id") Integer id, Model modelo) {
         Optional<DatoSolicitado> preguntaExistente = datoSolicitadoService.getById(id);

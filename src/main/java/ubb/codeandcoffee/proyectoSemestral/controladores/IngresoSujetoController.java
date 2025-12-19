@@ -15,6 +15,7 @@ import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
 import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 
 
+// Controlador para manejar el ingreso de sujetos de estudio
 @Controller
 public class IngresoSujetoController {
 
@@ -70,6 +71,8 @@ public class IngresoSujetoController {
 
         try {
 
+            //creamos un nuevo sujeto de estudio con los datos recibidos
+
             SujetoEstudio nuevoSujeto = new SujetoEstudio();
 
             nuevoSujeto.setNombre(nombre);
@@ -89,6 +92,7 @@ public class IngresoSujetoController {
             return "redirect:/formulario";
 
         } catch (DataIntegrityViolationException e) {
+            //manejamos errores de integridad de datos, como violaciones de restricciones únicas
             redirectAttributes.addFlashAttribute("error_nombre",
                     "Error inesperado al guardar el sujeto. Revise las restricciones de la base de datos.");
             return "redirect:/ingreso";

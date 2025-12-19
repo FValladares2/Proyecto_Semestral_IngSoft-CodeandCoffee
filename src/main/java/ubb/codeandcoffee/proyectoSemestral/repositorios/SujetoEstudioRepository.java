@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ubb.codeandcoffee.proyectoSemestral.modelo.SujetoEstudio;
 import ubb.codeandcoffee.proyectoSemestral.modelo.codigo_sujeto;
 import java.util.*;
-
+// Repositorio para la entidad SujetoEstudio
 @Repository
 public interface SujetoEstudioRepository extends JpaRepository<SujetoEstudio, codigo_sujeto> { //funcionará con codigo_sujeto?
     @Query("select s from SujetoEstudio s where s.nombre = ?1")

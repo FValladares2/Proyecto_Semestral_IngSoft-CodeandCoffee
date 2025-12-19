@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ubb.codeandcoffee.proyectoSemestral.modelo.*;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 
-@Service //Marca esta clase como un servicio de Spring
+@Service //establece esta clase como un servicio de Spring
 public class AntecedenteService {
     @Autowired
     AntecedenteRepository antecedenteRepository; //instancia del repositorio de Antecedente
@@ -89,6 +89,8 @@ public class AntecedenteService {
             usujService.setLatestChangesAsUsuario();
             return true;
         }catch(Exception e){
+
+            //Si ocurre un error durante la eliminación, retorna false
             return false;
         }
     }
