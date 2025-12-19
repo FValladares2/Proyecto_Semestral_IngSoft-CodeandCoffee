@@ -51,6 +51,7 @@ public class AntecedenteService {
         }
         antecedenteRepository.saveAll(antecedentes);
         usujService.setLatestChangesAsUsuario();
+        antecedenteRepository.flush();
         return true;
     }
 

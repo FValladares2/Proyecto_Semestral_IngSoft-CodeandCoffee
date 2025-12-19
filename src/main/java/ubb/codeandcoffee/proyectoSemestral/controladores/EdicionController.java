@@ -15,10 +15,7 @@ import ubb.codeandcoffee.proyectoSemestral.modelo.*;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.AntecedenteRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.DatoSolicitadoRepository;
 import ubb.codeandcoffee.proyectoSemestral.repositorios.SujetoEstudioRepository;
-import ubb.codeandcoffee.proyectoSemestral.servicios.DatoSolicitadoService;
-import ubb.codeandcoffee.proyectoSemestral.servicios.OpcionService;
-import ubb.codeandcoffee.proyectoSemestral.servicios.SeccionService;
-import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
+import ubb.codeandcoffee.proyectoSemestral.servicios.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +46,8 @@ public class EdicionController {
 
     @Autowired
     private OpcionService opcionService;
+    @Autowired
+    private AntecedenteService antecedenteService;
 
     //entremedio voy a poner lo relativo a la actualizacion de los datos de un sujeto
     @GetMapping("/sujetos")//aqui se accede a la lista de sujetos, para elegir a cual queremos actualizar
@@ -302,8 +301,8 @@ public class EdicionController {
             }
 
             if (!guardar.isEmpty()) {
-                antecedenteRepository.saveAll(guardar);
-                antecedenteRepository.flush();
+                antecedenteService.guardarAntecedentes(guardar);
+                //antecedenteRepository.flush();
                 System.out.println("Guardados " + guardar.size() + " registros correctamente.");
             } else {
                 System.err.println("Hubo un error");
