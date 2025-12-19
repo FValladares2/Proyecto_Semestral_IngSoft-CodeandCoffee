@@ -14,6 +14,8 @@ public class AntecedenteDTO {
     public AntecedenteDTO() {
     }
 
+    
+
     public Integer getId_antecedente() {
         return id_antecedente;
     }

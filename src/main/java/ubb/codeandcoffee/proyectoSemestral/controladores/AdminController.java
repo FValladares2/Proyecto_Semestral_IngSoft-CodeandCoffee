@@ -117,7 +117,7 @@ public class AdminController {
             // se crea la invitación, en donde se guarda en BD con token y estado INICIADO
             Usuario usuarioInvitado = usuarioService.crearInvitacion(correo, rol);
             
-            // envia el correo con el token
+            // se usa para enviar el correo con el token
             emailService.enviarEmailInvitacion(correo, usuarioInvitado.getTokenRegistro());
 
             redirectAttributes.addFlashAttribute("exito", "¡Invitación enviada correctamente a " + correo + "!");
