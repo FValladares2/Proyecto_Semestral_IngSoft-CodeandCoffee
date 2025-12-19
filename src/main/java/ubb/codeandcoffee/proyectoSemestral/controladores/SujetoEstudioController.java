@@ -10,6 +10,7 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.SujetoEstudioService;
 import java.util.ArrayList;
 import java.util.Optional;
 
+// Controlador para manejar las operaciones CRUD de SujetoEstudio
 @RestController
 @RequestMapping("/SujetoEstudio")
 public class SujetoEstudioController {

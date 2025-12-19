@@ -17,8 +17,8 @@ import ubb.codeandcoffee.proyectoSemestral.servicios.OpcionService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
-@RestController //Indica que esta clase es un controlador REST y sus métodos devuelven JSON
-@RequestMapping("/Opcion")//Define la ruta base para todos los endpoints de esta clase
+@RestController //indica que esta clase es un controlador REST y sus métodos devuelven JSON
+@RequestMapping("/Opcion")//define la ruta base para todos los endpoints de esta clase
 public class OpcionController {
     @Autowired
     private OpcionService opcionService;//instancia del servicio de opcion
